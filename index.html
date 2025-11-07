@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Ciberseguridad 2.0 - Fácil y para Todos</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #007bff; /* Azul corporativo */
+            --secondary-color: #28a745; /* Verde para 'Sí' */
+            --danger-color: #dc3545; /* Rojo para 'No' */
+            --background-light: #f8f9fa;
+            --text-color: #343a40;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-light);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        /* --- Estilos de la Puntuación --- */
+        .score-container {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .score-container strong {
+            font-size: 1.8em;
+            display: block;
+        }
+        
+        /* --- Estilos de los Tipos (Secciones) --- */
+        .security-type {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        
+        .security-type h3 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.5em;
+            text-align: left;
+        }
+        
+        /* --- Estilos de las Preguntas (Items) --- */
+        .checklist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dotted #e9ecef;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .question-text {
+            flex-grow: 1;
+            margin-right: 15px;
+            font-size: 1.05em;
+        }
+        
+        /* Controles de radio (Sí/No) */
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .radio-label {
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid #ccc;
+        }
+
+        /* Ocultar el radio nativo */
+        .radio-input {
+            display: none;
+        }
+
+        /* Estilos cuando se selecciona 'Sí' */
+        .radio-input[value="1"]:checked + .radio-label {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        /* Estilos cuando se selecciona 'No' */
+        .radio-input[value="0"]:checked + .radio-label {
+            background-color: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+
+        /* --- Recomendaciones --- */
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            line-height: 1.4;
+            display: none; /* Inicia oculto */
+        }
+
+        .recommendation.show-no {
+            background-color: #f8d7da; /* Fondo rojo muy claro */
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+        
+        .recommendation.show-yes {
+            background-color: #d4edda; /* Fondo verde muy claro */
+            color: var(--secondary-color);
+        }
+
+        /* Estilos Responsivos */
+        @media (max-width: 600px) {
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .checklist-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .controls {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: space-around;
+            }
+            .question-text {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛡️ Ciberseguridad 2.0: Tu Checklist Esencial</h1>
+        <p class="subtitle">Una guía simple y clara para usuarios hogareños y corporativos (¡ideal para compartir con todos!).</p>
+
+        <div class="score-container">
+            Tu Nivel de Seguridad: <strong id="score-display">0%</strong>
+            <div id="score-summary">Responde las preguntas para ver tu resumen.</div>
+        </div>
+
+        <div class="security-type" data-type="passwords">
+            <h3>🔑 1. Protección de Accesos y Contraseñas</h3>
+            
+            <div class="checklist-item">
+                <div class="question-text">1.1 ¿Usa contraseñas o frases de seguridad con más de 12 caracteres (incluyendo letras, números y símbolos) para sus cuentas más importantes?</div>
+                <div class="controls">
+                    <input type="radio" name="q1_1" id="q1_1_yes" class="radio-input" value="1">
+                    <label for="q1_1_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q1_1" id="q1_1_no" class="radio-input" value="0">
+                    <label for="q1_1_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q1_1">
+                    <span class="show-no">🚨 Recomendación: Use una 'frase de contraseña' larga y no palabras sencillas. Por ejemplo: "MiPerroCorrio3Veces!AlParque".</span>
+                    <span class="show-yes">¡Excelente! Las contraseñas largas son la primera línea de defensa.</span>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="question-text">1.2 ¿Tiene activada la autenticación de dos factores (2FA) o verificación en dos pasos en su correo electrónico y redes sociales?</div>
+                <div class="controls">
+                    <input type="radio" name="q1_2" id="q1_2_yes" class="radio-input" value="1">
+                    <label for="q1_2_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q1_2" id="q1_2_no" class="radio-input" value="0">
+                    <label for="q1_2_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q1_2">
+                    <span class="show-no">🚨 Recomendación: Active 2FA. Es una clave extra que se envía a su celular. ¡Es la medida de seguridad más importante!</span>
+                    <span class="show-yes">¡Perfecto! El 2FA detiene el 99% de los robos de cuentas, incluso si la contraseña es robada.</span>
+                </div>
+            </div>
+            
+            <div class="checklist-item">
+                <div class="question-text">1.3 ¿Usa una contraseña ÚNICA para cada servicio (banco, correo, redes sociales, trabajo)?</div>
+                <div class="controls">
+                    <input type="radio" name="q1_3" id="q1_3_yes" class="radio-input" value="1">
+                    <label for="q1_3_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q1_3" id="q1_3_no" class="radio-input" value="0">
+                    <label for="q1_3_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q1_3">
+                    <span class="show-no">🚨 Recomendación: Si usan la misma contraseña en dos sitios, y roban uno, ¡roban el otro! Use un gestor de contraseñas.</span>
+                    <span class="show-yes">Muy bien. Esto evita que el robo de una contraseña comprometa todas sus cuentas.</span>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="question-text">1.4 ¿Tiene bloqueada la pantalla de su celular y computador con PIN, huella o patrón de seguridad?</div>
+                <div class="controls">
+                    <input type="radio" name="q1_4" id="q1_4_yes" class="radio-input" value="1">
+                    <label for="q1_4_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q1_4" id="q1_4_no" class="radio-input" value="0">
+                    <label for="q1_4_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q1_4">
+                    <span class="show-no">🚨 Recomendación: El bloqueo de pantalla es esencial si pierde o le roban el dispositivo. ¡Active uno ahora!</span>
+                    <span class="show-yes">Correcto. Esto protege su información de curiosos o ladrones si no está mirando.</span>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="question-text">1.5 ¿Evita escribir, guardar o compartir sus contraseñas en notas de papel, chats de WhatsApp o archivos de texto sin protección?</div>
+                <div class="controls">
+                    <input type="radio" name="q1_5" id="q1_5_yes" class="radio-input" value="1">
+                    <label for="q1_5_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q1_5" id="q1_5_no" class="radio-input" value="0">
+                    <label for="q1_5_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q1_5">
+                    <span class="show-no">🚨 Recomendación: ¡Nunca comparta contraseñas por chat! Si necesita compartir, use herramientas seguras o cámbiela inmediatamente después.</span>
+                    <span class="show-yes">Excelente manejo de credenciales. La seguridad es personal.</span>
+                </div>
+            </div>
+            
+            </div>
+
+        <div class="security-type" data-type="software">
+            <h3>💻 2. Dispositivos y Software</h3>
+            
+            <div class="checklist-item">
+                <div class="question-text">2.1 ¿Mantiene el sistema operativo (Windows, macOS, Android, iOS) y las aplicaciones de su celular y computador con las últimas actualizaciones instaladas?</div>
+                <div class="controls">
+                    <input type="radio" name="q2_1" id="q2_1_yes" class="radio-input" value="1">
+                    <label for="q2_1_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q2_1" id="q2_1_no" class="radio-input" value="0">
+                    <label for="q2_1_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q2_1">
+                    <span class="show-no">🚨 Recomendación: Las actualizaciones reparan "agujeros" de seguridad. Active la actualización automática.</span>
+                    <span class="show-yes">Muy bien. El software actualizado es más resistente a los ataques.</span>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="question-text">2.2 ¿Tiene instalado un programa Antivirus o de protección antimalware ACTIVO en su computador o celular?</div>
+                <div class="controls">
+                    <input type="radio" name="q2_2" id="q2_2_yes" class="radio-input" value="1">
+                    <label for="q2_2_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q2_2" id="q2_2_no" class="radio-input" value="0">
+                    <label for="q2_2_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q2_2">
+                    <span class="show-no">🚨 Recomendación: Windows ya trae "Defender", asegúrese de que esté encendido. En el trabajo, debe usar el antivirus corporativo.</span>
+                    <span class="show-yes">¡Perfecto! Un escudo esencial contra virus y ransomware.</span>
+                </div>
+            </div>
+            
+            <div class="checklist-item">
+                <div class="question-text">2.3 ¿Únicamente descarga aplicaciones, programas y archivos adjuntos de tiendas oficiales (App Store, Play Store) o fuentes confiables (sitios web conocidos)?</div>
+                <div class="controls">
+                    <input type="radio" name="q2_3" id="q2_3_yes" class="radio-input" value="1">
+                    <label for="q2_3_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q2_3" id="q2_3_no" class="radio-input" value="0">
+                    <label for="q2_3_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q2_3">
+                    <span class="show-no">🚨 Recomendación: Las aplicaciones piratas o fuera de tiendas oficiales suelen contener malware y virus. ¡Evítelas!</span>
+                    <span class="show-yes">Correcto. Esto reduce enormemente el riesgo de instalar software malicioso.</span>
+                </div>
+            </div>
+
+            </div>
+
+        <div class="security-type" data-type="phishing">
+            <h3>📧 3. Navegación y Correo (Phishing)</h3>
+            
+            <div class="checklist-item">
+                <div class="question-text">3.1 ¿Sospecha de correos electrónicos que piden claves o información urgente, y verifica la dirección del remitente antes de hacer clic en enlaces?</div>
+                <div class="controls">
+                    <input type="radio" name="q3_1" id="q3_1_yes" class="radio-input" value="1">
+                    <label for="q3_1_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q3_1" id="q3_1_no" class="radio-input" value="0">
+                    <label for="q3_1_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q3_1">
+                    <span class="show-no">🚨 Recomendación: El Phishing es el ataque más común. Las empresas NUNCA piden claves por correo. ¡Sospeche de la urgencia!</span>
+                    <span class="show-yes">¡Ojo de halcón! Detectar el phishing es la habilidad número uno de ciberseguridad.</span>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="question-text">3.2 ¿Cierra la sesión de sus cuentas bancarias, de compras o del trabajo una vez que termina de usarlas?</div>
+                <div class="controls">
+                    <input type="radio" name="q3_2" id="q3_2_yes" class="radio-input" value="1">
+                    <label for="q3_2_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q3_2" id="q3_2_no" class="radio-input" value="0">
+                    <label for="q3_2_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q3_2">
+                    <span class="show-no">🚨 Recomendación: Dejar sesiones abiertas es como dejar la puerta de su casa abierta. Siempre cierre sesión.</span>
+                    <span class="show-yes">Medida básica y esencial de higiene digital.</span>
+                </div>
+            </div>
+            
+            <div class="checklist-item">
+                <div class="question-text">3.3 ¿Evita conectarse a redes Wi-Fi públicas (aeropuertos, cafeterías) para realizar operaciones bancarias o acceder a información confidencial?</div>
+                <div class="controls">
+                    <input type="radio" name="q3_3" id="q3_3_yes" class="radio-input" value="1">
+                    <label for="q3_3_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q3_3" id="q3_3_no" class="radio-input" value="0">
+                    <label for="q3_3_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q3_3">
+                    <span class="show-no">🚨 Recomendación: Las Wi-Fi públicas son inseguras. Use sus datos móviles o una VPN corporativa para cosas importantes.</span>
+                    <span class="show-yes">Muy prudente. Protege sus datos de espías en la misma red.</span>
+                </div>
+            </div>
+
+            </div>
+
+        <div class="security-type" data-type="backup">
+            <h3>💾 4. Gestión de la Información y Backup</h3>
+            
+            <div class="checklist-item">
+                <div class="question-text">4.1 ¿Realiza copias de seguridad (backup) de sus archivos importantes (fotos, documentos, trabajo) al menos una vez al mes?</div>
+                <div class="controls">
+                    <input type="radio" name="q4_1" id="q4_1_yes" class="radio-input" value="1">
+                    <label for="q4_1_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q4_1" id="q4_1_no" class="radio-input" value="0">
+                    <label for="q4_1_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q4_1">
+                    <span class="show-no">🚨 Recomendación: El Ransomware (secuestro de archivos) y el daño de disco duro son comunes. ¡Haga una copia de seguridad hoy mismo!</span>
+                    <span class="show-yes">¡Excelente! El backup es la mejor defensa contra la pérdida de datos y el ransomware.</span>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="question-text">4.2 ¿Guarda estas copias de seguridad en un lugar diferente al computador original (en la nube, disco externo desconectado)?</div>
+                <div class="controls">
+                    <input type="radio" name="q4_2" id="q4_2_yes" class="radio-input" value="1">
+                    <label for="q4_2_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q4_2" id="q4_2_no" class="radio-input" value="0">
+                    <label for="q4_2_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q4_2">
+                    <span class="show-no">🚨 Recomendación: Si un virus infecta el computador, infectará todo lo que esté conectado (incluido el disco de backup). ¡Desconéctelo!</span>
+                    <span class="show-yes">Estrategia 3-2-1 de backup: ¡muy profesional!</span>
+                </div>
+            </div>
+            
+            <div class="checklist-item">
+                <div class="question-text">4.3 ¿Borra o tritura documentos físicos que contienen información sensible (facturas, estados de cuenta) antes de desecharlos?</div>
+                <div class="controls">
+                    <input type="radio" name="q4_3" id="q4_3_yes" class="radio-input" value="1">
+                    <label for="q4_3_yes" class="radio-label">Sí</label>
+                    <input type="radio" name="q4_3" id="q4_3_no" class="radio-input" value="0">
+                    <label for="q4_3_no" class="radio-label">No</label>
+                </div>
+                <div class="recommendation" data-rec="q4_3">
+                    <span class="show-no">🚨 Recomendación: El robo de identidad también ocurre con documentos físicos. Use una trituradora o rómpalos en pedazos pequeños.</span>
+                    <span class="show-yes">Excelente práctica de "escritorio limpio" física.</span>
+                </div>
+            </div>
+
+            </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="reset-btn" style="padding: 10px 20px; font-size: 1.1em; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Reiniciar Checklist
+            </button>
+        </div>
+        
+        <p style="text-align: center; margin-top: 40px; font-size: 0.8em; color: #6c757d;">
+            Este checklist es una guía y no garantiza la seguridad total. Aplique siempre las políticas de su empresa.
+        </p>
+    </div>
+
+    <script>
+        const totalQuestions = 40; // 4 tipos * 10 preguntas
+        const questions = document.querySelectorAll('.checklist-item');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreSummary = document.getElementById('score-summary');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // Función para calcular y mostrar la puntuación
+        function updateScore() {
+            let answeredQuestions = 0;
+            let correctAnswers = 0;
+
+            questions.forEach(item => {
+                const radios = item.querySelectorAll('.radio-input');
+                const recommendationDiv = item.querySelector('.recommendation');
+                let isAnswered = false;
+                let isCorrect = false;
+                let answerValue = -1;
+
+                radios.forEach(radio => {
+                    if (radio.checked) {
+                        isAnswered = true;
+                        answerValue = parseInt(radio.value); // 1 para 'Sí', 0 para 'No'
+                        if (answerValue === 1) { // 'Sí' es la respuesta deseada para seguridad
+                            isCorrect = true;
+                        }
+                    }
+                });
+
+                if (isAnswered) {
+                    answeredQuestions++;
+                    
+                    // Mostrar/Ocultar y estilizar la recomendación
+                    const recNo = recommendationDiv.querySelector('.show-no');
+                    const recYes = recommendationDiv.querySelector('.show-yes');
+                    
+                    if (recNo && recYes) {
+                        recommendationDiv.style.display = 'block';
+                        if (isCorrect) {
+                            recommendationDiv.classList.add('show-yes');
+                            recommendationDiv.classList.remove('show-no');
+                            recYes.style.display = 'inline';
+                            recNo.style.display = 'none';
+                        } else {
+                            recommendationDiv.classList.add('show-no');
+                            recommendationDiv.classList.remove('show-yes');
+                            recYes.style.display = 'none';
+                            recNo.style.display = 'inline';
+                        }
+                    }
+
+                    if (isCorrect) {
+                        correctAnswers++;
+                    }
+                } else {
+                    // Ocultar recomendación si no está respondida
+                    if (recommendationDiv) {
+                        recommendationDiv.style.display = 'none';
+                    }
+                }
+            });
+
+            // Lógica de Puntuación
+            const maxScore = answeredQuestions || 1; // Evita división por cero
+            const percentage = answeredQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+            
+            scoreDisplay.textContent = `${percentage}%`;
+
+            // Resumen de seguridad
+            if (answeredQuestions === 0) {
+                 scoreSummary.textContent = "Responde las preguntas para ver tu resumen.";
+            } else if (percentage >= 80) {
+                scoreSummary.textContent = "¡Felicitaciones! Tienes un Nivel de Seguridad EXCELENTE. Mantente así.";
+            } else if (percentage >= 50) {
+                scoreSummary.textContent = "Buen Nivel. Hay áreas importantes que debes mejorar (consulta las recomendaciones).";
+            } else {
+                scoreSummary.textContent = "Nivel BÁSICO/CRÍTICO. Revisa todas las respuestas en rojo y actúa inmediatamente.";
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // Escucha los cambios en cualquier radio button
+        questions.forEach(item => {
+            item.addEventListener('change', updateScore);
+        });
+
+        // Botón de Reinicio
+        resetBtn.addEventListener('click', () => {
+            questions.forEach(item => {
+                // Desmarca todos los radios
+                item.querySelectorAll('.radio-input').forEach(radio => radio.checked = false);
+                // Oculta todas las recomendaciones
+                const recommendationDiv = item.querySelector('.recommendation');
+                if (recommendationDiv) {
+                    recommendationDiv.style.display = 'none';
+                    recommendationDiv.classList.remove('show-yes', 'show-no');
+                }
+            });
+            updateScore(); // Resetea la visualización del score
+        });
+
+        // Inicializar el checklist al cargar la página
+        document.addEventListener('DOMContentLoaded', updateScore);
+    </script>
+</body>
+</html>
