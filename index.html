@@ -91,8 +91,8 @@
 
         /* Contenedor Gráficos: organiza el radar y los donuts */
         .charts-container {
-            display: flex;
             flex-basis: 70%;
+            display: flex;
             justify-content: space-around;
             gap: 15px;
             align-items: flex-start;
@@ -409,6 +409,70 @@
         .level-basico { background-color: #D4EDDA; color: #155724; }
         .level-avanzado { background-color: #FFF3CD; color: #856404; }
         .level-opcional { background-color: #D6D8D9; color: #495057; }
+
+        /* --- Estilos para el botón de exportar/guardar --- */
+        .save-button-container {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        #exportarPDF {
+            background-color: #1A5276; /* Un azul oscuro que contrasta */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #exportarPDF:hover {
+            background-color: #28a745; /* Verde al pasar el ratón */
+        }
+        
+        /* --- Estilos de impresión (Reporte PDF) --- */
+        @media print {
+            /* Oculta elementos no deseados al imprimir */
+            .context-paragraph,
+            .modal,
+            .save-button-container,
+            #hiddenChecklistData {
+                display: none !important;
+            }
+            
+            /* Mostrar el nombre de la persona en la impresión */
+            #nombrePersona {
+                display: block !important;
+                margin-bottom: 20px;
+                padding: 5px 0;
+                border-bottom: 1px solid #333; /* Añadir una línea para estética */
+            }
+
+            /* Asegurar que las gráficas se vean bien */
+            .scores-summary-top {
+                border: none;
+                box-shadow: none;
+            }
+            
+            /* Asegura que todos los elementos sean visibles y sin fondo */
+            body, .container {
+                background-color: white !important;
+                box-shadow: none !important;
+                padding: 0;
+            }
+            
+            /* Ajuste para que las gráficas radiales tengan fondo */
+            .radial-chart-container, .donut-chart {
+                background-color: #f7f7f7; 
+                border: 1px solid #eee;
+                padding: 5px;
+            }
+        }
         
         @media (max-width: 768px) {
             .scores-summary-top {
@@ -586,8 +650,16 @@
                 </div>
             </div>
         </div>
+        
+        <div class="save-button-container">
+            <button id="exportarPDF" onclick="exportarResultados()">
+                💾 Guardar / Imprimir mi Evaluación
+            </button>
+        </div>
     </div>
     
+    <div id="nombrePersona" style="display: none; text-align: center; margin-top: 20px; font-size: 1.5em; font-weight: bold; color: #1A3E60; padding: 10px; border-top: 2px solid #ddd;"></div>
+
     <div id="checklistModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal()">&times;</span>
@@ -1104,15 +1176,13 @@
                 <span class="level-tag level-opcional">Opcional</span>
             </div>
         </section>
-         <section data-sectionname="navegacion" data-title="Checklist de Correo Electrónico">
+        <section data-sectionname="navegacion" data-title="Checklist de Correo Electrónico">
              </section>
         <section data-sectionname="correo" data-title="Checklist de Correo Electrónico">
              </section>
     </div>
 
     <script>
-        // EL CÓDIGO JS SE MANTIENE INTACTO PARA PRESERVAR LA LÓGICA DE TU CHECKLIST
-
         const allChecklistData = {};
         const allLevels = ['basico', 'avanzado', 'opcional'];
         const totalItemsInLevel = {};
@@ -1357,16 +1427,47 @@
         function closeModal() {
             document.getElementById('checklistModal').style.display = 'none';
         }
+        
+        // 1.7 Lógica de Exportación / Impresión
+        function exportarResultados() {
+            // 1. Pedir el nombre de la persona
+            let nombre = prompt("Por favor, introduce tu nombre para incluirlo en el reporte:");
 
-        // 1.7 Persistencia de datos con localStorage
+            // Si el usuario cancela o no introduce nada, terminamos la función
+            if (!nombre) {
+                return;
+            }
+            
+            // Opcional: limpiar el nombre de espacios y limitar la longitud
+            nombre = nombre.trim().substring(0, 50);
+
+            // 2. Obtener el elemento donde mostraremos el nombre temporalmente
+            const nombreElement = document.getElementById('nombrePersona');
+            
+            // 3. Insertar el nombre y hacerlo visible para la impresión
+            nombreElement.innerHTML = `Evaluación de Ciberseguridad de: **${nombre}**`;
+            nombreElement.style.display = 'block'; // Lo hace visible
+
+            // 4. Iniciar la impresión (esto abre el diálogo de Imprimir/Guardar como PDF)
+            window.print();
+
+            // 5. Después de un breve retraso, ocultar el nombre de nuevo para la vista en pantalla
+            setTimeout(() => {
+                nombreElement.style.display = 'none';
+                nombreElement.innerHTML = '';
+            }, 500); // 500ms es suficiente para que se abra el diálogo de impresión
+        }
+
+
+        // 1.8 Persistencia de datos con localStorage
         function loadState() {
             const savedState = localStorage.getItem('cybersecurityChecklistState');
             if (savedState) {
                 const loadedData = JSON.parse(savedState);
                 for (const sectionName in loadedData) {
                     if (allChecklistData[sectionName]) {
-                        loadedData[sectionName].items.forEach((loadedItem, index) => {
-                            // Usar el ID como verificación más robusta
+                        loadedData[sectionName].items.forEach((loadedItem) => {
+                             // Usar el ID como verificación más robusta
                             const existingItem = allChecklistData[sectionName].items.find(item => item.id === loadedItem.id);
                             if (existingItem) {
                                 existingItem.checked = loadedItem.checked;
