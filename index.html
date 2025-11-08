@@ -69,7 +69,6 @@
             background-color: #C0DFF0;
             border-radius: 5px;
             transition: background-color 0.3s, border 0.3s; 
-            /* Se ha removido la lógica de alerta visual por CSS */
         }
 
         .overall-score-top {
@@ -628,7 +627,7 @@
     </div>
 
     <div id="hiddenChecklistData" style="display: none;">
-        <section data-sectionname="autenticacion" data-title="Checklist de Autenticación">
+        <section data-sectionname="autenticacion" data-title="Checklist de Autenticación (2 Ítems)">
              <div class="checklist-item" data-item-level="minimo" data-link="https://www.stelorder.com/blog/politica-de-contrasenas/" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_pass_manager">
@@ -643,30 +642,9 @@
                  </div>
                  <div class="item-detail">La autenticación de dos factores es vital contra el robo de contraseñas.</div>
              </div>
-             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/autenticacion-doble-factor-por-sms-alternativas" data-gamification-badge="Veterano" data-risk-weight="3">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_2fa_app">
-                     <label for="auth_2fa_app" class="item-title">Usar app de autenticación (ej: Google Authenticator) en lugar de SMS para el 2FA.</label>
-                 </div>
-                 <div class="item-detail">Los códigos por SMS pueden ser interceptados. Las apps son más seguras.</div>
-             </div>
-             <div class="checklist-item" data-item-level="profunda" data-link="https://fidoalliance.org/fido2/" data-gamification-badge="CISO Jr" data-risk-weight="1">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_fido">
-                     <label for="auth_fido" class="item-title">Considerar el uso de llaves de seguridad física (FIDO/Yubikey).</label>
-                 </div>
-                 <div class="item-detail">Es la forma más segura de autenticación de dos factores.</div>
-             </div>
-             <div class="checklist-item" data-item-level="profunda" data-link="https://haveibeenpwned.com/" data-gamification-badge="CISO Jr" data-risk-weight="1">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_check_leaks">
-                     <label for="auth_check_leaks" class="item-title">Monitorear si tus contraseñas han sido filtradas (Have I Been Pwned).</label>
-                 </div>
-                 <div class="item-detail">Verifica si alguna de tus credenciales ha sido comprometida en fugas de datos.</div>
-             </div>
         </section>
 
-        <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles">
+        <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles (2 Ítems)">
              <div class="checklist-item" data-item-level="minimo" data-link="https://www.android.com/intl/es_es/safety/protection/" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_pass_lock">
@@ -681,23 +659,9 @@
                  </div>
                  <div class="item-detail">Las actualizaciones incluyen parches de seguridad críticos.</div>
              </div>
-             <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/pin-sim-que-es-como-funciona-y-por-que-activarlo" data-gamification-badge="Veterano" data-risk-weight="3">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_sim_lock">
-                     <label for="mobile_sim_lock" class="item-title">Configurar un PIN para la tarjeta SIM.</label>
-                 </div>
-                 <div class="item-detail">Evita el "SIM Swapping" y que usen tu SIM en otro teléfono.</div>
-             </div>
-             <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/como-elegir-vpn-empresas" data-gamification-badge="CISO Jr" data-risk-weight="1">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_public_wifi_vpn">
-                     <label for="mobile_public_wifi_vpn" class="item-title">Usar VPN de confianza en redes Wi-Fi públicas.</label>
-                 </div>
-                 <div class="item-detail">Una VPN encripta tu tráfico, protegiéndote de interceptaciones de datos.</div>
-             </div>
         </section>
 
-        <section data-sectionname="pc" data-title="Checklist de PC y Escritorio">
+        <section data-sectionname="pc" data-title="Checklist de PC y Escritorio (1 Ítem)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.microsoft.com/es-es/security/blog/2021/04/01/how-to-create-a-strong-password/" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_pass_login">
@@ -705,30 +669,9 @@
                 </div>
                 <div class="item-detail">Una contraseña fuerte es la primera línea de defensa contra accesos no autorizados.</div>
             </div>
-            <div class="checklist-item" data-item-level="minimo" data-link="https://www.av-comparatives.org/es/tests-reviews/" data-gamification-badge="Defensor" data-risk-weight="4">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_antivirus">
-                    <label for="pc_antivirus" class="item-title">Tener antivirus/antimalware confiable instalado y actualizado.</label>
-                </div>
-                <div class="item-detail">Un buen software de seguridad detecta y elimina amenazas.</div>
-            </div>
-            <div class="checklist-item" data-item-level="mejores" data-link="https://support.microsoft.com/es-es/windows/activar-el-cifrado-de-dispositivo-windows-0c453637-bc88-5f72-7201-7c18a844457b" data-gamification-badge="Veterano" data-risk-weight="3">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_disk_encrypt">
-                    <label for="pc_disk_encrypt" class="item-title">Activar la encriptación de disco completo (BitLocker, FileVault).</label>
-                </div>
-                <div class="item-detail">Protege tus datos si el dispositivo es robado.</div>
-            </div>
-            <div class="checklist-item" data-item-level="profunda" data-link="https://docs.microsoft.com/es-es/windows/security/identity-protection/user-account-control/how-it-works" data-gamification-badge="CISO Jr" data-risk-weight="1">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_admin_limit">
-                    <label for="pc_admin_limit" class="item-title">Usar una cuenta sin privilegios de administrador para el uso diario.</label>
-                </div>
-                <div class="item-detail">Limita el daño que el malware puede hacer si infecta tu sistema.</div>
-            </div>
         </section>
 
-        <section data-sectionname="navegacion" data-title="Checklist de Navegación Web">
+        <section data-sectionname="navegacion" data-title="Checklist de Navegación Web (1 Ítem)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/candado-y-https" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_secure_sites">
@@ -736,30 +679,9 @@
                 </div>
                 <div class="item-detail">Asegura que tu conexión con el sitio esté encriptada y sea privada.</div>
             </div>
-            <div class="checklist-item" data-item-level="minimo" data-link="https://support.google.com/chrome/answer/3220216?hl=es&co=GENIE.Platform%3DDesktop" data-gamification-badge="Defensor" data-risk-weight="4">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_popups">
-                    <label for="nav_popups" class="item-title">Bloquear Pop-ups y notificaciones intrusivas en el navegador.</label>
-                </div>
-                <div class="item-detail">Reduce la superficie de ataque y la exposición a contenido malicioso.</div>
-            </div>
-            <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/como-gestion-extensiones-navegador" data-gamification-badge="Veterano" data-risk-weight="2">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_ext_check">
-                    <label for="nav_ext_check" class="item-title">Revisar y limitar el número de extensiones del navegador.</label>
-                </div>
-                <div class="item-detail">Las extensiones maliciosas son un vector de ataque común. Elimina las que no uses.</div>
-            </div>
-            <div class="checklist-item" data-item-level="profunda" data-link="https://www.cloudflare.com/es-es/learning/dns/what-is-1.1.1.1/" data-gamification-badge="CISO Jr" data-risk-weight="1">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_dns_secure">
-                    <label for="nav_dns_secure" class="item-title">Configurar DNS seguro (ej. Cloudflare 1.1.1.1, Google 8.8.8.8).</label>
-                </div>
-                <div class="item-detail">Mejora la privacidad y puede bloquear acceso a sitios de malware conocidos.</div>
-            </div>
         </section>
 
-        <section data-sectionname="correo" data-title="Checklist de Correo Electrónico">
+        <section data-sectionname="correo" data-title="Checklist de Correo Electrónico (2 Ítems)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/como-identificar-un-correo-de-phishing" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_attachments">
@@ -774,23 +696,9 @@
                 </div>
                 <div class="item-detail">Los atacantes suelen usar direcciones similares para engañarte.</div>
             </div>
-            <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/correo-electronico-uso-profesional" data-gamification-badge="Veterano" data-risk-weight="3">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_separate_acc">
-                    <label for="email_separate_acc" class="item-title">Usar una dirección de correo separada para compras y suscripciones.</label>
-                </div>
-                <div class="item-detail">Minimiza el riesgo de que tu correo principal se vea afectado en una filtración.</div>
-            </div>
-            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/blog/cifrado-de-correo-electronico-pgp-que-es-y-como-usarlo" data-gamification-badge="CISO Jr" data-risk-weight="1">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_pgp">
-                    <label for="email_pgp" class="item-title">Utilizar PGP o cifrado de extremo a extremo en correos sensibles.</label>
-                </div>
-                <div class="item-detail">Garantiza que solo el destinatario pueda leer el contenido del mensaje.</div>
-            </div>
         </section>
 
-        <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación">
+        <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación (2 Ítems)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/como-hacer-copias-seguridad" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_critical_data">
@@ -804,13 +712,6 @@
                     <label for="backup_separate_media" class="item-title">Mantener una copia de seguridad <span class="emphasis">desconectada</span> (Regla 3-2-1).</label>
                 </div>
                 <div class="item-detail">Protege la copia de seguridad de virus, incendios o robos.</div>
-            </div>
-            <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/comprobar-si-copia-seguridad-es-correcta" data-gamification-badge="Veterano" data-risk-weight="2">
-                <div class="checklist-row">
-                    <input type="checkbox" id="backup_test_restore">
-                    <label for="backup_test_restore" class="item-title">Probar periódicamente la restauración de datos.</label>
-                </div>
-                <div class="item-detail">Asegúrate de que la copia de seguridad realmente funcione cuando la necesites.</div>
             </div>
         </section>
     </div>
@@ -879,6 +780,7 @@
         }
 
         // 1.3 Lógica de Persistencia y Actualización (PONDERADA)
+        // 🚨 ESTA FUNCIÓN CONTIENE EL "REPORTE DE CÁLCULO DE SCORE"
         function updateTotals() {
             let totalWeightedChecked = 0;
             let totalWeightedPossible = 0;
@@ -891,7 +793,8 @@
                 let totalWeightedInSection = 0;
 
                 section.items.forEach(item => {
-                    totalWeightedPossible += item.riskWeight;
+                    // CÁLCULO CENTRAL: Se suman los pesos
+                    totalWeightedPossible += item.riskWeight; 
                     totalWeightedInSection += item.riskWeight;
                     
                     if (item.checked) {
@@ -901,6 +804,7 @@
                     }
                 });
 
+                // CÁLCULO DEL SCORE POR SECCIÓN: (Pesos Obtenidos / Pesos Posibles) * 100
                 const score = totalWeightedInSection > 0 ? Math.round((checkedWeightedInSection / totalWeightedInSection) * 100) : 0;
 
                 // Actualizar Tarjetas
@@ -922,12 +826,9 @@
             document.getElementById('totalCheckedItems').textContent = totalWeightedChecked; 
             document.getElementById('totalItems').textContent = totalWeightedPossible;     
             
-            // --- CÓDIGO DE ALERTA REMOVIDO POR SOLICITUD DEL USUARIO ---
-            // Se restaura el estilo por defecto, sin alertas rojas condicionales.
             scoreContainer.style.backgroundColor = '#C0DFF0'; 
             scoreContainer.style.border = 'none';
             overallScoreElement.style.color = '#1A5276'; 
-            // -----------------------------------------------------------
             
             updateDonutCharts();
             updateRadarChart();
@@ -1124,10 +1025,23 @@
                  return; 
             }
 
+            // --- NUEVOS PROMPTS SOLICITADOS ---
+            const employeeName = prompt("📝 Por favor, ingrese su Nombre Completo:");
+            const employeeCompany = prompt("🏢 Ingrese su Empresa (Si es uso personal, escriba CASA):");
+            const employeeId = prompt("🆔 Ingrese su ID de Empleado:");
+            // ------------------------------------
+
+            // Si el usuario cancela alguno de los prompts, se cancela el envío
+            if (employeeName === null || employeeCompany === null || employeeId === null) {
+                alert("Envío de datos cancelado por el usuario.");
+                return;
+            }
+
             const scoresToSend = {
                 promedioGeneral: document.getElementById('promedioGeneral').textContent.replace('%', ''),
-                employeeId: prompt("🚨 Por favor, ingrese su ID de Empleado (Ej: JSMITH)"), 
-                department: prompt("Ingrese su Departamento (Ej: TI, Ventas)"),
+                employeeName: employeeName, 
+                employeeCompany: employeeCompany, 
+                employeeId: employeeId,
                 scores: {}
             };
 
