@@ -68,6 +68,8 @@
             padding: 10px 15px;
             background-color: #C0DFF0;
             border-radius: 5px;
+            /* Transición para la alerta visual */
+            transition: background-color 0.3s, border 0.3s; 
         }
 
         .overall-score-top {
@@ -75,10 +77,12 @@
             font-weight: bold;
             color: #1A5276;
             text-align: center;
+            /* Transición para la alerta visual */
+            transition: color 0.3s;
         }
 
         .overall-score-top span {
-            color: #C82333;
+            color: inherit;
             font-size: 1.2em;
         }
 
@@ -177,6 +181,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
+            /* Se elimina la rotación extra en el porcentaje para que quede vertical */
             transform: translate(-50%, -50%);
             font-size: 1.1em;
             font-weight: bold;
@@ -285,17 +290,18 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 100;
+            z-index: 100; /* Asegura que esté por encima de todo */
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
         }
 
         #checklistModal .modal-content {
             background-color: #fefefe;
+            /* Centrado Vertical y Horizontal */
             margin: 5% auto;
             padding: 30px;
             border: 1px solid #888;
@@ -400,15 +406,14 @@
             padding: 3px 8px;
             border-radius: 12px;
             font-weight: bold;
-            margin-left: 30px;
+            margin-left: 10px; /* Reducido para la nueva estructura */
             display: inline-block;
         }
 
-        /* NIVELES ACTUALIZADOS Y EXPANDIDOS EN HTML */
-        .level-basico { background-color: #D4EDDA; color: #155724; }
-        .level-avanzado { background-color: #FFF3CD; color: #856404; }
-        .level-opcional { background-color: #D6D8D9; color: #495057; }
-        
+        /* NOMBRES NUEVOS DE CLASES DE NIVEL */
+        .level-minimo { background-color: #D4EDDA; color: #155724; } /* Era level-basico */
+        .level-mejores { background-color: #FFF3CD; color: #856404; } /* Era level-avanzado */
+        .level-profunda { background-color: #D6D8D9; color: #495057; } /* Era level-opcional */
     </style>
 </head>
 <body>
@@ -423,7 +428,7 @@
             <div class="overall-summary-block">
                 <div class="overall-score-top">Tu Progreso es: <span id="promedioGeneral">0%</span></div>
                 <div class="overall-item-count">
-                    <span id="totalCheckedItems">0</span> de <span id="totalItems">0</span> Items Completados
+                    <span id="totalCheckedItems">0</span> de <span id="totalItems">0</span> Puntos Ponderados Obtenidos
                 </div>
             </div>
             <div class="charts-container">
@@ -431,27 +436,30 @@
                     <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
                 </div>
                 <div class="donut-list">
-                    <div class="donut-chart" id="donutBasico">
+                    <div class="donut-chart" id="donutMinimo">
                         <svg viewBox="0 0 100 100">
                             <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleBasico" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#28A745" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
+                            <circle id="donutCircleMinimo" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#28A745" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
                         </svg>
-                        <div class="donut-percentage" id="donutPercentBasico">0%</div>
-                        <div class="donut-title">Mínimo Requerido</div> </div>
-                    <div class="donut-chart" id="donutAvanzado">
+                        <div class="donut-percentage" id="donutPercentMinimo">0%</div>
+                        <div class="donut-title">Mínimo</div>
+                    </div>
+                    <div class="donut-chart" id="donutMejores">
                         <svg viewBox="0 0 100 100">
                             <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleAvanzado" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#FFC107" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
+                            <circle id="donutCircleMejores" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#FFC107" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
                         </svg>
-                        <div class="donut-percentage" id="donutPercentAvanzado">0%</div>
-                        <div class="donut-title">Mejores Prácticas</div> </div>
-                    <div class="donut-chart" id="donutOpcional">
+                        <div class="donut-percentage" id="donutPercentMejores">0%</div>
+                        <div class="donut-title">Mejores</div>
+                    </div>
+                    <div class="donut-chart" id="donutProfunda">
                         <svg viewBox="0 0 100 100">
                             <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleOpcional" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#6C757D" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
+                            <circle id="donutCircleProfunda" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#6C757D" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
                         </svg>
-                        <div class="donut-percentage" id="donutPercentOpcional">0%</div>
-                        <div class="donut-title">Defensa Profunda</div> </div>
+                        <div class="donut-percentage" id="donutPercentProfunda">0%</div>
+                        <div class="donut-title">Profunda</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -463,11 +471,11 @@
                     <div class="card-details">
                         <div class="detail-group">
                             <span id="checkedAutenticacion">0</span>
-                            <span>Completados</span>
+                            <span>Puntos</span>
                         </div>
                         <div class="detail-group">
                             <span id="totalAutenticacion">0</span>
-                            <span>Totales</span>
+                            <span>Posibles</span>
                         </div>
                     </div>
                 </div>
@@ -479,11 +487,11 @@
                     <div class="card-details">
                         <div class="detail-group">
                             <span id="checkedMoviles">0</span>
-                            <span>Completados</span>
+                            <span>Puntos</span>
                         </div>
                         <div class="detail-group">
                             <span id="totalMoviles">0</span>
-                            <span>Totales</span>
+                            <span>Posibles</span>
                         </div>
                     </div>
                 </div>
@@ -495,11 +503,11 @@
                     <div class="card-details">
                         <div class="detail-group">
                             <span id="checkedPC">0</span>
-                            <span>Completados</span>
+                            <span>Puntos</span>
                         </div>
                         <div class="detail-group">
                             <span id="totalPC">0</span>
-                            <span>Totales</span>
+                            <span>Posibles</span>
                         </div>
                     </div>
                 </div>
@@ -511,11 +519,11 @@
                     <div class="card-details">
                         <div class="detail-group">
                             <span id="checkedNavegacion">0</span>
-                            <span>Completados</span>
+                            <span>Puntos</span>
                         </div>
                         <div class="detail-group">
                             <span id="totalNavegacion">0</span>
-                            <span>Totales</span>
+                            <span>Posibles</span>
                         </div>
                     </div>
                 </div>
@@ -527,11 +535,11 @@
                     <div class="card-details">
                         <div class="detail-group">
                             <span id="checkedCorreo">0</span>
-                            <span>Completados</span>
+                            <span>Puntos</span>
                         </div>
                         <div class="detail-group">
                             <span id="totalCorreo">0</span>
-                            <span>Totales</span>
+                            <span>Posibles</span>
                         </div>
                     </div>
                 </div>
@@ -543,11 +551,11 @@
                     <div class="card-details">
                         <div class="detail-group">
                             <span id="checkedRespaldo">0</span>
-                            <span>Completados</span>
+                            <span>Puntos</span>
                         </div>
                         <div class="detail-group">
                             <span id="totalRespaldo">0</span>
-                            <span>Totales</span>
+                            <span>Posibles</span>
                         </div>
                     </div>
                 </div>
@@ -575,638 +583,354 @@
 
     <div id="hiddenChecklistData" style="display: none;">
         <section data-sectionname="autenticacion" data-title="Checklist de Autenticación">
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.stelorder.com/blog/politica-de-contrasenas/" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_pass_manager">
                      <label for="auth_pass_manager" class="item-title">Usar un gestor de contraseñas confiable.</label>
                  </div>
                  <div class="item-detail">Facilita la creación y gestión de contraseñas complejas y únicas para cada servicio.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-link="https://support.google.com/accounts/answer/185839?hl=es" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_2fa_critical">
-                     <label for="auth_2fa_critical" class="item-title">Activar 2FA en cuentas <span class="emphasis">críticas</span> (email principal, bancos, redes principales).</label>
+                     <label for="auth_2fa_critical" class="item-title">Activar 2FA en cuentas <span class="emphasis">críticas</span> (email, bancos, redes principales).</label>
                  </div>
                  <div class="item-detail">La autenticación de dos factores es vital contra el robo de contraseñas.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_pass_complexity">
-                     <label for="auth_pass_complexity" class="item-title">Utilizar contraseñas largas y complejas (mínimo 12 caracteres, mayús, minús, números, símbolos).</label>
-                 </div>
-                 <div class="item-detail">Aumenta drásticamente el tiempo que tardaría un atacante en descifrarla.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-             
-             <div class="checklist-item" data-item-level="avanzado">
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/autenticacion-doble-factor-por-sms-alternativas" data-gamification-badge="Veterano" data-risk-weight="3">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_2fa_app">
                      <label for="auth_2fa_app" class="item-title">Usar app de autenticación (ej: Google Authenticator) en lugar de SMS para el 2FA.</label>
                  </div>
-                 <div class="item-detail">Los códigos por SMS pueden ser interceptados. Las apps (TOTP) son más seguras.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
+                 <div class="item-detail">Los códigos por SMS pueden ser interceptados. Las apps son más seguras.</div>
              </div>
-             <div class="checklist-item" data-item-level="avanzado">
+             <div class="checklist-item" data-item-level="profunda" data-link="https://fidoalliance.org/fido2/" data-gamification-badge="CISO Jr" data-risk-weight="1">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_fido">
+                     <label for="auth_fido" class="item-title">Considerar el uso de llaves de seguridad física (FIDO/Yubikey).</label>
+                 </div>
+                 <div class="item-detail">Es la forma más segura de autenticación de dos factores.</div>
+             </div>
+             <div class="checklist-item" data-item-level="profunda" data-link="https://haveibeenpwned.com/" data-gamification-badge="CISO Jr" data-risk-weight="1">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_check_leaks">
                      <label for="auth_check_leaks" class="item-title">Monitorear si tus contraseñas han sido filtradas (Have I Been Pwned).</label>
                  </div>
                  <div class="item-detail">Verifica si alguna de tus credenciales ha sido comprometida en fugas de datos.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_unique_pass">
-                     <label for="auth_unique_pass" class="item-title">Asegurar que <span class="emphasis">ninguna</span> contraseña esté duplicada entre servicios.</label>
-                 </div>
-                 <div class="item-detail">Previene el "password stuffing" si un sitio es comprometido.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_fido">
-                     <label for="auth_fido" class="item-title">Considerar el uso de llaves de seguridad física (FIDO/Yubikey).</label>
-                 </div>
-                 <div class="item-detail">Es la forma más segura de autenticación de dos factores (Phishing-resistente).</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_alias_email">
-                     <label for="auth_alias_email" class="item-title">Usar servicios de alias de correo para registrarse en sitios web.</label>
-                 </div>
-                 <div class="item-detail">Oculta tu dirección de correo real, previniendo spam y minimizando el riesgo de filtración.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_pin_lock">
-                     <label for="auth_pin_lock" class="item-title">Establecer un PIN secundario de acceso/emergencia en el gestor de contraseñas.</label>
-                 </div>
-                 <div class="item-detail">Añade una protección extra en caso de que alguien obtenga acceso a tu PC desbloqueado.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
              </div>
         </section>
 
         <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles">
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.android.com/intl/es_es/safety/protection/" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_pass_lock">
                      <label for="mobile_pass_lock" class="item-title">Configurar contraseña, PIN o biometría <span class="emphasis">fuerte</span>.</label>
                  </div>
                  <div class="item-detail">Protege tu dispositivo con un método de desbloqueo robusto.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.apple.com/la/ios/security/" data-gamification-badge="Defensor" data-risk-weight="4">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_updates">
                      <label for="mobile_updates" class="item-title">Mantener el sistema operativo y apps <span class="emphasis">actualizadas</span>.</label>
                  </div>
                  <div class="item-detail">Las actualizaciones incluyen parches de seguridad críticos.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_auto_lock">
-                     <label for="mobile_auto_lock" class="item-title">Configurar el bloqueo automático de pantalla en un periodo corto (ej. 1 minuto).</label>
-                 </div>
-                 <div class="item-detail">Minimiza el tiempo en que un dispositivo perdido o robado es vulnerable.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-
-             <div class="checklist-item" data-item-level="avanzado">
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/pin-sim-que-es-como-funciona-y-por-que-activarlo" data-gamification-badge="Veterano" data-risk-weight="3">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_sim_lock">
                      <label for="mobile_sim_lock" class="item-title">Configurar un PIN para la tarjeta SIM.</label>
                  </div>
                  <div class="item-detail">Evita el "SIM Swapping" y que usen tu SIM en otro teléfono.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
              </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_remote_erase">
-                     <label for="mobile_remote_erase" class="item-title">Configurar el borrado remoto/geolocalización (Buscar mi iPhone/Android).</label>
-                 </div>
-                 <div class="item-detail">Permite proteger tus datos si el dispositivo es robado o perdido.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_app_lock">
-                     <label for="mobile_app_lock" class="item-title">Configurar bloqueo adicional para apps sensibles (banca, gestor de contraseñas).</label>
-                 </div>
-                 <div class="item-detail">Añade una capa de seguridad a las aplicaciones más críticas.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_avoid_sideload">
-                     <label for="mobile_avoid_sideload" class="item-title">No instalar aplicaciones desde tiendas no oficiales (APK fuera de Google Play/App Store).</label>
-                 </div>
-                 <div class="item-detail">Las apps de terceros no tienen las mismas verificaciones de seguridad.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-
-             <div class="checklist-item" data-item-level="opcional">
+             <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/como-elegir-vpn-empresas" data-gamification-badge="CISO Jr" data-risk-weight="1">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_public_wifi_vpn">
                      <label for="mobile_public_wifi_vpn" class="item-title">Usar VPN de confianza en redes Wi-Fi públicas.</label>
                  </div>
                  <div class="item-detail">Una VPN encripta tu tráfico, protegiéndote de interceptaciones de datos.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_audit_permissions">
-                     <label for="mobile_audit_permissions" class="item-title">Auditar y revocar permisos de apps que no los necesiten (cámara, micrófono, contactos).</label>
-                 </div>
-                 <div class="item-detail">Reduce el riesgo de espionaje o recolección de datos no deseada.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_root_check">
-                     <label for="mobile_root_check" class="item-title">No realizar Root/Jailbreak al dispositivo, o hacerlo con extrema cautela.</label>
-                 </div>
-                 <div class="item-detail">El acceso root/jailbreak anula muchas protecciones de seguridad del sistema operativo.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
              </div>
         </section>
 
         <section data-sectionname="pc" data-title="Checklist de PC y Escritorio">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.microsoft.com/es-es/security/blog/2021/04/01/how-to-create-a-strong-password/" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_pass_login">
                     <label for="pc_pass_login" class="item-title">Establecer contraseña <span class="emphasis">robusta</span> para iniciar sesión.</label>
                 </div>
                 <div class="item-detail">Una contraseña fuerte es la primera línea de defensa contra accesos no autorizados.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.av-comparatives.org/es/tests-reviews/" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_antivirus">
                     <label for="pc_antivirus" class="item-title">Tener antivirus/antimalware confiable instalado y actualizado.</label>
                 </div>
                 <div class="item-detail">Un buen software de seguridad detecta y elimina amenazas.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_updates">
-                    <label for="pc_updates" class="item-title">Mantener el SO, navegadores y software crítico actualizados.</label>
-                </div>
-                <div class="item-detail">Las actualizaciones cierran brechas de seguridad explotables.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
-            </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="pc_firewall">
-                     <label for="pc_firewall" class="item-title">Tener un Firewall activo y bien configurado (Windows Defender, macOS Firewall, etc.).</label>
-                 </div>
-                 <div class="item-detail">Controla el tráfico de red entrante y saliente, bloqueando conexiones sospechosas.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-link="https://support.microsoft.com/es-es/windows/activar-el-cifrado-de-dispositivo-windows-0c453637-bc88-5f72-7201-7c18a844457b" data-gamification-badge="Veterano" data-risk-weight="3">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_disk_encrypt">
-                    <label for="pc_disk_encrypt" class="item-title">Activar la encriptación de disco completo (BitLocker, FileVault, LUKS).</label>
+                    <label for="pc_disk_encrypt" class="item-title">Activar la encriptación de disco completo (BitLocker, FileVault).</label>
                 </div>
                 <div class="item-detail">Protege tus datos si el dispositivo es robado.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_vpn_router">
-                    <label for="pc_vpn_router" class="item-title">Usar una VPN de confianza en la PC o a nivel de router.</label>
-                </div>
-                <div class="item-detail">Asegura que todo el tráfico esté encriptado y oculta tu dirección IP real.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
-            </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="pc_software_minimal">
-                     <label for="pc_software_minimal" class="item-title">Desinstalar todo el software que no se use regularmente (reducción de superficie de ataque).</label>
-                 </div>
-                 <div class="item-detail">Cada aplicación instalada es un posible punto de entrada para atacantes.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="opcional">
+            <div class="checklist-item" data-item-level="profunda" data-link="https://docs.microsoft.com/es-es/windows/security/identity-protection/user-account-control/how-it-works" data-gamification-badge="CISO Jr" data-risk-weight="1">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_admin_limit">
                     <label for="pc_admin_limit" class="item-title">Usar una cuenta sin privilegios de administrador para el uso diario.</label>
                 </div>
                 <div class="item-detail">Limita el daño que el malware puede hacer si infecta tu sistema.</div>
-                <span class="level-tag level-opcional">Defensa Profunda</span>
             </div>
-            <div class="checklist-item" data-item-level="opcional">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_usb_lock">
-                    <label for="pc_usb_lock" class="item-title">Deshabilitar la auto-ejecución y evitar conectar dispositivos USB desconocidos.</label>
-                </div>
-                <div class="item-detail">Previene ataques como BadUSB o la propagación de virus a través de pendrives.</div>
-                <span class="level-tag level-opcional">Defensa Profunda</span>
-            </div>
-            <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="pc_cam_mic_phys">
-                     <label for="pc_cam_mic_phys" class="item-title">Considerar cubrir la cámara y desconectar el micrófono cuando no se utilicen.</label>
-                 </div>
-                 <div class="item-detail">Bloquea el acceso físico a través de malware espía.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
         </section>
 
         <section data-sectionname="navegacion" data-title="Checklist de Navegación Web">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/candado-y-https" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_secure_sites">
                     <label for="nav_secure_sites" class="item-title">Verificar que los sitios web sean HTTPS (candado en la URL).</label>
                 </div>
                 <div class="item-detail">Asegura que tu conexión con el sitio esté encriptada y sea privada.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://support.google.com/chrome/answer/3220216?hl=es&co=GENIE.Platform%3DDesktop" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_popups">
                     <label for="nav_popups" class="item-title">Bloquear Pop-ups y notificaciones intrusivas en el navegador.</label>
                 </div>
                 <div class="item-detail">Reduce la superficie de ataque y la exposición a contenido malicioso.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/como-gestion-extensiones-navegador" data-gamification-badge="Veterano" data-risk-weight="2">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_ext_check">
                     <label for="nav_ext_check" class="item-title">Revisar y limitar el número de extensiones del navegador.</label>
                 </div>
                 <div class="item-detail">Las extensiones maliciosas son un vector de ataque común. Elimina las que no uses.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="nav_clear_cache">
-                     <label for="nav_clear_cache" class="item-title">Borrar regularmente cookies e historial del navegador.</label>
-                 </div>
-                 <div class="item-detail">Limita la cantidad de datos que los sitios web tienen sobre tu actividad.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_adblock">
-                    <label for="nav_adblock" class="item-title">Usar un bloqueador de anuncios (*adblocker*) confiable.</label>
-                </div>
-                <div class="item-detail">Previene el *malvertising* (anuncios maliciosos) y mejora la velocidad.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
-            </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="nav_privacy_browser">
-                     <label for="nav_privacy_browser" class="item-title">Usar un navegador enfocado en la privacidad (ej. Firefox, Brave) en lugar de Chrome.</label>
-                 </div>
-                 <div class="item-detail">Reduce la recolección de datos por parte del navegador y el uso de huellas digitales (*fingerprinting*).</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="nav_trackers">
-                     <label for="nav_trackers" class="item-title">Activar la protección anti-rastreo o usar extensiones anti-tracking (ej. Privacy Badger).</label>
-                 </div>
-                 <div class="item-detail">Impide que empresas de terceros te sigan a través de diferentes sitios web.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="opcional">
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.cloudflare.com/es-es/learning/dns/what-is-1.1.1.1/" data-gamification-badge="CISO Jr" data-risk-weight="1">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_dns_secure">
-                    <label for="nav_dns_secure" class="item-title">Configurar DNS seguro (ej. Cloudflare 1.1.1.1, Google 8.8.8.8) en el sistema o router.</label>
+                    <label for="nav_dns_secure" class="item-title">Configurar DNS seguro (ej. Cloudflare 1.1.1.1, Google 8.8.8.8).</label>
                 </div>
                 <div class="item-detail">Mejora la privacidad y puede bloquear acceso a sitios de malware conocidos.</div>
-                <span class="level-tag level-opcional">Defensa Profunda</span>
             </div>
-            <div class="checklist-item" data-item-level="opcional">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_no_browser_pass">
-                    <label for="nav_no_browser_pass" class="item-title">No guardar contraseñas directamente en el navegador.</label>
-                </div>
-                <div class="item-detail">Los gestores de contraseñas de los navegadores son objetivos comunes de robo de información.</div>
-                <span class="level-tag level-opcional">Defensa Profunda</span>
-            </div>
-            <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="nav_js_block">
-                     <label for="nav_js_block" class="item-title">Usar extensiones para limitar o deshabilitar JavaScript por defecto (ej. NoScript, uMatrix).</label>
-                 </div>
-                 <div class="item-detail">El código JS es una fuente común de vulnerabilidades y exploits.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
         </section>
 
         <section data-sectionname="correo" data-title="Checklist de Correo Electrónico">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/como-identificar-un-correo-de-phishing" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_attachments">
                     <label for="email_attachments" class="item-title">Ser <span class="emphasis">extremadamente cauteloso</span> con adjuntos y enlaces.</label>
                 </div>
                 <div class="item-detail">El *phishing* y el *malware* se propagan principalmente a través de correos.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.redeszone.net/tutoriales/seguridad/como-identificar-phishing-correo/" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_sender_check">
                     <label for="email_sender_check" class="item-title">Verificar la dirección del remitente, incluso si el nombre parece conocido.</label>
                 </div>
                 <div class="item-detail">Los atacantes suelen usar direcciones similares para engañarte.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="email_hover_links">
-                     <label for="email_hover_links" class="item-title">Siempre pasar el ratón por encima de los enlaces para verificar la URL real.</label>
-                 </div>
-                 <div class="item-detail">Ayuda a detectar enlaces de *phishing* que parecen legítimos.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-            <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="email_personal_info">
-                     <label for="email_personal_info" class="item-title">Nunca proporcionar contraseñas o información sensible en respuesta a un correo.</label>
-                 </div>
-                 <div class="item-detail">Las entidades legítimas nunca solicitarán esto por correo electrónico.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/correo-electronico-uso-profesional" data-gamification-badge="Veterano" data-risk-weight="3">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_separate_acc">
                     <label for="email_separate_acc" class="item-title">Usar una dirección de correo separada para compras y suscripciones.</label>
                 </div>
                 <div class="item-detail">Minimiza el riesgo de que tu correo principal se vea afectado en una filtración.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="email_secure_provider">
-                     <label for="email_secure_provider" class="item-title">Usar un proveedor de correo electrónico enfocado en la privacidad (ej. ProtonMail, Tutanota).</label>
-                 </div>
-                 <div class="item-detail">Ofrece cifrado de extremo a extremo y menos rastreo de datos.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="email_tracking_block">
-                     <label for="email_tracking_block" class="item-title">Bloquear rastreadores de emails (tracking pixels) con extensiones o clientes.</label>
-                 </div>
-                 <div class="item-detail">Mejora la privacidad impidiendo que los remitentes sepan si/cuándo abriste el correo.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="opcional">
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/blog/cifrado-de-correo-electronico-pgp-que-es-y-como-usarlo" data-gamification-badge="CISO Jr" data-risk-weight="1">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_pgp">
                     <label for="email_pgp" class="item-title">Utilizar PGP o cifrado de extremo a extremo en correos sensibles.</label>
                 </div>
                 <div class="item-detail">Garantiza que solo el destinatario pueda leer el contenido del mensaje.</div>
-                <span class="level-tag level-opcional">Defensa Profunda</span>
             </div>
-            <div class="checklist-item" data-item-level="opcional">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_domain_dns">
-                    <label for="email_domain_dns" class="item-title">Verificar si el dominio del remitente utiliza DMARC/SPF/DKIM (para usuarios avanzados).</label>
-                </div>
-                <div class="item-detail">Garantiza que el correo no ha sido falsificado desde un dominio de alto valor.</div>
-                <span class="level-tag level-opcional">Defensa Profunda</span>
-            </div>
-            <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="email_headers_check">
-                     <label for="email_headers_check" class="item-title">Saber cómo inspeccionar las cabeceras completas de los emails sospechosos.</label>
-                 </div>
-                 <div class="item-detail">Revela la ruta exacta y el origen real del mensaje, ayudando a detectar falsificaciones.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
         </section>
 
         <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/como-hacer-copias-seguridad" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_critical_data">
                     <label for="backup_critical_data" class="item-title">Hacer copias de seguridad de <span class="emphasis">datos críticos</span> regularmente.</label>
                 </div>
                 <div class="item-detail">La pérdida de datos puede ocurrir por fallos de hardware o ataques de *ransomware*.</div>
-                <span class="level-tag level-basico">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="backup_validate">
-                     <label for="backup_validate" class="item-title">Validar la integridad de los archivos respaldados de vez en cuando.</label>
-                 </div>
-                 <div class="item-detail">Asegura que los archivos en la copia de seguridad no se hayan corrompido con el tiempo.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="backup_system_image">
-                     <label for="backup_system_image" class="item-title">Tener una copia de seguridad de imagen de sistema (no solo de archivos) para restauración rápida.</label>
-                 </div>
-                 <div class="item-detail">Permite restaurar todo el sistema operativo, aplicaciones y archivos, no solo los documentos.</div>
-                 <span class="level-tag level-basico">Mínimo Requerido</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/regla-3-2-1" data-gamification-badge="Veterano" data-risk-weight="3">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_separate_media">
                     <label for="backup_separate_media" class="item-title">Mantener una copia de seguridad <span class="emphasis">desconectada</span> (Regla 3-2-1).</label>
                 </div>
                 <div class="item-detail">Protege la copia de seguridad de virus, incendios o robos.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.cert.es/blog/comprobar-si-copia-seguridad-es-correcta" data-gamification-badge="Veterano" data-risk-weight="2">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_test_restore">
                     <label for="backup_test_restore" class="item-title">Probar periódicamente la restauración de datos.</label>
                 </div>
                 <div class="item-detail">Asegúrate de que la copia de seguridad realmente funcione cuando la necesites.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="backup_versioning">
-                    <label for="backup_versioning" class="item-title">Usar un sistema de copia de seguridad con control de versiones (versionado).</label>
-                </div>
-                <div class="item-detail">Permite retroceder a una versión limpia antes de una infección de *ransomware* u otro error.</div>
-                <span class="level-tag level-avanzado">Mejores Prácticas</span>
-            </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="backup_cloud_encrypt">
-                     <label for="backup_cloud_encrypt" class="item-title">Usar encriptación en los servicios de respaldo en la nube.</label>
-                 </div>
-                 <div class="item-detail">Asegura que solo tú puedas acceder a los datos almacenados en la nube.</div>
-                 <span class="level-tag level-avanzado">Mejores Prácticas</span>
-             </div>
-
-            <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="backup_pass_manager_key">
-                     <label for="backup_pass_manager_key" class="item-title">Respaldar la clave maestra del gestor de contraseñas de forma segura (físico/encriptado).</label>
-                 </div>
-                 <div class="item-detail">La clave maestra es el punto de fallo único; debe estar respaldada fuera del sistema habitual.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="backup_geographically">
-                     <label for="backup_geographically" class="item-title">Mantener al menos una copia de seguridad en una ubicación geográfica diferente.</label>
-                 </div>
-                 <div class="item-detail">Protege contra desastres localizados como incendios o inundaciones.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="backup_encrypted_local">
-                     <label for="backup_encrypted_local" class="item-title">Utilizar software de cifrado (ej. VeraCrypt) para el respaldo de archivos locales.</label>
-                 </div>
-                 <div class="item-detail">Cifra los datos antes de enviarlos a discos externos o la nube.</div>
-                 <span class="level-tag level-opcional">Defensa Profunda</span>
-             </div>
         </section>
     </div>
 
     <script>
         // **********************************************
-        // 1. LÓGICA DEL CHECKLIST (ACTUALIZADA PARA 40 ÍTEMS)
+        // 1. LÓGICA DEL CHECKLIST
         // **********************************************
+        
+        // --- 5. CENTRALIZACIÓN (URL DE GOOGLE APPS SCRIPT) ---
+        // 🚨 IMPORTANTE: Reemplace 'PEGAR_AQUÍ_LA_URL_DE_SU_WEB_APP' con la URL real de su despliegue de Google Apps Script.
+        const GOOGLE_APP_SCRIPT_URL = 'PEGAR_AQUÍ_LA_URL_DE_SU_WEB_APP';
 
         const allChecklistData = {};
-        // Se mantienen los IDs 'basico', 'avanzado', 'opcional' por consistencia con el código existente
-        const allLevels = ['basico', 'avanzado', 'opcional']; 
-        
-        const totalItemsInLevel = {};
-        const checkedItemsInLevel = {};
-        let currentSection = '';
+        // --- 1. RENOMBRE DE ETIQUETAS (minimo, mejores, profunda) ---
+        const allLevels = ['minimo', 'mejores', 'profunda'];
+        const totalItemsInLevel = {}; // Almacena PUNTOS POSIBLES (peso de riesgo)
+        const checkedItemsInLevel = {}; // Almacena PUNTOS OBTENIDOS (peso de riesgo)
+        let currentSection = ''; // Variable para rastrear la sección abierta
 
         // 1.1 Cargar datos del HTML a la estructura JS
         document.querySelectorAll('#hiddenChecklistData section').forEach(section => {
             const name = section.dataset.sectionname;
             const title = section.dataset.title;
             const items = [];
+            
+            // Inicializar puntos posibles por nivel a 0 antes de calcular
+            allLevels.forEach(level => {
+                totalItemsInLevel[level] = totalItemsInLevel[level] || 0;
+                checkedItemsInLevel[level] = checkedItemsInLevel[level] || 0;
+            });
+
             section.querySelectorAll('.checklist-item').forEach(item => {
                 const level = item.dataset.itemLevel;
+                // --- 3. IMPLEMENTACIÓN DE PONDERACIÓN Y LINKS/BADGE ---
+                const riskWeight = parseInt(item.dataset.riskWeight || '1');
+                const policyLink = item.dataset.link || '#';
+                const gamificationBadge = item.dataset.gamificationBadge || 'Novato';
+
                 items.push({
                     id: item.querySelector('input[type="checkbox"]').id,
                     title: item.querySelector('.item-title').textContent,
                     detail: item.querySelector('.item-detail').textContent,
                     level: level,
+                    riskWeight: riskWeight,
+                    link: policyLink,
+                    gamificationBadge: gamificationBadge,
                     checked: false
                 });
 
-                totalItemsInLevel[level] = (totalItemsInLevel[level] || 0) + 1;
+                // Registrar Puntos Posibles por Nivel (ponderado)
+                totalItemsInLevel[level] += riskWeight;
             });
             allChecklistData[name] = { name, title, items };
         });
 
         // 1.2 Funciones de Utilidad
         function capitalize(s) {
-            // Mapeo para mostrar los títulos conceptuales correctos en las tarjetas y el radar
-            if (s === 'autenticacion') return 'Autenticación';
-            if (s === 'moviles') return 'Móviles';
-            if (s === 'pc') return 'PC';
-            if (s === 'navegacion') return 'Navegación';
-            if (s === 'correo') return 'Correo';
-            if (s === 'respaldo') return 'Respaldo';
-            
-            // Los títulos de nivel conceptuales (para el radar)
-            if (s === 'basico') return 'Básico'; 
-            if (s === 'avanzado') return 'Avanzado'; 
-            if (s === 'opcional') return 'Opcional'; 
-
+            // Renombrar para los Donut Charts
+            if (s === 'minimo') return 'Minimo';
+            if (s === 'mejores') return 'Mejores';
+            if (s === 'profunda') return 'Profunda';
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
-        
-        function getLevelTitle(level) {
-             if (level === 'basico') return 'Mínimo Requerido';
-             if (level === 'avanzado') return 'Mejores Prácticas';
-             if (level === 'opcional') return 'Defensa Profunda';
-             return '';
-        }
 
-        // 1.3 Lógica de Persistencia y Actualización
+        // 1.3 Lógica de Persistencia y Actualización (PONDERADA)
         function updateTotals() {
-            let totalChecked = 0;
-            let totalTotal = 0;
-
+            let totalWeightedChecked = 0;
+            let totalWeightedPossible = 0;
+            
+            // Re-Inicializar PUNTOS OBTENIDOS (para el recálculo)
             allLevels.forEach(level => checkedItemsInLevel[level] = 0);
 
             for (const sectionName in allChecklistData) {
                 const section = allChecklistData[sectionName];
-                let checkedInSection = 0;
-                let totalInSection = section.items.length;
+                let checkedWeightedInSection = 0;
+                let totalWeightedInSection = 0;
 
                 section.items.forEach(item => {
+                    totalWeightedPossible += item.riskWeight;
+                    totalWeightedInSection += item.riskWeight;
+                    
                     if (item.checked) {
-                        checkedInSection++;
-                        totalChecked++;
-                        checkedItemsInLevel[item.level] = (checkedItemsInLevel[item.level] || 0) + 1;
+                        checkedWeightedInSection += item.riskWeight;
+                        totalWeightedChecked += item.riskWeight;
+                        checkedItemsInLevel[item.level] += item.riskWeight;
                     }
                 });
 
-                totalTotal += totalInSection;
-                const score = totalInSection > 0 ? Math.round((checkedInSection / totalInSection) * 100) : 0;
+                // Calcular score basado en PONDERACIÓN
+                const score = totalWeightedInSection > 0 ? Math.round((checkedWeightedInSection / totalWeightedInSection) * 100) : 0;
 
                 // Actualizar Tarjetas
-                const capitalizedName = capitalize(sectionName);
-                const scoreElement = document.getElementById(`score${capitalizedName}`);
-                const checkedElement = document.getElementById(`checked${capitalizedName}`);
-                const totalElement = document.getElementById(`total${capitalizedName}`);
+                const scoreElement = document.getElementById(`score${capitalize(sectionName)}`);
+                const checkedElement = document.getElementById(`checked${capitalize(sectionName)}`);
+                const totalElement = document.getElementById(`total${capitalize(sectionName)}`);
 
                 if (scoreElement) scoreElement.textContent = `${score}%`;
-                if (checkedElement) checkedElement.textContent = checkedInSection;
-                if (totalElement) totalElement.textContent = totalInSection;
+                // Mostrar Puntos Ponderados
+                if (checkedElement) checkedElement.textContent = checkedWeightedInSection;
+                if (totalElement) totalElement.textContent = totalWeightedInSection;
             }
 
-            // Actualizar Resumen General
-            const promedioGeneral = totalTotal > 0 ? Math.round((totalChecked / totalTotal) * 100) : 0;
-            document.getElementById('promedioGeneral').textContent = `${promedioGeneral}%`;
-            document.getElementById('totalCheckedItems').textContent = totalChecked;
-            document.getElementById('totalItems').textContent = totalTotal;
+            // --- 4. ALERTA VISUAL DE MÍNIMO REQUERIDO ---
+            const totalMinimo = totalItemsInLevel['minimo'] || 1;
+            const checkedMinimo = checkedItemsInLevel['minimo'] || 0;
+            const scoreMinimo = Math.round((checkedMinimo / totalMinimo) * 100);
+
+            // Actualizar Resumen General (Promedio Ponderado)
+            const promedioGeneral = totalWeightedPossible > 0 ? Math.round((totalWeightedChecked / totalWeightedPossible) * 100) : 0;
+            const overallScoreElement = document.getElementById('promedioGeneral');
+            const scoreContainer = overallScoreElement.closest('.overall-summary-block');
+            
+            overallScoreElement.textContent = `${promedioGeneral}%`;
+            document.getElementById('totalCheckedItems').textContent = totalWeightedChecked; // Puntos Obtenidos
+            document.getElementById('totalItems').textContent = totalWeightedPossible;     // Puntos Posibles
+
+            // Si el cumplimiento Mínimo Requerido es menor al 90%, mostrar alerta
+            if (scoreMinimo < 90) {
+                scoreContainer.style.backgroundColor = '#F8D7DA'; // Fondo rojo claro
+                scoreContainer.style.border = '2px solid #DC3545'; // Borde rojo
+                overallScoreElement.style.color = '#DC3545'; // Texto de % en rojo
+            } else {
+                scoreContainer.style.backgroundColor = '#C0DFF0'; // Fondo normal
+                scoreContainer.style.border = 'none';
+                overallScoreElement.style.color = '#1A5276'; // Texto de % en azul (heredado de parent)
+            }
             
             updateDonutCharts();
             updateRadarChart();
             saveState(); // Guardar el estado después de cada actualización
         }
 
-        // 1.4 Lógica de Gráficos (Donut Charts)
+        // 1.4 Lógica de Gráficos (Donut Charts) - Basada en PUNTOS PONDERADOS
         function updateDonutCharts() {
             const circumference = 282.7; // 2 * PI * 45 (radio)
             allLevels.forEach(level => {
-                const capitalizedName = capitalize(level); // 'Basico'
                 const total = totalItemsInLevel[level] || 1;
                 const checked = checkedItemsInLevel[level] || 0;
                 const percentage = Math.round((checked / total) * 100);
                 const offset = circumference - (percentage / 100) * circumference;
 
-                document.getElementById(`donutPercent${capitalizedName}`).textContent = `${percentage}%`;
-                const circle = document.getElementById(`donutCircle${capitalizedName}`);
+                document.getElementById(`donutPercent${capitalize(level)}`).textContent = `${percentage}%`;
+                const circle = document.getElementById(`donutCircle${capitalize(level)}`);
                 if (circle) circle.style.strokeDashoffset = offset;
+                document.querySelector(`#donut${capitalize(level)} .donut-title`).textContent = capitalize(level);
             });
         }
 
-        // 1.5 Lógica de Gráficos (Radar Chart)
+        // 1.5 Lógica de Gráficos (Radar Chart) - Basada en % PONDERADO por sección
         function updateRadarChart() {
             const svg = document.getElementById('cyberRadarChart');
             const data = {};
             
             for (const sectionName in allChecklistData) {
                 const section = allChecklistData[sectionName];
-                let checkedInSection = 0;
-                let totalInSection = section.items.length;
-                section.items.forEach(item => { if (item.checked) checkedInSection++; });
-                data[sectionName] = totalInSection > 0 ? (checkedInSection / totalInSection) : 0;
+                let checkedWeightedInSection = 0;
+                let totalWeightedInSection = 0;
+                
+                section.items.forEach(item => { 
+                    totalWeightedInSection += item.riskWeight;
+                    if (item.checked) checkedWeightedInSection += item.riskWeight;
+                });
+                
+                // El score del radar es el % ponderado
+                data[sectionName] = totalWeightedInSection > 0 ? (checkedWeightedInSection / totalWeightedInSection) : 0;
             }
 
             const sections = Object.keys(data);
@@ -1245,12 +969,14 @@
                 
                 // Etiqueta
                 const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                // Ajustar posición para que la etiqueta no quede encima del gráfico
                 const labelX = center + (radius * 1.1) * Math.cos(angle);
                 const labelY = center + (radius * 1.1) * Math.sin(angle);
 
                 label.setAttribute('x', labelX);
                 label.setAttribute('y', labelY);
                 label.setAttribute('class', 'radar-label');
+                // Ajuste de anclaje de texto para centrar mejor
                 label.setAttribute('text-anchor', (Math.abs(Math.cos(angle)) < 0.1) ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end'));
                 label.textContent = capitalize(sections[i]);
                 svg.appendChild(label);
@@ -1273,42 +999,66 @@
             modalTitle.textContent = section.title;
             
             let htmlContent = '';
-            let checkedCount = 0;
+            let checkedWeightedCount = 0;
+            let totalWeighted = 0;
 
             section.items.forEach(item => {
                 const isChecked = item.checked;
-                if (isChecked) checkedCount++;
+                totalWeighted += item.riskWeight;
+
+                if (isChecked) checkedWeightedCount += item.riskWeight;
                 
+                // --- 2. INTEGRACIÓN DE LINKS CONTEXTUALES Y GAMIFICACIÓN ---
+                const policyLink = item.link || '#';
+                const badgeText = item.gamificationBadge || 'Novato';
+                const levelDisplay = item.level === 'minimo' ? 'Mínimo Requerido' : (item.level === 'mejores' ? 'Mejores Prácticas' : 'Defensa Profunda');
+
                 htmlContent += `
-                    <div class="checklist-item ${isChecked ? 'completed' : ''}" data-item-id="${item.id}">
+                    <div class="checklist-item ${isChecked ? 'completed' : ''}" data-item-id="${item.id}" data-risk-weight="${item.riskWeight}">
                         <div class="checklist-row">
                             <input type="checkbox" id="modal_${item.id}" ${isChecked ? 'checked' : ''} onchange="updateModalScore('${sectionName}')">
-                            <label for="modal_${item.id}" class="item-title">${item.title}</label>
-                            <span class="level-tag level-${item.level}">${getLevelTitle(item.level)}</span>
+                            <label for="modal_${item.id}" class="item-title">${item.title} <span class="level-tag level-${item.level}">${levelDisplay} - Peso: ${item.riskWeight}</span></label>
                         </div>
                         <div class="item-detail">${item.detail}</div>
+                        <div style="margin-top: 5px; padding-left: 30px; display: flex; align-items: center; justify-content: space-between;">
+                            <a href="${policyLink}" target="_blank" style="font-size: 0.9em; font-weight: bold; color: #007BFF; text-decoration: none;">[🔗 Ir a Política Interna]</a>
+                            <span class="level-tag level-${item.level}">Insignia: ${badgeText}</span>
+                        </div>
                     </div>
                 `;
             });
 
             modalBody.innerHTML = htmlContent;
-            updateModalScore(sectionName, checkedCount);
+            
+            // Pasamos el score ponderado para inicializar la visualización
+            const initialScore = totalWeighted > 0 ? Math.round((checkedWeightedCount / totalWeighted) * 100) : 0;
+            updateModalScore(sectionName, initialScore);
             modal.style.display = 'block';
         }
 
-        function updateModalScore(sectionName, initialCheckedCount) {
+        function updateModalScore(sectionName, initialScore) {
             const section = allChecklistData[sectionName];
-            let checkedCount = initialCheckedCount !== undefined ? initialCheckedCount : 0;
-            const total = section.items.length;
+            let checkedWeightedCount = 0;
+            let totalWeighted = 0;
+            
+            // Recalcular score basado en el estado actual de los checkboxes en el modal
             const modalBody = document.getElementById('modalBody');
             
-            if (initialCheckedCount === undefined) {
-                modalBody.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                    if (checkbox.checked) checkedCount++;
-                });
-            }
+            modalBody.querySelectorAll('.checklist-item').forEach(itemDiv => {
+                const checkbox = itemDiv.querySelector('input[type="checkbox"]');
+                const riskWeight = parseInt(itemDiv.dataset.riskWeight);
+                
+                totalWeighted += riskWeight;
 
-            const score = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
+                if (checkbox.checked) {
+                    checkedWeightedCount += riskWeight;
+                    itemDiv.classList.add('completed');
+                } else {
+                    itemDiv.classList.remove('completed');
+                }
+            });
+
+            const score = totalWeighted > 0 ? Math.round((checkedWeightedCount / totalWeighted) * 100) : 0;
             document.getElementById('modalSectionScore').textContent = `${score}%`;
         }
 
@@ -1318,6 +1068,7 @@
 
             section.items.forEach(item => {
                 const checkbox = modalBody.querySelector(`#modal_${item.id}`);
+                // Actualizar el estado del objeto en JS
                 item.checked = checkbox.checked;
             });
 
@@ -1330,12 +1081,54 @@
              modalBody.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                  checkbox.checked = false;
              });
-             updateModalScore(currentSection, 0); 
+             updateModalScore(currentSection); // Recalcula con 0 checks
         }
 
         function closeModal() {
             document.getElementById('checklistModal').style.display = 'none';
         }
+
+        // 5. Centralización de Datos (Cliente-side)
+        function sendDataToSheets() {
+            if (!GOOGLE_APP_SCRIPT_URL || GOOGLE_APP_SCRIPT_URL.includes('PEGAR_AQUÍ_LA_URL')) {
+                 console.warn("URL de Google Apps Script no configurada. Omitiendo envío de datos.");
+                 return; 
+            }
+
+            // 1. Recopilar datos finales
+            const scoresToSend = {
+                promedioGeneral: document.getElementById('promedioGeneral').textContent.replace('%', ''),
+                employeeId: prompt("🚨 Por favor, ingrese su ID de Empleado (Ej: JSMITH)"), 
+                department: prompt("Ingrese su Departamento (Ej: TI, Ventas)"),
+                scores: {}
+            };
+
+            // Obtener scores ponderados de cada sección
+            for (const sectionName in allChecklistData) {
+                const section = allChecklistData[sectionName];
+                let checkedWeighted = 0;
+                let totalWeighted = 0;
+                section.items.forEach(item => {
+                    totalWeighted += item.riskWeight;
+                    if (item.checked) checkedWeighted += item.riskWeight;
+                });
+                scoresToSend.scores[sectionName] = totalWeighted > 0 ? Math.round((checkedWeighted / totalWeighted) * 100) : 0;
+            }
+            
+            console.log("Datos a enviar:", scoresToSend);
+
+            // 2. Enviar datos
+            fetch(GOOGLE_APP_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Necesario para evitar errores CORS en App Script
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(scoresToSend)
+            })
+            .then(response => { console.log('Envío de datos asíncrono iniciado. Revise Google Sheet.'); })
+            .catch(error => { console.error('Error al enviar datos:', error); });
+        }
+
 
         // 1.7 Persistencia de datos con localStorage
         function loadState() {
@@ -1356,6 +1149,9 @@
 
         function saveState() {
             localStorage.setItem('cybersecurityChecklistState', JSON.stringify(allChecklistData));
+
+            // NUEVA LÍNEA: Llamar al envío centralizado
+            sendDataToSheets(); 
         }
 
         // Inicialización de la aplicación
