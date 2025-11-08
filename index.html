@@ -49,17 +49,18 @@
         .scores-summary-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Alineación al inicio */
+            align-items: center; /* Centra verticalmente los elementos */
             padding: 15px;
             background-color: #DDEBF6;
             border-radius: 8px;
             margin-bottom: 30px;
+            flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             gap: 15px;
         }
 
         .overall-summary-block {
-            flex-basis: 30%; /* Da más espacio al resumen */
+            flex-basis: 30%; /* Espacio para el resumen */
             min-width: 150px;
             display: flex;
             flex-direction: column;
@@ -88,26 +89,20 @@
             font-weight: 500;
         }
 
-        /* Contenedor de Gráficos (Radar y Donut) */
-        .charts-container {
-            flex-basis: 65%; /* Toma el espacio restante */
-            min-width: 300px;
-            display: flex;
-            flex-direction: column; /* Apila el radar y los donuts */
-            align-items: center;
-        }
-
-        /* Gráfico Radial */
+        /* Gráfico Radial (Elemento hermano directo, al lado) */
         .radial-chart-container {
-            width: 100%;
+            flex-basis: 30%; /* Espacio para el radar */
+            min-width: 150px; 
             display: flex;
             justify-content: center;
-            margin-bottom: 15px;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         #cyberRadarChart {
             width: 100%;
-            max-width: 250px; /* Tamaño del radar ajustado */
+            max-width: 180px; /* Reducido para que quepan 3 elementos */
             height: auto;
         }
 
@@ -134,14 +129,15 @@
         /* --- Donut Charts (Gráficos de Tipo de Item) --- */
         .donut-list {
             display: flex;
-            width: 100%;
+            flex-basis: 35%; /* Espacio para los 3 donuts */
             justify-content: space-around;
-            gap: 10px;
+            gap: 5px;
+            min-width: 250px;
         }
 
         .donut-chart {
             width: 30%;
-            min-width: 90px;
+            min-width: 80px;
             height: 120px;
             position: relative;
         }
@@ -411,15 +407,15 @@
             font-size: 0.8em;
             color: #6c757d;
             margin-bottom: 10px;
+            position: absolute; /* Para que quede fuera del flujo normal y se pueda posicionar bien en la impresión */
+            top: 10px;
+            right: 20px;
         }
         
         @media print {
             /* Mostrar la fecha de impresión solo al imprimir */
             #print-date {
                 display: block !important;
-                position: absolute;
-                top: 10px;
-                right: 20px;
                 color: #000;
                 font-size: 10pt;
             }
@@ -445,6 +441,7 @@
             .container {
                 box-shadow: none;
                 border: none;
+                padding-top: 40px; /* Dejar espacio para la fecha de impresión */
             }
 
             body {
@@ -453,7 +450,7 @@
         }
     </style>
 </head>
-<body>
+<body onbeforeprint="setPrintDate()">
     <div id="print-date"></div> <div class="container">
         <h1>🛡️ Evaluación de Ciberseguridad Personal</h1>
 
@@ -469,36 +466,36 @@
                 </div>
             </div>
             
-            <div class="charts-container"> <div class="radial-chart-container">
-                    <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
+            <div class="radial-chart-container">
+                <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
+            </div>
+            <div class="donut-list">
+                <div class="donut-chart" id="donutBasico">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
+                        <circle id="donutCircleBasico" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#28A745" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
+                    </svg>
+                    <div class="donut-percentage" id="donutPercentBasico">0%</div>
+                    <div class="donut-title">Básico</div>
                 </div>
-                <div class="donut-list">
-                    <div class="donut-chart" id="donutBasico">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleBasico" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#28A745" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
-                        </svg>
-                        <div class="donut-percentage" id="donutPercentBasico">0%</div>
-                        <div class="donut-title">Básico</div>
-                    </div>
-                    <div class="donut-chart" id="donutAvanzado">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleAvanzado" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#FFC107" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
-                        </svg>
-                        <div class="donut-percentage" id="donutPercentAvanzado">0%</div>
-                        <div class="donut-title">Avanzado</div>
-                    </div>
-                    <div class="donut-chart" id="donutOpcional">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleOpcional" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#6C757D" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
-                        </svg>
-                        <div class="donut-percentage" id="donutPercentOpcional">0%</div>
-                        <div class="donut-title">Opcional</div>
-                    </div>
+                <div class="donut-chart" id="donutAvanzado">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
+                        <circle id="donutCircleAvanzado" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#FFC107" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
+                    </svg>
+                    <div class="donut-percentage" id="donutPercentAvanzado">0%</div>
+                    <div class="donut-title">Avanzado</div>
                 </div>
-            </div> </div>
+                <div class="donut-chart" id="donutOpcional">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
+                        <circle id="donutCircleOpcional" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#6C757D" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
+                    </svg>
+                    <div class="donut-percentage" id="donutPercentOpcional">0%</div>
+                    <div class="donut-title">Opcional</div>
+                </div>
+            </div>
+        </div>
         <div class="checklist-grid">
             <div class="category-card" onclick="openModal('autenticacion')">
                 <div class="card-header"><span class="icon">🔑</span> Autenticación</div>
@@ -1105,7 +1102,9 @@
         // Inicialización de la aplicación
         loadState();
         updateTotals();
-        setPrintDate();
+        
+        // Asignar la función a 'onbeforeprint' para que se ejecute al imprimir
+        document.body.onbeforeprint = setPrintDate; 
     </script>
 </body>
 </html>
