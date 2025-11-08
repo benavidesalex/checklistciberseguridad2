@@ -48,19 +48,19 @@
         /* --- Resumen Superior (Scores & Charts) --- */
         .scores-summary-top {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Distribuye los 3 elementos uniformemente */
             align-items: center; 
             padding: 15px;
             background-color: #DDEBF6;
             border-radius: 8px;
             margin-bottom: 30px;
-            flex-wrap: wrap; 
+            flex-wrap: nowrap; /* Impedir que se muevan a otra fila */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            gap: 15px;
+            gap: 10px;
         }
 
         .overall-summary-block {
-            flex-basis: 30%; 
+            flex-basis: 25%; /* Más angosto para darle espacio al radial/donuts */
             min-width: 150px;
             display: flex;
             flex-direction: column;
@@ -89,9 +89,9 @@
             font-weight: 500;
         }
 
-        /* Gráfico Radial (Elemento hermano directo, al lado) */
+        /* Gráfico Radial (Central) */
         .radial-chart-container {
-            flex-basis: 30%; 
+            flex-basis: 30%; /* Tamaño medio para el centro */
             min-width: 150px; 
             display: flex;
             justify-content: center;
@@ -129,10 +129,10 @@
         /* --- Donut Charts (Gráficos de Tipo de Item) --- */
         .donut-list {
             display: flex;
-            flex-basis: 35%; 
+            flex-basis: 40%; /* El más ancho para acomodar los 3 donuts */
             justify-content: space-around;
             gap: 5px;
-            min-width: 250px;
+            min-width: 280px;
         }
 
         .donut-chart {
@@ -400,7 +400,7 @@
             display: inline-block;
         }
 
-        /* --- NIVELES NUEVOS --- */
+        /* --- NIVELES NUEVOS (Implementación Nivel 1) --- */
         .level-minimo { background-color: #D4EDDA; color: #155724; }
         .level-mejores { background-color: #FFF3CD; color: #856404; }
         .level-profunda { background-color: #D6D8D9; color: #495057; }
@@ -894,7 +894,10 @@
             let totalChecked = 0;
             let totalTotal = 0;
 
-            allLevels.forEach(level => checkedItemsInLevel[level] = 0);
+            allLevels.forEach(level => {
+                checkedItemsInLevel[level] = 0;
+                // NOTA: totalItemsInLevel se inicializa en load
+            });
 
             for (const sectionName in allChecklistData) {
                 const section = allChecklistData[sectionName];
