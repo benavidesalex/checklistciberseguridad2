@@ -49,18 +49,18 @@
         .scores-summary-top {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Centra verticalmente los elementos */
+            align-items: center; 
             padding: 15px;
             background-color: #DDEBF6;
             border-radius: 8px;
             margin-bottom: 30px;
-            flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+            flex-wrap: wrap; 
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             gap: 15px;
         }
 
         .overall-summary-block {
-            flex-basis: 30%; /* Espacio para el resumen */
+            flex-basis: 30%; 
             min-width: 150px;
             display: flex;
             flex-direction: column;
@@ -91,7 +91,7 @@
 
         /* Gráfico Radial (Elemento hermano directo, al lado) */
         .radial-chart-container {
-            flex-basis: 30%; /* Espacio para el radar */
+            flex-basis: 30%; 
             min-width: 150px; 
             display: flex;
             justify-content: center;
@@ -102,7 +102,7 @@
 
         #cyberRadarChart {
             width: 100%;
-            max-width: 180px; /* Reducido para que quepan 3 elementos */
+            max-width: 180px; 
             height: auto;
         }
 
@@ -129,7 +129,7 @@
         /* --- Donut Charts (Gráficos de Tipo de Item) --- */
         .donut-list {
             display: flex;
-            flex-basis: 35%; /* Espacio para los 3 donuts */
+            flex-basis: 35%; 
             justify-content: space-around;
             gap: 5px;
             min-width: 250px;
@@ -167,7 +167,6 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            /* Se elimina la rotación extra en el porcentaje para que quede vertical */
             transform: translate(-50%, -50%);
             font-size: 1.1em;
             font-weight: bold;
@@ -276,18 +275,17 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 100; /* Asegura que esté por encima de todo */
+            z-index: 100; 
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
+            background-color: rgba(0, 0, 0, 0.6); 
         }
 
         #checklistModal .modal-content {
             background-color: #fefefe;
-            /* Centrado Vertical y Horizontal */
             margin: 5% auto;
             padding: 30px;
             border: 1px solid #888;
@@ -386,6 +384,12 @@
             padding-left: 30px;
             margin-bottom: 5px;
         }
+        
+        .item-context-links {
+            padding-left: 30px;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
 
         .level-tag {
             font-size: 0.75em;
@@ -396,9 +400,10 @@
             display: inline-block;
         }
 
-        .level-basico { background-color: #D4EDDA; color: #155724; }
-        .level-avanzado { background-color: #FFF3CD; color: #856404; }
-        .level-opcional { background-color: #D6D8D9; color: #495057; }
+        /* --- NIVELES NUEVOS --- */
+        .level-minimo { background-color: #D4EDDA; color: #155724; }
+        .level-mejores { background-color: #FFF3CD; color: #856404; }
+        .level-profunda { background-color: #D6D8D9; color: #495057; }
 
         /* Estilo para la fecha de impresión (Oculto por defecto) */
         #print-date {
@@ -407,7 +412,7 @@
             font-size: 0.8em;
             color: #6c757d;
             margin-bottom: 10px;
-            position: absolute; /* Para que quede fuera del flujo normal y se pueda posicionar bien en la impresión */
+            position: absolute; 
             top: 10px;
             right: 20px;
         }
@@ -421,7 +426,7 @@
             }
 
             /* Ocultar elementos interactivos en la impresión */
-            .context-paragraph, .category-card:hover, .modal, .modal-controls, .close-button {
+            .context-paragraph, .category-card:hover, .modal, .modal-controls, .close-button, .item-context-links {
                 display: none !important;
             }
 
@@ -441,7 +446,7 @@
             .container {
                 box-shadow: none;
                 border: none;
-                padding-top: 40px; /* Dejar espacio para la fecha de impresión */
+                padding-top: 40px; 
             }
 
             body {
@@ -451,7 +456,8 @@
     </style>
 </head>
 <body onbeforeprint="setPrintDate()">
-    <div id="print-date"></div> <div class="container">
+    <div id="print-date"></div> 
+    <div class="container">
         <h1>🛡️ Evaluación de Ciberseguridad Personal</h1>
 
         <p class="context-paragraph">
@@ -469,6 +475,7 @@
             <div class="radial-chart-container">
                 <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
             </div>
+
             <div class="donut-list">
                 <div class="donut-chart" id="donutBasico">
                     <svg viewBox="0 0 100 100">
@@ -476,7 +483,7 @@
                         <circle id="donutCircleBasico" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#28A745" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
                     </svg>
                     <div class="donut-percentage" id="donutPercentBasico">0%</div>
-                    <div class="donut-title">Básico</div>
+                    <div class="donut-title">Mínimo Requerido</div>
                 </div>
                 <div class="donut-chart" id="donutAvanzado">
                     <svg viewBox="0 0 100 100">
@@ -484,7 +491,7 @@
                         <circle id="donutCircleAvanzado" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#FFC107" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
                     </svg>
                     <div class="donut-percentage" id="donutPercentAvanzado">0%</div>
-                    <div class="donut-title">Avanzado</div>
+                    <div class="donut-title">Mejores Prácticas</div>
                 </div>
                 <div class="donut-chart" id="donutOpcional">
                     <svg viewBox="0 0 100 100">
@@ -492,7 +499,7 @@
                         <circle id="donutCircleOpcional" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#6C757D" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
                     </svg>
                     <div class="donut-percentage" id="donutPercentOpcional">0%</div>
-                    <div class="donut-title">Opcional</div>
+                    <div class="donut-title">Defensa Profunda</div>
                 </div>
             </div>
         </div>
@@ -616,239 +623,255 @@
 
     <div id="hiddenChecklistData" style="display: none;">
         <section data-sectionname="autenticacion" data-title="Checklist de Autenticación">
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-risk-weight="5" data-link="#pol_pass_man" data-gamification-badge="Centinela">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_pass_manager">
                      <label for="auth_pass_manager" class="item-title">Usar un gestor de contraseñas confiable.</label>
                  </div>
                  <div class="item-detail">Facilita la creación y gestión de contraseñas complejas y únicas para cada servicio.</div>
-                 <span class="level-tag level-basico">Básico</span>
+                 <span class="level-tag level-minimo">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-risk-weight="5" data-link="#pol_2fa" data-gamification-badge="Centinela">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_2fa_critical">
                      <label for="auth_2fa_critical" class="item-title">Activar 2FA en cuentas <span class="emphasis">críticas</span> (email, bancos, redes principales).</label>
                  </div>
                  <div class="item-detail">La autenticación de dos factores es vital contra el robo de contraseñas.</div>
-                 <span class="level-tag level-basico">Básico</span>
+                 <span class="level-tag level-minimo">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="avanzado">
+             <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_2fa_app" data-gamification-badge="Guardián">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_2fa_app">
                      <label for="auth_2fa_app" class="item-title">Usar app de autenticación (ej: Google Authenticator) en lugar de SMS para el 2FA.</label>
                  </div>
                  <div class="item-detail">Los códigos por SMS pueden ser interceptados. Las apps son más seguras.</div>
-                 <span class="level-tag level-avanzado">Avanzado</span>
+                 <span class="level-tag level-mejores">Mejores Prácticas</span>
              </div>
-             <div class="checklist-item" data-item-level="opcional">
+             <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_fido" data-gamification-badge="Maestro">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_fido">
                      <label for="auth_fido" class="item-title">Considerar el uso de llaves de seguridad física (FIDO/Yubikey).</label>
                  </div>
                  <div class="item-detail">Es la forma más segura de autenticación de dos factores.</div>
-                 <span class="level-tag level-opcional">Opcional</span>
+                 <span class="level-tag level-profunda">Defensa Profunda</span>
              </div>
-             <div class="checklist-item" data-item-level="opcional">
+             <div class="checklist-item" data-item-level="profunda" data-risk-weight="2" data-link="#pol_leaks" data-gamification-badge="Guardián">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_check_leaks">
                      <label for="auth_check_leaks" class="item-title">Monitorear si tus contraseñas han sido filtradas (Have I Been Pwned).</label>
                  </div>
                  <div class="item-detail">Verifica si alguna de tus credenciales ha sido comprometida en fugas de datos.</div>
-                 <span class="level-tag level-opcional">Opcional</span>
+                 <span class="level-tag level-profunda">Defensa Profunda</span>
              </div>
         </section>
 
         <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles">
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-risk-weight="4" data-link="#pol_mob_pin" data-gamification-badge="Centinela">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_pass_lock">
                      <label for="mobile_pass_lock" class="item-title">Configurar contraseña, PIN o biometría <span class="emphasis">fuerte</span>.</label>
                  </div>
                  <div class="item-detail">Protege tu dispositivo con un método de desbloqueo robusto.</div>
-                 <span class="level-tag level-basico">Básico</span>
+                 <span class="level-tag level-minimo">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="basico">
+             <div class="checklist-item" data-item-level="minimo" data-risk-weight="5" data-link="#pol_mob_upd" data-gamification-badge="Centinela">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_updates">
                      <label for="mobile_updates" class="item-title">Mantener el sistema operativo y apps <span class="emphasis">actualizadas</span>.</label>
                  </div>
                  <div class="item-detail">Las actualizaciones incluyen parches de seguridad críticos.</div>
-                 <span class="level-tag level-basico">Básico</span>
+                 <span class="level-tag level-minimo">Mínimo Requerido</span>
              </div>
-             <div class="checklist-item" data-item-level="avanzado">
+             <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_sim_lock" data-gamification-badge="Guardián">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_sim_lock">
                      <label for="mobile_sim_lock" class="item-title">Configurar un PIN para la tarjeta SIM.</label>
                  </div>
                  <div class="item-detail">Evita el "SIM Swapping" y que usen tu SIM en otro teléfono.</div>
-                 <span class="level-tag level-avanzado">Avanzado</span>
+                 <span class="level-tag level-mejores">Mejores Prácticas</span>
              </div>
-             <div class="checklist-item" data-item-level="opcional">
+             <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_vpn" data-gamification-badge="Maestro">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_public_wifi_vpn">
                      <label for="mobile_public_wifi_vpn" class="item-title">Usar VPN de confianza en redes Wi-Fi públicas.</label>
                  </div>
                  <div class="item-detail">Una VPN encripta tu tráfico, protegiéndote de interceptaciones de datos.</div>
-                 <span class="level-tag level-opcional">Opcional</span>
+                 <span class="level-tag level-profunda">Defensa Profunda</span>
              </div>
         </section>
 
         <section data-sectionname="pc" data-title="Checklist de PC y Escritorio">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="4" data-link="#pol_pc_pass" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_pass_login">
                     <label for="pc_pass_login" class="item-title">Establecer contraseña <span class="emphasis">robusta</span> para iniciar sesión.</label>
                 </div>
                 <div class="item-detail">Una contraseña fuerte es la primera línea de defensa contra accesos no autorizados.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="5" data-link="#pol_antivirus" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_antivirus">
                     <label for="pc_antivirus" class="item-title">Tener antivirus/antimalware confiable instalado y actualizado.</label>
                 </div>
                 <div class="item-detail">Un buen software de seguridad detecta y elimina amenazas.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_encr" data-gamification-badge="Guardián">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_disk_encrypt">
                     <label for="pc_disk_encrypt" class="item-title">Activar la encriptación de disco completo (BitLocker, FileVault).</label>
                 </div>
                 <div class="item-detail">Protege tus datos si el dispositivo es robado.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="opcional">
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="2" data-link="#pol_admin" data-gamification-badge="Maestro">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_admin_limit">
                     <label for="pc_admin_limit" class="item-title">Usar una cuenta sin privilegios de administrador para el uso diario.</label>
                 </div>
                 <div class="item-detail">Limita el daño que el malware puede hacer si infecta tu sistema.</div>
-                <span class="level-tag level-opcional">Opcional</span>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
         </section>
 
         <section data-sectionname="navegacion" data-title="Checklist de Navegación Web">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="4" data-link="#pol_https" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_secure_sites">
                     <label for="nav_secure_sites" class="item-title">Verificar que los sitios web sean HTTPS (candado en la URL).</label>
                 </div>
                 <div class="item-detail">Asegura que tu conexión con el sitio esté encriptada y sea privada.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="3" data-link="#pol_popups" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_popups">
                     <label for="nav_popups" class="item-title">Bloquear Pop-ups y notificaciones intrusivas en el navegador.</label>
                 </div>
                 <div class="item-detail">Reduce la superficie de ataque y la exposición a contenido malicioso.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_ext" data-gamification-badge="Guardián">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_ext_check">
                     <label for="nav_ext_check" class="item-title">Revisar y limitar el número de extensiones del navegador.</label>
                 </div>
                 <div class="item-detail">Las extensiones maliciosas son un vector de ataque común. Elimina las que no uses.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="opcional">
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_dns" data-gamification-badge="Maestro">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_dns_secure">
                     <label for="nav_dns_secure" class="item-title">Configurar DNS seguro (ej. Cloudflare 1.1.1.1, Google 8.8.8.8).</label>
                 </div>
                 <div class="item-detail">Mejora la privacidad y puede bloquear acceso a sitios de malware conocidos.</div>
-                <span class="level-tag level-opcional">Opcional</span>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
         </section>
 
         <section data-sectionname="correo" data-title="Checklist de Correo Electrónico">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="5" data-link="#pol_adj" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_attachments">
                     <label for="email_attachments" class="item-title">Ser <span class="emphasis">extremadamente cauteloso</span> con adjuntos y enlaces.</label>
                 </div>
                 <div class="item-detail">El *phishing* y el *malware* se propagan principalmente a través de correos.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="4" data-link="#pol_sender" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_sender_check">
                     <label for="email_sender_check" class="item-title">Verificar la dirección del remitente, incluso si el nombre parece conocido.</label>
                 </div>
                 <div class="item-detail">Los atacantes suelen usar direcciones similares para engañarte.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="2" data-link="#pol_sep_email" data-gamification-badge="Guardián">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_separate_acc">
                     <label for="email_separate_acc" class="item-title">Usar una dirección de correo separada para compras y suscripciones.</label>
                 </div>
                 <div class="item-detail">Minimiza el riesgo de que tu correo principal se vea afectado en una filtración.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="opcional">
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_pgp" data-gamification-badge="Maestro">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_pgp">
                     <label for="email_pgp" class="item-title">Utilizar PGP o cifrado de extremo a extremo en correos sensibles.</label>
                 </div>
                 <div class="item-detail">Garantiza que solo el destinatario pueda leer el contenido del mensaje.</div>
-                <span class="level-tag level-opcional">Opcional</span>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
         </section>
 
         <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación">
-            <div class="checklist-item" data-item-level="basico">
+            <div class="checklist-item" data-item-level="minimo" data-risk-weight="5" data-link="#pol_backup_crit" data-gamification-badge="Centinela">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_critical_data">
                     <label for="backup_critical_data" class="item-title">Hacer copias de seguridad de <span class="emphasis">datos críticos</span> regularmente.</label>
                 </div>
                 <div class="item-detail">La pérdida de datos puede ocurrir por fallos de hardware o ataques de *ransomware*.</div>
-                <span class="level-tag level-basico">Básico</span>
+                <span class="level-tag level-minimo">Mínimo Requerido</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="4" data-link="#pol_backup_321" data-gamification-badge="Guardián">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_separate_media">
                     <label for="backup_separate_media" class="item-title">Mantener una copia de seguridad <span class="emphasis">desconectada</span> (Regla 3-2-1).</label>
                 </div>
                 <div class="item-detail">Protege la copia de seguridad de virus, incendios o robos.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
             </div>
-            <div class="checklist-item" data-item-level="avanzado">
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_backup_test" data-gamification-badge="Guardián">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_test_restore">
                     <label for="backup_test_restore" class="item-title">Probar periódicamente la restauración de datos.</label>
                 </div>
                 <div class="item-detail">Asegúrate de que la copia de seguridad realmente funcione cuando la necesites.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
             </div>
         </section>
     </div>
 
     <script>
         // **********************************************
-        // 1. LÓGICA DEL CHECKLIST
+        // 1. LÓGICA DEL CHECKLIST (ACTUALIZADA PARA NIVELES 1 y PREPARADA PARA Nivel 2)
         // **********************************************
 
         const allChecklistData = {};
-        const allLevels = ['basico', 'avanzado', 'opcional'];
+        // NOMBRES CONCEPTUALES ACTUALIZADOS
+        const allLevels = ['minimo', 'mejores', 'profunda']; 
+        // MAPEO para los IDs HTML de los Donut Charts (para mantener el diseño original)
+        const levelIdMap = {
+            'minimo': 'Basico',
+            'mejores': 'Avanzado',
+            'profunda': 'Opcional'
+        };
+        
         const totalItemsInLevel = {};
         const checkedItemsInLevel = {};
-        let currentSection = ''; // Variable para rastrear la sección abierta
+        let currentSection = ''; 
 
-        // 1.1 Cargar datos del HTML a la estructura JS
+        // 1.1 Cargar datos del HTML a la estructura JS (capturando nuevos atributos)
         document.querySelectorAll('#hiddenChecklistData section').forEach(section => {
             const name = section.dataset.sectionname;
             const title = section.dataset.title;
             const items = [];
             section.querySelectorAll('.checklist-item').forEach(item => {
                 const level = item.dataset.itemLevel;
+                // CAPTURA DE NUEVOS ATRIBUTOS
+                const riskWeight = parseInt(item.dataset.riskWeight || '1'); // <-- Preparación Nivel 2
+                const link = item.dataset.link;
+                const gamificationBadge = item.dataset.gamificationBadge;
+
                 items.push({
                     id: item.querySelector('input[type="checkbox"]').id,
                     title: item.querySelector('.item-title').textContent,
                     detail: item.querySelector('.item-detail').textContent,
                     level: level,
+                    riskWeight: riskWeight, // <-- Preparación Nivel 2
+                    link: link,
+                    gamificationBadge: gamificationBadge,
                     checked: false
                 });
 
@@ -859,10 +882,14 @@
 
         // 1.2 Funciones de Utilidad
         function capitalize(s) {
+            // Utilizado para capitalizar el nombre del nivel para mostrarlo en el modal/tags
+            if (s === 'minimo') return 'Mínimo Requerido';
+            if (s === 'mejores') return 'Mejores Prácticas';
+            if (s === 'profunda') return 'Defensa Profunda';
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
 
-        // 1.3 Lógica de Persistencia y Actualización
+        // 1.3 Lógica de Persistencia y Actualización (Mantiene lógica simple de conteo por ahora)
         function updateTotals() {
             let totalChecked = 0;
             let totalTotal = 0;
@@ -906,17 +933,18 @@
             saveState(); // Guardar el estado después de cada actualización
         }
 
-        // 1.4 Lógica de Gráficos (Donut Charts)
+        // 1.4 Lógica de Gráficos (Donut Charts) - USA EL MAPEO PARA BUSCAR LOS IDs ORIGINALES
         function updateDonutCharts() {
             const circumference = 282.7; // 2 * PI * 45 (radio)
             allLevels.forEach(level => {
+                const idName = levelIdMap[level]; // Usar el mapeo: 'minimo' -> 'Basico'
                 const total = totalItemsInLevel[level] || 1;
                 const checked = checkedItemsInLevel[level] || 0;
                 const percentage = Math.round((checked / total) * 100);
                 const offset = circumference - (percentage / 100) * circumference;
 
-                document.getElementById(`donutPercent${capitalize(level)}`).textContent = `${percentage}%`;
-                const circle = document.getElementById(`donutCircle${capitalize(level)}`);
+                document.getElementById(`donutPercent${idName}`).textContent = `${percentage}%`;
+                const circle = document.getElementById(`donutCircle${idName}`);
                 if (circle) circle.style.strokeDashoffset = offset;
             });
         }
@@ -942,7 +970,7 @@
             const center = 100;
             const angleStep = (2 * Math.PI) / numSections;
 
-            svg.innerHTML = ''; // Limpiar el SVG
+            svg.innerHTML = ''; 
 
             let points = "";
 
@@ -970,14 +998,12 @@
                 
                 // Etiqueta
                 const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                // Ajustar posición para que la etiqueta no quede encima del gráfico
                 const labelX = center + (radius * 1.1) * Math.cos(angle);
                 const labelY = center + (radius * 1.1) * Math.sin(angle);
 
                 label.setAttribute('x', labelX);
                 label.setAttribute('y', labelY);
                 label.setAttribute('class', 'radar-label');
-                // Ajuste de anclaje de texto para centrar mejor
                 label.setAttribute('text-anchor', (Math.abs(Math.cos(angle)) < 0.1) ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end'));
                 label.textContent = capitalize(sections[i]);
                 svg.appendChild(label);
@@ -1014,6 +1040,10 @@
                             <span class="level-tag level-${item.level}">${capitalize(item.level)}</span>
                         </div>
                         <div class="item-detail">${item.detail}</div>
+                        <div class="item-context-links">
+                            <a href="${item.link}" target="_blank" style="margin-right: 15px; font-weight: bold; color: #007BFF;">[🔗 Ir a Documento/Política Interna]</a>
+                            <span>✨ Insignia: ${item.gamificationBadge || 'Novato'}</span>
+                        </div>
                     </div>
                 `;
             });
@@ -1030,7 +1060,6 @@
             const modalBody = document.getElementById('modalBody');
             
             if (initialCheckedCount === undefined) {
-                // Si no se pasa el conteo inicial, lo calculamos en vivo desde los checkboxes del modal
                 modalBody.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                     if (checkbox.checked) checkedCount++;
                 });
@@ -1046,7 +1075,6 @@
 
             section.items.forEach(item => {
                 const checkbox = modalBody.querySelector(`#modal_${item.id}`);
-                // Actualizar el estado del objeto en JS
                 item.checked = checkbox.checked;
             });
 
@@ -1071,7 +1099,6 @@
             const dateElement = document.getElementById('print-date');
             if (dateElement) {
                 const now = new Date();
-                // Opciones para formato completo en español
                 const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
                 const formattedDate = now.toLocaleDateString('es-ES', options);
                 dateElement.textContent = `Fecha de Evaluación (Impresión): ${formattedDate}`;
