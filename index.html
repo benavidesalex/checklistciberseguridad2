@@ -627,13 +627,13 @@
     </div>
 
     <div id="hiddenChecklistData" style="display: none;">
-        <section data-sectionname="autenticacion" data-title="Checklist de Autenticación (2 Ítems)">
-             <div class="checklist-item" data-item-level="minimo" data-link="https://www.stelorder.com/blog/politica-de-contrasenas/" data-gamification-badge="Defensor" data-risk-weight="5">
+        <section data-sectionname="autenticacion" data-title="Checklist de Autenticación (10 Ítems)">
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/blog/gestores-de-contrasenas" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_pass_manager">
-                     <label for="auth_pass_manager" class="item-title">Usar un gestor de contraseñas confiable.</label>
+                     <label for="auth_pass_manager" class="item-title">Usar un gestor de contraseñas confiable (LastPass, 1Password, etc.).</label>
                  </div>
-                 <div class="item-detail">Facilita la creación y gestión de contraseñas complejas y únicas para cada servicio.</div>
+                 <div class="item-detail">Permite generar y almacenar contraseñas únicas y complejas para todos los servicios.</div>
              </div>
              <div class="checklist-item" data-item-level="minimo" data-link="https://support.google.com/accounts/answer/185839?hl=es" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
@@ -642,76 +642,426 @@
                  </div>
                  <div class="item-detail">La autenticación de dos factores es vital contra el robo de contraseñas.</div>
              </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/ciudadania/blog/como-activar-doble-factor-autenticacion" data-gamification-badge="Veterano" data-risk-weight="4">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_2fa_all">
+                     <label for="auth_2fa_all" class="item-title">Activar 2FA en <span class="emphasis">todas</span> las cuentas que lo permitan (incluso tiendas online).</label>
+                 </div>
+                 <div class="item-detail">Aumenta la protección contra las brechas de datos de terceros.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/blog/usar-llave-seguridad-hardware-fido" data-gamification-badge="Veterano" data-risk-weight="4">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_physical_key">
+                     <label for="auth_physical_key" class="item-title">Usar una llave de seguridad física (FIDO2/YubiKey) para las cuentas principales.</label>
+                 </div>
+                 <div class="item-detail">Proporciona el nivel más alto de protección contra phishing de 2FA.</div>
+             </div>
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.redeszone.net/tutoriales/seguridad/cambiar-contrasena-router-wifi/" data-gamification-badge="Defensor" data-risk-weight="5">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_default_pass_change">
+                     <label for="auth_default_pass_change" class="item-title">Cambiar todas las contraseñas por defecto de routers y dispositivos IoT.</label>
+                 </div>
+                 <div class="item-detail">Las contraseñas de fábrica son una de las principales vulnerabilidades.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://support.google.com/accounts/answer/3466521?hl=es" data-gamification-badge="Veterano" data-risk-weight="3">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_app_permissions">
+                     <label for="auth_app_permissions" class="item-title">Revisar y revocar permisos de acceso a datos otorgados a aplicaciones de terceros.</label>
+                 </div>
+                 <div class="item-detail">Limitar el acceso a tus datos reduce el riesgo de fugas por apps comprometidas.</div>
+             </div>
+             <div class="checklist-item" data-item-level="profunda" data-link="https://proton.me/es/mail/aliases" data-gamification-badge="Cazador" data-risk-weight="2">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_email_alias">
+                     <label for="auth_email_alias" class="item-title">Usar un servicio de alias de correo (ej. SimpleLogin, Anonaddy) para registros nuevos.</label>
+                 </div>
+                 <div class="item-detail">Protege tu dirección de correo electrónico principal de spam y brechas de datos.</div>
+             </div>
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/por-que-es-mala-idea-reutilizar-contrasenas" data-gamification-badge="Defensor" data-risk-weight="5">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_no_reuse_pass">
+                     <label for="auth_no_reuse_pass" class="item-title">Nunca reutilizar la misma contraseña entre servicios, ni siquiera variaciones leves.</label>
+                 </div>
+                 <div class="item-detail">Una filtración en un sitio afectaría a todas tus cuentas.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/blog/autenticacion-doble-factor-aplicaciones-frente-sms" data-gamification-badge="Veterano" data-risk-weight="3">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_totp_app">
+                     <label for="auth_totp_app" class="item-title">Priorizar apps TOTP (Authenticator) sobre códigos enviados por SMS para 2FA.</label>
+                 </div>
+                 <div class="item-detail">Los SMS pueden ser interceptados (SIM Swapping); las apps son más seguras.</div>
+             </div>
+             <div class="checklist-item" data-item-level="profunda" data-link="https://haveibeenpwned.com/" data-gamification-badge="Cazador" data-risk-weight="2">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_check_pwned">
+                     <label for="auth_check_pwned" class="item-title">Comprobar periódicamente si sus cuentas han sido expuestas en brechas de datos (Have I Been Pwned).</label>
+                 </div>
+                 <div class="item-detail">Permite cambiar proactivamente contraseñas comprometidas.</div>
+             </div>
         </section>
 
-        <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles (2 Ítems)">
+        <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles (10 Ítems)">
              <div class="checklist-item" data-item-level="minimo" data-link="https://www.android.com/intl/es_es/safety/protection/" data-gamification-badge="Defensor" data-risk-weight="5">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_pass_lock">
-                     <label for="mobile_pass_lock" class="item-title">Configurar contraseña, PIN o biometría <span class="emphasis">fuerte</span>.</label>
+                     <label for="mobile_pass_lock" class="item-title">Configurar contraseña, PIN o biometría <span class="emphasis">fuerte</span> para el desbloqueo.</label>
                  </div>
-                 <div class="item-detail">Protege tu dispositivo con un método de desbloqueo robusto.</div>
+                 <div class="item-detail">Protege el acceso a los datos del dispositivo en caso de pérdida o robo.</div>
              </div>
              <div class="checklist-item" data-item-level="minimo" data-link="https://www.apple.com/la/ios/security/" data-gamification-badge="Defensor" data-risk-weight="4">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_updates">
-                     <label for="mobile_updates" class="item-title">Mantener el sistema operativo y apps <span class="emphasis">actualizadas</span>.</label>
+                     <label for="mobile_updates" class="item-title">Mantener el sistema operativo (iOS/Android) y apps <span class="emphasis">actualizadas</span>.</label>
                  </div>
-                 <div class="item-detail">Las actualizaciones incluyen parches de seguridad críticos.</div>
+                 <div class="item-detail">Las actualizaciones incluyen parches de seguridad críticos que cierran vulnerabilidades.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.cnet.com/es/como-se-hace/como-ocultar-notificaciones-de-la-pantalla-de-bloqueo-en-android-o-iphone/" data-gamification-badge="Veterano" data-risk-weight="3">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_lock_screen_notif">
+                     <label for="mobile_lock_screen_notif" class="item-title">Configurar la pantalla de bloqueo para ocultar el contenido sensible de las notificaciones.</label>
+                 </div>
+                 <div class="item-detail">Evita que extraños vean mensajes de texto o de 2FA sin desbloquear el teléfono.</div>
+             </div>
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/permisos-apps-movil" data-gamification-badge="Defensor" data-risk-weight="5">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_permissions_review">
+                     <label for="mobile_permissions_review" class="item-title">Revisar los permisos de ubicación, micrófono y cámara de todas las aplicaciones.</label>
+                 </div>
+                 <div class="item-detail">Limita el seguimiento constante de tu actividad y ubicación.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://support.google.com/android/answer/6169008?hl=es" data-gamification-badge="Veterano" data-risk-weight="4">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_remote_wipe">
+                     <label for="mobile_remote_wipe" class="item-title">Tener activada la función de borrado remoto (Encontrar mi dispositivo/Find My).</label>
+                 </div>
+                 <div class="item-detail">Permite eliminar todos los datos en caso de que el dispositivo sea irrecuperable.</div>
+             </div>
+             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/riesgos-descargar-aplicaciones-sitios-oficiales" data-gamification-badge="Defensor" data-risk-weight="5">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_official_stores">
+                     <label for="mobile_official_stores" class="item-title">Descargar aplicaciones <span class="emphasis">solo</span> desde tiendas oficiales (App Store o Google Play).</label>
+                 </div>
+                 <div class="item-detail">Las tiendas oficiales realizan una revisión de seguridad del software.</div>
+             </div>
+             <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/que-es-vpn-y-por-que-es-necesario-utilizarla" data-gamification-badge="Cazador" data-risk-weight="2">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_always_on_vpn">
+                     <label for="mobile_always_on_vpn" class="item-title">Usar una VPN (Red Privada Virtual) de confianza en el móvil y configurarla para que esté siempre activa.</label>
+                 </div>
+                 <div class="item-detail">Cifra todo el tráfico de red, protegiendo contra espionaje en redes públicas.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/ciudadania/blog/bluetooth-wifi-movil" data-gamification-badge="Veterano" data-risk-weight="3">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_disable_bt_nfc">
+                     <label for="mobile_disable_bt_nfc" class="item-title">Desactivar Bluetooth y NFC cuando no estén en uso.</label>
+                 </div>
+                 <div class="item-detail">Reduce la superficie de ataque del dispositivo.</div>
+             </div>
+             <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/ciudadania/blog/que-es-pin-sim-y-por-que-deberias-activarlo" data-gamification-badge="Cazador" data-risk-weight="1">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_sim_pin">
+                     <label for="mobile_sim_pin" class="item-title">Activar el PIN de la tarjeta SIM.</label>
+                 </div>
+                 <div class="item-detail">Evita el uso no autorizado de la SIM si el teléfono es robado.</div>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/ciudadania/blog/que-es-rootear-y-por-que-no-deberias-hacerlo" data-gamification-badge="Veterano" data-risk-weight="4">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_no_root_jailbreak">
+                     <label for="mobile_no_root_jailbreak" class="item-title">Evitar modificar el sistema operativo del móvil (rootear/jailbreak).</label>
+                 </div>
+                 <div class="item-detail">Elimina las capas de seguridad integradas por el fabricante.</div>
              </div>
         </section>
 
-        <section data-sectionname="pc" data-title="Checklist de PC y Escritorio (1 Ítem)">
+        <section data-sectionname="pc" data-title="Checklist de PC y Escritorio (10 Ítems)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.microsoft.com/es-es/security/blog/2021/04/01/how-to-create-a-strong-password/" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_pass_login">
-                    <label for="pc_pass_login" class="item-title">Establecer contraseña <span class="emphasis">robusta</span> para iniciar sesión.</label>
+                    <label for="pc_pass_login" class="item-title">Establecer contraseña <span class="emphasis">robusta</span> para iniciar sesión en el PC/Mac.</label>
                 </div>
-                <div class="item-detail">Una contraseña fuerte es la primera línea de defensa contra accesos no autorizados.</div>
+                <div class="item-detail">Primera línea de defensa contra accesos no autorizados al equipo físico.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/configuracion-basica-del-firewall" data-gamification-badge="Defensor" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_firewall_active">
+                    <label for="pc_firewall_active" class="item-title">Asegurar que el firewall del sistema operativo (Windows/macOS) esté siempre activo.</label>
+                </div>
+                <div class="item-detail">Bloquea conexiones no deseadas desde y hacia internet.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/cifrado-disco-duro" data-gamification-badge="Veterano" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_full_disk_encryption">
+                    <label for="pc_full_disk_encryption" class="item-title">Utilizar cifrado de disco completo (BitLocker, FileVault) en el PC.</label>
+                </div>
+                <div class="item-detail">Impide que los datos sean leídos si el disco duro es extraído.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/antivirus-o-antimalware" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_antivirus_active">
+                    <label for="pc_antivirus_active" class="item-title">Tener un antivirus/antimalware de confianza instalado y con escaneo automático activo.</label>
+                </div>
+                <div class="item-detail">Protección esencial contra la mayoría de amenazas de software.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/ciudadania/blog/desinstalar-aplicaciones-no-usadas" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_remove_unused_software">
+                    <label for="pc_remove_unused_software" class="item-title">Desinstalar programas o aplicaciones que ya no se utilizan.</label>
+                </div>
+                <div class="item-detail">Cada programa es una posible puerta de entrada si no está actualizado.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/configurar-bloqueo-automatico-sesion-equipo" data-gamification-badge="Defensor" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_auto_lock">
+                    <label for="pc_auto_lock" class="item-title">Configurar el bloqueo de sesión automático después de un corto periodo de inactividad.</label>
+                </div>
+                <div class="item-detail">Protege el acceso físico si te alejas del escritorio.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/por-que-no-debe-utilizarse-cuenta-administrador" data-gamification-badge="Cazador" data-risk-weight="2">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_standard_user">
+                    <label for="pc_standard_user" class="item-title">Usar una cuenta de usuario estándar (no administrador) para el trabajo diario.</label>
+                </div>
+                <div class="item-detail">Limita los daños que el *malware* puede causar al ejecutarse.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/gestion-de-parches-y-actualizaciones" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_patch_management">
+                    <label for="pc_patch_management" class="item-title">Asegurar que el sistema operativo y todas las aplicaciones se actualizan automáticamente.</label>
+                </div>
+                <div class="item-detail">La mayoría de los ciberataques explotan software desactualizado.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://support.microsoft.com/es-es/topic/habilitar-o-deshabilitar-macros-en-archivos-de-office-12b036fd-d140-4e4b-97b4-dfd45ab46914" data-gamification-badge="Cazador" data-risk-weight="2">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_disable_macros">
+                    <label for="pc_disable_macros" class="item-title">Configurar las aplicaciones de Office para deshabilitar las macros por defecto.</label>
+                </div>
+                <div class="item-detail">Las macros son un vector de ataque común para el *ransomware*.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/que-hacer-ante-un-archivo-o-software-sospechoso" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_no_unknown_files">
+                    <label for="pc_no_unknown_files" class="item-title">Nunca ejecutar archivos descargados o adjuntos desconocidos con doble clic.</label>
+                </div>
+                <div class="item-detail">Es la forma más sencilla de infección por *malware*.</div>
             </div>
         </section>
 
-        <section data-sectionname="navegacion" data-title="Checklist de Navegación Web (1 Ítem)">
+        <section data-sectionname="navegacion" data-title="Checklist de Navegación Web (10 Ítems)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/candado-y-https" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_secure_sites">
-                    <label for="nav_secure_sites" class="item-title">Verificar que los sitios web sean HTTPS (candado en la URL).</label>
+                    <label for="nav_secure_sites" class="item-title">Verificar que los sitios web sean HTTPS (candado en la URL) al ingresar datos sensibles.</label>
                 </div>
                 <div class="item-detail">Asegura que tu conexión con el sitio esté encriptada y sea privada.</div>
             </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/extensiones-navegador-riesgos" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_min_extensions">
+                    <label for="nav_min_extensions" class="item-title">Mantener la cantidad de extensiones del navegador al mínimo indispensable.</label>
+                </div>
+                <div class="item-detail">Las extensiones a menudo piden acceso a todos tus datos de navegación.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/riesgos-de-la-publicidad-maliciosa" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_ad_blocker">
+                    <label for="nav_ad_blocker" class="item-title">Usar un bloqueador de anuncios confiable para prevenir *malvertising*.</label>
+                </div>
+                <div class="item-detail">Evita que anuncios maliciosos puedan infectar tu equipo.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/actualizar-navegador" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_browser_update">
+                    <label for="nav_browser_update" class="item-title">Asegurar que el navegador web esté configurado para actualizarse automáticamente.</label>
+                </div>
+                <div class="item-detail">Los navegadores son un objetivo constante de vulnerabilidades.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://blog.mozilla.org/es/seguridad/firefox-multi-account-containers/" data-gamification-badge="Cazador" data-risk-weight="2">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_tab_containers">
+                    <label for="nav_tab_containers" class="item-title">Usar la función de "Contenedores" o perfiles de navegación para aislar actividad (trabajo, personal, banco).</label>
+                </div>
+                <div class="item-detail">Evita el rastreo cruzado entre sitios y aísla cookies maliciosas.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/uso-de-scripts-maliciosos" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_script_blocker">
+                    <label for="nav_script_blocker" class="item-title">Usar extensiones de seguridad para bloquear scripts de terceros por defecto.</label>
+                </div>
+                <div class="item-detail">Detiene la ejecución de código no deseado y reduce la huella digital.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/cerrar-sesion-web" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_logout_sensitive">
+                    <label for="nav_logout_sensitive" class="item-title">Cerrar sesión manualmente en servicios bancarios o de correo al terminar de usarlos.</label>
+                </div>
+                <div class="item-detail">Evita el secuestro de sesión si su PC queda desatendido.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/ciudadania/blog/servidores-dns-seguros" data-gamification-badge="Cazador" data-risk-weight="1">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_secure_dns">
+                    <label for="nav_secure_dns" class="item-title">Configurar el navegador para usar DNS seguro (DNS over HTTPS/TLS).</label>
+                </div>
+                <div class="item-detail">Evita que su ISP o terceros vean a qué sitios web se conecta.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://support.google.com/chrome/answer/114662?hl=es" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_site_permissions">
+                    <label for="nav_site_permissions" class="item-title">Revisar los permisos (notificaciones, cámara, micrófono) otorgados a los sitios web.</label>
+                </div>
+                <div class="item-detail">Evita que sitios maliciosos puedan acceder a sus periféricos o interrumpirlo.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/riesgos-redes-wifi-publicas" data-gamification-badge="Defensor" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_public_wifi_caution">
+                    <label for="nav_public_wifi_caution" class="item-title">Evitar transacciones sensibles o ingresar credenciales en redes Wi-Fi públicas sin VPN.</label>
+                </div>
+                <div class="item-detail">Las redes públicas son susceptibles de ataques *Man-in-the-Middle*.</div>
+            </div>
         </section>
 
-        <section data-sectionname="correo" data-title="Checklist de Correo Electrónico (2 Ítems)">
+        <section data-sectionname="correo" data-title="Checklist de Correo Electrónico (10 Ítems)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/como-identificar-un-correo-de-phishing" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_attachments">
-                    <label for="email_attachments" class="item-title">Ser <span class="emphasis">extremadamente cauteloso</span> con adjuntos y enlaces.</label>
+                    <label for="email_attachments" class="item-title">Ser <span class="emphasis">extremadamente cauteloso</span> con adjuntos y enlaces, incluso de remitentes conocidos.</label>
                 </div>
                 <div class="item-detail">El *phishing* y el *malware* se propagan principalmente a través de correos.</div>
             </div>
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.redeszone.net/tutoriales/seguridad/como-identificar-phishing-correo/" data-gamification-badge="Defensor" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_sender_check">
-                    <label for="email_sender_check" class="item-title">Verificar la dirección del remitente, incluso si el nombre parece conocido.</label>
+                    <label for="email_sender_check" class="item-title">Verificar la dirección de correo del remitente (el texto azul) antes de interactuar.</label>
                 </div>
                 <div class="item-detail">Los atacantes suelen usar direcciones similares para engañarte.</div>
             </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/encabezado-correo-electronico-analisis-phishing" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_header_check">
+                    <label for="email_header_check" class="item-title">Saber cómo revisar el encabezado o los metadatos de un correo sospechoso.</label>
+                </div>
+                <div class="item-detail">Revela la ruta de envío y el origen real del mensaje.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/no-picar-con-phishing" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_no_sensitive_reply">
+                    <label for="email_no_sensitive_reply" class="item-title">Nunca responder a un correo pidiendo contraseñas, PINs o información financiera.</label>
+                </div>
+                <div class="item-detail">Las entidades legítimas nunca solicitarán esta información por correo.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/uso-de-la-criptografia-para-proteger-el-correo-electronico" data-gamification-badge="Veterano" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_pgp_encryption">
+                    <label for="email_pgp_encryption" class="item-title">Usar cifrado de correo de extremo a extremo (PGP o S/MIME) para comunicaciones sensibles.</label>
+                </div>
+                <div class="item-detail">Asegura que solo el destinatario puede leer el contenido.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/ciudadania/blog/como-crear-cuentas-de-correo-temporales-para-navegar-forma-segura" data-gamification-badge="Cazador" data-risk-weight="1">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_disposable">
+                    <label for="email_disposable" class="item-title">Usar una dirección de correo "desechable" o secundaria para suscripciones y tiendas no esenciales.</label>
+                </div>
+                <div class="item-detail">Protege la cuenta principal de spam y exposición en listas.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/como-identificar-un-correo-de-scam" data-gamification-badge="Defensor" data-risk-weight="5">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_urgency_check">
+                    <label for="email_urgency_check" class="item-title">Desconfiar de correos que exigen acción inmediata o amenazan con la suspensión de una cuenta.</label>
+                </div>
+                <div class="item-detail">Técnica común de *phishing* para forzar una reacción impulsiva.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/ciudadania/blog/privacidad-correo-electronico-imagen" data-gamification-badge="Cazador" data-risk-weight="2">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_disable_images">
+                    <label for="email_disable_images" class="item-title">Configurar el cliente de correo para que no cargue imágenes de forma automática.</label>
+                </div>
+                <div class="item-detail">Evita que los remitentes sepan cuándo y dónde ha abierto el correo ("píxeles de seguimiento").</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/ventajas-de-usar-correo-corporativo-con-dominio-propio" data-gamification-badge="Veterano" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_custom_domain">
+                    <label for="email_custom_domain" class="item-title">Usar una dirección de correo con dominio propio para un uso más profesional y seguro.</label>
+                </div>
+                <div class="item-detail">Proporciona un mayor control sobre la reputación y la seguridad del correo.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/configurar-filtro-antispam" data-gamification-badge="Defensor" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_spam_filter">
+                    <label for="email_spam_filter" class="item-title">Asegurarse de que el filtro antispam y antivirus del proveedor de correo esté funcionando.</label>
+                </div>
+                <div class="item-detail">Detiene la mayoría de amenazas conocidas antes de que lleguen a su bandeja.</div>
+            </div>
         </section>
 
-        <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación (2 Ítems)">
+        <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación (10 Ítems)">
             <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/como-hacer-copias-seguridad" data-gamification-badge="Defensor" data-risk-weight="4">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_critical_data">
-                    <label for="backup_critical_data" class="item-title">Hacer copias de seguridad de <span class="emphasis">datos críticos</span> regularmente.</label>
+                    <label for="backup_critical_data" class="item-title">Hacer copias de seguridad de <span class="emphasis">datos críticos</span> regularmente (al menos una vez a la semana).</label>
                 </div>
                 <div class="item-detail">La pérdida de datos puede ocurrir por fallos de hardware o ataques de *ransomware*.</div>
             </div>
-            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/regla-3-2-1" data-gamification-badge="Veterano" data-risk-weight="3">
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/regla-3-2-1" data-gamification-badge="Veterano" data-risk-weight="5">
                 <div class="checklist-row">
                     <input type="checkbox" id="backup_separate_media">
-                    <label for="backup_separate_media" class="item-title">Mantener una copia de seguridad <span class="emphasis">desconectada</span> (Regla 3-2-1).</label>
+                    <label for="backup_separate_media" class="item-title">Aplicar la **Regla 3-2-1**: 3 copias, 2 medios, 1 copia <span class="emphasis">desconectada</span> (off-site).</label>
                 </div>
-                <div class="item-detail">Protege la copia de seguridad de virus, incendios o robos.</div>
+                <div class="item-detail">Es la mejor defensa contra desastres físicos o *ransomware*.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/protege-tu-empresa/blog/pruebas-de-restauracion-de-la-copia-de-seguridad" data-gamification-badge="Defensor" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_test_restore">
+                    <label for="backup_test_restore" class="item-title">Probar periódicamente la restauración de archivos para asegurar que la copia funciona.</label>
+                </div>
+                <div class="item-detail">Una copia no probada es una copia inútil.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/cifrado-copias-de-seguridad" data-gamification-badge="Veterano" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_encryption">
+                    <label for="backup_encryption" class="item-title">Asegurar que las copias de seguridad (especialmente en la nube) están encriptadas.</label>
+                </div>
+                <div class="item-detail">Protege la confidencialidad de los datos si el medio de copia es robado.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/software-para-hacer-copias-de-seguridad" data-gamification-badge="Defensor" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_automated_solution">
+                    <label for="backup_automated_solution" class="item-title">Utilizar una solución de copia de seguridad automatizada en lugar de confiar en la memoria.</label>
+                </div>
+                <div class="item-detail">Garantiza la consistencia y periodicidad del respaldo.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/copia-de-seguridad-de-la-configuracion" data-gamification-badge="Cazador" data-risk-weight="2">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_config_files">
+                    <label for="backup_config_files" class="item-title">Incluir archivos de configuración y licencias importantes en su plan de respaldo.</label>
+                </div>
+                <div class="item-detail">Acelera la restauración del entorno de trabajo después de un desastre.</div>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-link="https://www.incibe.es/protege-tu-empresa/blog/copias-de-seguridad-inmutables" data-gamification-badge="Veterano" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_immutability">
+                    <label for="backup_immutability" class="item-title">Usar un servicio de almacenamiento que soporte la inmutabilidad de los datos de respaldo.</label>
+                </div>
+                <div class="item-detail">Impide que el *ransomware* o los errores humanos borren o modifiquen la copia.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/tipos-de-copias-de-seguridad" data-gamification-badge="Cazador" data-risk-weight="3">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_incremental">
+                    <label for="backup_incremental" class="item-title">Configurar las copias de seguridad para que sean incrementales o diferenciales y ahorrar espacio.</label>
+                </div>
+                <div class="item-detail">Optimiza el tiempo y el almacenamiento de las copias sin perder la capacidad de recuperación.</div>
+            </div>
+            <div class="checklist-item" data-item-level="minimo" data-link="https://www.incibe.es/ciudadania/blog/copias-seguridad-en-dispositivos-moviles" data-gamification-badge="Defensor" data-risk-weight="4">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_mobile_data">
+                    <label for="backup_mobile_data" class="item-title">Asegurar que los datos de sus dispositivos móviles (fotos, contactos) también se respaldan.</label>
+                </div>
+                <div class="item-detail">La información móvil es tan crítica como la del PC.</div>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-link="https://www.incibe.es/protege-tu-empresa/blog/plan-de-respuesta-incidentes" data-gamification-badge="Cazador" data-risk-weight="2">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_incident_plan">
+                    <label for="backup_incident_plan" class="item-title">Tener un plan de respuesta a incidentes documentado (Pasos a seguir si sufres un ciberataque).</label>
+                </div>
+                <div class="item-detail">Reduce el tiempo de inactividad y el daño potencial de un ataque.</div>
             </div>
         </section>
     </div>
