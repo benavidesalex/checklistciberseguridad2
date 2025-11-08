@@ -68,8 +68,8 @@
             padding: 10px 15px;
             background-color: #C0DFF0;
             border-radius: 5px;
-            /* Transición para la alerta visual */
             transition: background-color 0.3s, border 0.3s; 
+            /* Se ha removido la lógica de alerta visual por CSS */
         }
 
         .overall-score-top {
@@ -77,7 +77,6 @@
             font-weight: bold;
             color: #1A5276;
             text-align: center;
-            /* Transición para la alerta visual */
             transition: color 0.3s;
         }
 
@@ -406,7 +405,7 @@
             padding: 3px 8px;
             border-radius: 12px;
             font-weight: bold;
-            margin-left: 10px; /* Reducido para la nueva estructura */
+            margin-left: 10px;
             display: inline-block;
         }
 
@@ -414,6 +413,46 @@
         .level-minimo { background-color: #D4EDDA; color: #155724; } /* Era level-basico */
         .level-mejores { background-color: #FFF3CD; color: #856404; } /* Era level-avanzado */
         .level-profunda { background-color: #D6D8D9; color: #495057; } /* Era level-opcional */
+
+        /* --- ESTILOS DE IMPRESIÓN --- */
+        @media print {
+            /* Ocultar elementos no deseados */
+            button {
+                display: none !important;
+            }
+            .modal-controls {
+                display: none !important;
+            }
+            .context-paragraph {
+                border-left: 4px solid #007BFF;
+                box-shadow: none;
+            }
+
+            /* Mostrar la fecha/hora */
+            #printDate {
+                display: block !important;
+                text-align: right;
+                margin-bottom: 15px;
+                color: #555;
+                font-size: 10pt;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+                border: none;
+            }
+            
+            /* Asegurar que el contenido no se corte */
+            .category-card {
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+            .scores-summary-top {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
     </style>
 </head>
 <body>
@@ -423,6 +462,13 @@
         <p class="context-paragraph">
             Este CheckList es una Evaluación de Ciberseguridad gratuita y su propósito es proporcionarte asistencia y una "nota" en el ámbito de la Ciberseguridad. Está dirigido tanto a usuarios sin experiencia previa como a aquellos que ya cuentan con conocimientos en la materia.
         </p>
+        
+        <div style="text-align: right; margin-bottom: 20px;">
+            <span id="printDate" style="display: none; font-size: 0.9em; margin-right: 10px;"></span>
+            <button onclick="window.print()" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                🖨️ Imprimir Evaluación
+            </button>
+        </div>
 
         <div class="scores-summary-top">
             <div class="overall-summary-block">
@@ -779,11 +825,10 @@
         const GOOGLE_APP_SCRIPT_URL = 'PEGAR_AQUÍ_LA_URL_DE_SU_WEB_APP';
 
         const allChecklistData = {};
-        // --- 1. RENOMBRE DE ETIQUETAS (minimo, mejores, profunda) ---
         const allLevels = ['minimo', 'mejores', 'profunda'];
-        const totalItemsInLevel = {}; // Almacena PUNTOS POSIBLES (peso de riesgo)
-        const checkedItemsInLevel = {}; // Almacena PUNTOS OBTENIDOS (peso de riesgo)
-        let currentSection = ''; // Variable para rastrear la sección abierta
+        const totalItemsInLevel = {}; 
+        const checkedItemsInLevel = {}; 
+        let currentSection = ''; 
 
         // 1.1 Cargar datos del HTML a la estructura JS
         document.querySelectorAll('#hiddenChecklistData section').forEach(section => {
@@ -791,7 +836,6 @@
             const title = section.dataset.title;
             const items = [];
             
-            // Inicializar puntos posibles por nivel a 0 antes de calcular
             allLevels.forEach(level => {
                 totalItemsInLevel[level] = totalItemsInLevel[level] || 0;
                 checkedItemsInLevel[level] = checkedItemsInLevel[level] || 0;
@@ -799,7 +843,6 @@
 
             section.querySelectorAll('.checklist-item').forEach(item => {
                 const level = item.dataset.itemLevel;
-                // --- 3. IMPLEMENTACIÓN DE PONDERACIÓN Y LINKS/BADGE ---
                 const riskWeight = parseInt(item.dataset.riskWeight || '1');
                 const policyLink = item.dataset.link || '#';
                 const gamificationBadge = item.dataset.gamificationBadge || 'Novato';
@@ -815,7 +858,6 @@
                     checked: false
                 });
 
-                // Registrar Puntos Posibles por Nivel (ponderado)
                 totalItemsInLevel[level] += riskWeight;
             });
             allChecklistData[name] = { name, title, items };
@@ -823,11 +865,17 @@
 
         // 1.2 Funciones de Utilidad
         function capitalize(s) {
-            // Renombrar para los Donut Charts
             if (s === 'minimo') return 'Minimo';
             if (s === 'mejores') return 'Mejores';
             if (s === 'profunda') return 'Profunda';
             return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+        
+        // Set Current Date/Time for Printing
+        function setPrintDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('printDate').textContent = 'Fecha de Emisión: ' + now.toLocaleDateString('es-ES', options);
         }
 
         // 1.3 Lógica de Persistencia y Actualización (PONDERADA)
@@ -835,7 +883,6 @@
             let totalWeightedChecked = 0;
             let totalWeightedPossible = 0;
             
-            // Re-Inicializar PUNTOS OBTENIDOS (para el recálculo)
             allLevels.forEach(level => checkedItemsInLevel[level] = 0);
 
             for (const sectionName in allChecklistData) {
@@ -854,7 +901,6 @@
                     }
                 });
 
-                // Calcular score basado en PONDERACIÓN
                 const score = totalWeightedInSection > 0 ? Math.round((checkedWeightedInSection / totalWeightedInSection) * 100) : 0;
 
                 // Actualizar Tarjetas
@@ -863,15 +909,9 @@
                 const totalElement = document.getElementById(`total${capitalize(sectionName)}`);
 
                 if (scoreElement) scoreElement.textContent = `${score}%`;
-                // Mostrar Puntos Ponderados
                 if (checkedElement) checkedElement.textContent = checkedWeightedInSection;
                 if (totalElement) totalElement.textContent = totalWeightedInSection;
             }
-
-            // --- 4. ALERTA VISUAL DE MÍNIMO REQUERIDO ---
-            const totalMinimo = totalItemsInLevel['minimo'] || 1;
-            const checkedMinimo = checkedItemsInLevel['minimo'] || 0;
-            const scoreMinimo = Math.round((checkedMinimo / totalMinimo) * 100);
 
             // Actualizar Resumen General (Promedio Ponderado)
             const promedioGeneral = totalWeightedPossible > 0 ? Math.round((totalWeightedChecked / totalWeightedPossible) * 100) : 0;
@@ -879,23 +919,19 @@
             const scoreContainer = overallScoreElement.closest('.overall-summary-block');
             
             overallScoreElement.textContent = `${promedioGeneral}%`;
-            document.getElementById('totalCheckedItems').textContent = totalWeightedChecked; // Puntos Obtenidos
-            document.getElementById('totalItems').textContent = totalWeightedPossible;     // Puntos Posibles
-
-            // Si el cumplimiento Mínimo Requerido es menor al 90%, mostrar alerta
-            if (scoreMinimo < 90) {
-                scoreContainer.style.backgroundColor = '#F8D7DA'; // Fondo rojo claro
-                scoreContainer.style.border = '2px solid #DC3545'; // Borde rojo
-                overallScoreElement.style.color = '#DC3545'; // Texto de % en rojo
-            } else {
-                scoreContainer.style.backgroundColor = '#C0DFF0'; // Fondo normal
-                scoreContainer.style.border = 'none';
-                overallScoreElement.style.color = '#1A5276'; // Texto de % en azul (heredado de parent)
-            }
+            document.getElementById('totalCheckedItems').textContent = totalWeightedChecked; 
+            document.getElementById('totalItems').textContent = totalWeightedPossible;     
+            
+            // --- CÓDIGO DE ALERTA REMOVIDO POR SOLICITUD DEL USUARIO ---
+            // Se restaura el estilo por defecto, sin alertas rojas condicionales.
+            scoreContainer.style.backgroundColor = '#C0DFF0'; 
+            scoreContainer.style.border = 'none';
+            overallScoreElement.style.color = '#1A5276'; 
+            // -----------------------------------------------------------
             
             updateDonutCharts();
             updateRadarChart();
-            saveState(); // Guardar el estado después de cada actualización
+            saveState(); 
         }
 
         // 1.4 Lógica de Gráficos (Donut Charts) - Basada en PUNTOS PONDERADOS
@@ -929,7 +965,6 @@
                     if (item.checked) checkedWeightedInSection += item.riskWeight;
                 });
                 
-                // El score del radar es el % ponderado
                 data[sectionName] = totalWeightedInSection > 0 ? (checkedWeightedInSection / totalWeightedInSection) : 0;
             }
 
@@ -941,7 +976,7 @@
             const center = 100;
             const angleStep = (2 * Math.PI) / numSections;
 
-            svg.innerHTML = ''; // Limpiar el SVG
+            svg.innerHTML = ''; 
 
             let points = "";
 
@@ -969,14 +1004,12 @@
                 
                 // Etiqueta
                 const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                // Ajustar posición para que la etiqueta no quede encima del gráfico
                 const labelX = center + (radius * 1.1) * Math.cos(angle);
                 const labelY = center + (radius * 1.1) * Math.sin(angle);
 
                 label.setAttribute('x', labelX);
                 label.setAttribute('y', labelY);
                 label.setAttribute('class', 'radar-label');
-                // Ajuste de anclaje de texto para centrar mejor
                 label.setAttribute('text-anchor', (Math.abs(Math.cos(angle)) < 0.1) ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end'));
                 label.textContent = capitalize(sections[i]);
                 svg.appendChild(label);
@@ -1008,7 +1041,6 @@
 
                 if (isChecked) checkedWeightedCount += item.riskWeight;
                 
-                // --- 2. INTEGRACIÓN DE LINKS CONTEXTUALES Y GAMIFICACIÓN ---
                 const policyLink = item.link || '#';
                 const badgeText = item.gamificationBadge || 'Novato';
                 const levelDisplay = item.level === 'minimo' ? 'Mínimo Requerido' : (item.level === 'mejores' ? 'Mejores Prácticas' : 'Defensa Profunda');
@@ -1030,18 +1062,16 @@
 
             modalBody.innerHTML = htmlContent;
             
-            // Pasamos el score ponderado para inicializar la visualización
             const initialScore = totalWeighted > 0 ? Math.round((checkedWeightedCount / totalWeighted) * 100) : 0;
             updateModalScore(sectionName, initialScore);
             modal.style.display = 'block';
         }
 
-        function updateModalScore(sectionName, initialScore) {
+        function updateModalScore(sectionName) {
             const section = allChecklistData[sectionName];
             let checkedWeightedCount = 0;
             let totalWeighted = 0;
             
-            // Recalcular score basado en el estado actual de los checkboxes en el modal
             const modalBody = document.getElementById('modalBody');
             
             modalBody.querySelectorAll('.checklist-item').forEach(itemDiv => {
@@ -1068,7 +1098,6 @@
 
             section.items.forEach(item => {
                 const checkbox = modalBody.querySelector(`#modal_${item.id}`);
-                // Actualizar el estado del objeto en JS
                 item.checked = checkbox.checked;
             });
 
@@ -1081,7 +1110,7 @@
              modalBody.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                  checkbox.checked = false;
              });
-             updateModalScore(currentSection); // Recalcula con 0 checks
+             updateModalScore(currentSection); 
         }
 
         function closeModal() {
@@ -1095,7 +1124,6 @@
                  return; 
             }
 
-            // 1. Recopilar datos finales
             const scoresToSend = {
                 promedioGeneral: document.getElementById('promedioGeneral').textContent.replace('%', ''),
                 employeeId: prompt("🚨 Por favor, ingrese su ID de Empleado (Ej: JSMITH)"), 
@@ -1103,7 +1131,6 @@
                 scores: {}
             };
 
-            // Obtener scores ponderados de cada sección
             for (const sectionName in allChecklistData) {
                 const section = allChecklistData[sectionName];
                 let checkedWeighted = 0;
@@ -1115,12 +1142,9 @@
                 scoresToSend.scores[sectionName] = totalWeighted > 0 ? Math.round((checkedWeighted / totalWeighted) * 100) : 0;
             }
             
-            console.log("Datos a enviar:", scoresToSend);
-
-            // 2. Enviar datos
             fetch(GOOGLE_APP_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Necesario para evitar errores CORS en App Script
+                mode: 'no-cors', 
                 cache: 'no-cache',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(scoresToSend)
@@ -1157,6 +1181,7 @@
         // Inicialización de la aplicación
         loadState();
         updateTotals();
+        setPrintDate();
 
     </script>
 </body>
