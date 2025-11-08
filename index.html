@@ -652,7 +652,7 @@
                      <input type="checkbox" id="auth_fido">
                      <label for="auth_fido" class="item-title">Considerar el uso de llaves de seguridad física (FIDO/Yubikey).</label>
                  </div>
-                 <div class="item-detail">Es la forma más segura de autenticación de dos factores.</div>
+                 <div class="item-detail">Es la forma más segura de autenticación de dos factores (Phishing-resistente).</div>
                  <span class="level-tag level-profunda">Defensa Profunda</span>
              </div>
              <div class="checklist-item" data-item-level="profunda" data-risk-weight="2" data-link="#pol_leaks" data-gamification-badge="Guardián">
@@ -661,6 +661,14 @@
                      <label for="auth_check_leaks" class="item-title">Monitorear si tus contraseñas han sido filtradas (Have I Been Pwned).</label>
                  </div>
                  <div class="item-detail">Verifica si alguna de tus credenciales ha sido comprometida en fugas de datos.</div>
+                 <span class="level-tag level-profunda">Defensa Profunda</span>
+             </div>
+             <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_alias_email" data-gamification-badge="Maestro">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_alias_email">
+                     <label for="auth_alias_email" class="item-title">Usar servicios de alias de correo para registrarse en sitios web.</label>
+                 </div>
+                 <div class="item-detail">Oculta tu dirección de correo real, previniendo spam y minimizando el riesgo de filtración.</div>
                  <span class="level-tag level-profunda">Defensa Profunda</span>
              </div>
         </section>
@@ -688,6 +696,14 @@
                      <label for="mobile_sim_lock" class="item-title">Configurar un PIN para la tarjeta SIM.</label>
                  </div>
                  <div class="item-detail">Evita el "SIM Swapping" y que usen tu SIM en otro teléfono.</div>
+                 <span class="level-tag level-mejores">Mejores Prácticas</span>
+             </div>
+             <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_mob_erase" data-gamification-badge="Guardián">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_remote_erase">
+                     <label for="mobile_remote_erase" class="item-title">Configurar el borrado remoto/geolocalización (Buscar mi iPhone/Android).</label>
+                 </div>
+                 <div class="item-detail">Permite proteger tus datos si el dispositivo es robado o perdido.</div>
                  <span class="level-tag level-mejores">Mejores Prácticas</span>
              </div>
              <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_vpn" data-gamification-badge="Maestro">
@@ -725,12 +741,28 @@
                 <div class="item-detail">Protege tus datos si el dispositivo es robado.</div>
                 <span class="level-tag level-mejores">Mejores Prácticas</span>
             </div>
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="3" data-link="#pol_vpn_router" data-gamification-badge="Guardián">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_vpn_router">
+                    <label for="pc_vpn_router" class="item-title">Usar una VPN a nivel de router o sistema.</label>
+                </div>
+                <div class="item-detail">Asegura que todo el tráfico de la red doméstica esté encriptado por defecto.</div>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
+            </div>
             <div class="checklist-item" data-item-level="profunda" data-risk-weight="2" data-link="#pol_admin" data-gamification-badge="Maestro">
                 <div class="checklist-row">
                     <input type="checkbox" id="pc_admin_limit">
                     <label for="pc_admin_limit" class="item-title">Usar una cuenta sin privilegios de administrador para el uso diario.</label>
                 </div>
                 <div class="item-detail">Limita el daño que el malware puede hacer si infecta tu sistema.</div>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_usb_lock" data-gamification-badge="Maestro">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_usb_lock">
+                    <label for="pc_usb_lock" class="item-title">Deshabilitar la auto-ejecución y evitar conectar dispositivos USB desconocidos.</label>
+                </div>
+                <div class="item-detail">Previene ataques como BadUSB o la propagación de virus a través de pendrives.</div>
                 <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
         </section>
@@ -768,6 +800,14 @@
                 <div class="item-detail">Mejora la privacidad y puede bloquear acceso a sitios de malware conocidos.</div>
                 <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="2" data-link="#pol_no_browser_pass" data-gamification-badge="Maestro">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_no_browser_pass">
+                    <label for="nav_no_browser_pass" class="item-title">No guardar contraseñas directamente en el navegador (Chrome, Edge, etc.).</label>
+                </div>
+                <div class="item-detail">Los gestores de contraseñas de los navegadores son objetivos comunes de robo de información.</div>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
+            </div>
         </section>
 
         <section data-sectionname="correo" data-title="Checklist de Correo Electrónico">
@@ -803,6 +843,14 @@
                 <div class="item-detail">Garantiza que solo el destinatario pueda leer el contenido del mensaje.</div>
                 <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_email_track" data-gamification-badge="Maestro">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_trackers">
+                    <label for="email_trackers" class="item-title">Bloquear rastreadores de emails (tracking pixels) con extensiones o clientes.</label>
+                </div>
+                <div class="item-detail">Mejora la privacidad impidiendo que los remitentes sepan si/cuándo abriste el correo.</div>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
+            </div>
         </section>
 
         <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación">
@@ -829,6 +877,22 @@
                 </div>
                 <div class="item-detail">Asegúrate de que la copia de seguridad realmente funcione cuando la necesites.</div>
                 <span class="level-tag level-mejores">Mejores Prácticas</span>
+            </div>
+            <div class="checklist-item" data-item-level="mejores" data-risk-weight="2" data-link="#pol_backup_version" data-gamification-badge="Guardián">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_versioning">
+                    <label for="backup_versioning" class="item-title">Usar un sistema de copia de seguridad con control de versiones (versionado).</label>
+                </div>
+                <div class="item-detail">Permite retroceder a una versión limpia antes de una infección de *ransomware* u otro error.</div>
+                <span class="level-tag level-mejores">Mejores Prácticas</span>
+            </div>
+            <div class="checklist-item" data-item-level="profunda" data-risk-weight="1" data-link="#pol_backup_pass" data-gamification-badge="Maestro">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_pass_manager_key">
+                    <label for="backup_pass_manager_key" class="item-title">Respaldar la clave maestra del gestor de contraseñas de forma segura (físico/encriptado).</label>
+                </div>
+                <div class="item-detail">La clave maestra es el punto de fallo único; debe estar respaldada fuera del sistema habitual.</div>
+                <span class="level-tag level-profunda">Defensa Profunda</span>
             </div>
         </section>
     </div>
@@ -896,7 +960,6 @@
 
             allLevels.forEach(level => {
                 checkedItemsInLevel[level] = 0;
-                // NOTA: totalItemsInLevel se inicializa en load
             });
 
             for (const sectionName in allChecklistData) {
