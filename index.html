@@ -1195,7 +1195,7 @@
         }
         
         // **********************************************
-        // 2. LÓGICA DEL CHATBOT
+        // 2. LÓGICA DEL CHATBOT - CON RESPUESTAS TÉCNICAS MEJORADAS
         // **********************************************
         function openChatModal() {
             document.getElementById('chatModal').style.display = 'block';
@@ -1224,15 +1224,21 @@
             
             let botResponse = 'Gracias por tu pregunta. Soy un asistente para ayudarte a entender los puntos del checklist, pero no puedo dar consejos específicos de seguridad personal ni ejecutar acciones por ti.';
             
-            // Lógica de respuesta simulada basada en palabras clave
+            // Lógica de respuesta simulada basada en palabras clave mejorada
             const lowerCaseMsg = messageText.toLowerCase();
             
             if (lowerCaseMsg.includes('2fa') || lowerCaseMsg.includes('autenticacion')) {
-                botResponse = 'El 2FA (Autenticación de Dos Factores) es un paso de seguridad que requiere dos métodos diferentes para verificar tu identidad (ej. contraseña y un código). Es crucial para tus cuentas críticas.';
-            } else if (lowerCaseMsg.includes('respaldo') || lowerCaseMsg.includes('copia de seguridad')) {
-                 botResponse = 'El respaldo es vital. La **Regla 3-2-1** es un buen estándar: 3 copias de tu información, en 2 tipos de medios diferentes, con 1 copia fuera de sitio (desconectada).';
+                // Respuesta más técnica sobre 2FA y vulnerabilidades
+                botResponse = 'La Autenticación de Dos Factores (2FA) agrega una capa de seguridad crítica. **Técnicamente, es más seguro usar códigos TOTP** (Time-based One-Time Password) generados por apps como Google Authenticator o llaves físicas FIDO, que el SMS. El SMS es vulnerable a ataques de *SIM Swapping* (suplantación de SIM).';
+            } else if (lowerCaseMsg.includes('respaldo') || lowerCaseMsg.includes('copia de seguridad') || lowerCaseMsg.includes('3-2-1')) {
+                 // Respuesta más técnica sobre la Regla 3-2-1 y riesgos
+                botResponse = 'La **Regla 3-2-1** es la base para una estrategia de respaldo robusta. Significa tener: **3** copias de tus datos, usar **2** tipos de medios de almacenamiento diferentes (ej. disco duro y la nube) y mantener **1** copia fuera de la ubicación física (*offsite* o desconectada). Esto protege eficientemente contra fallas de hardware y ataques de *ransomware*.';
             } else if (lowerCaseMsg.includes('phishing')) {
-                 botResponse = 'El *Phishing* es un intento de engañarte para que reveles información sensible (como contraseñas o números de tarjeta) haciéndose pasar por una entidad de confianza, generalmente por correo electrónico.';
+                 // Respuesta más técnica sobre el vector de ataque
+                botResponse = 'El *Phishing* es una técnica de ingeniería social para robar credenciales. Se realiza comúnmente por correo electrónico o SMS (*Smishing*), buscando que la víctima haga clic en un enlace malicioso o descargue un archivo que puede inyectar *malware* o robar datos de sesión.';
+            } else if (lowerCaseMsg.includes('vpn') || lowerCaseMsg.includes('red publica')) {
+                 // Nuevo tema técnico: VPN
+                botResponse = 'Una VPN (*Virtual Private Network*) crea un **túnel cifrado** entre tu dispositivo y el servidor VPN. Esto oculta tu dirección IP real y encripta todo tu tráfico de red, lo cual es esencial al usar Wi-Fi públicas para prevenir la interceptación de datos (*man-in-the-middle*).';
             }
             
             setTimeout(() => {
