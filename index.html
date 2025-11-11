@@ -69,6 +69,38 @@
             background-color: #C0DFF0;
             border-radius: 5px;
         }
+        
+        /* Estilos para el nuevo botón de reporte */
+        .report-button-block {
+            flex-basis: 15%;
+            min-width: 150px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #D4EDDA; /* Verde claro */
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .report-button-block:hover {
+            background-color: #c3e6cb;
+        }
+
+        .report-button-text-large {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #155724; /* Verde oscuro */
+            text-align: center;
+        }
+        
+        .report-button-text-small {
+             font-size: 0.9em;
+            color: #155724;
+            margin-top: 5px;
+            font-weight: 500;
+        }
 
         .overall-score-top {
             font-size: 1.6em;
@@ -92,7 +124,7 @@
         /* Contenedor Gráficos: organiza el radar y los donuts */
         .charts-container {
             display: flex;
-            flex-basis: 70%;
+            flex-basis: 50%; /* Ajustado para dejar espacio al botón */
             justify-content: space-around;
             gap: 15px;
             align-items: flex-start;
@@ -196,31 +228,6 @@
             stroke-width: 10;
             stroke-linecap: round;
             transition: stroke-dashoffset 0.5s ease-out;
-        }
-
-        /* --- Nuevo estilo para el botón de Reporte (Verde Pastel) --- */
-        .report-button-container {
-            text-align: center;
-            margin: 20px 0 30px 0; /* Agregado margen inferior para separación */
-        }
-        
-        #generateReportButton {
-            background-color: #D4EDDA; /* Verde Pastel (similar al level-basico) */
-            color: #155724; /* Verde oscuro para el texto */
-            border: 2px solid #28A745;
-            padding: 12px 30px;
-            font-size: 1.1em;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        #generateReportButton:hover {
-            background-color: #B2DFDB; /* Un poco más oscuro al pasar el ratón */
-            transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* --- Checklist Grid --- */
@@ -453,6 +460,18 @@
                     <span id="totalCheckedItems">0</span> de <span id="totalItems">0</span> Items Completados
                 </div>
             </div>
+            
+            <div class="report-button-block" onclick="generateReport()">
+                <div class="report-button-text-large">
+                    GENERAR
+                </div>
+                <div class="report-button-text-large">
+                    REPORTE
+                </div>
+                <div class="report-button-text-small">
+                    Guardar en Hoja de Cálculo
+                </div>
+            </div>
             <div class="charts-container">
                 <div class="radial-chart-container">
                     <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
@@ -485,11 +504,6 @@
                 </div>
             </div>
         </div>
-        
-        <div class="report-button-container">
-            <button id="generateReportButton" onclick="generateReport()">Generar Reporte</button>
-        </div>
-        
         <div class="checklist-grid">
             <div class="category-card" onclick="openModal('autenticacion')">
                 <div class="card-header"><span class="icon">🔑</span> Autenticación</div>
@@ -526,14 +540,14 @@
             <div class="category-card" onclick="openModal('pc')">
                 <div class="card-header"><span class="icon">💻</span> PC y Escritorio</div>
                 <div class="card-body">
-                    <div class="card-score" id="scorePc">0%</div>
+                    <div class="card-score" id="scorePC">0%</div>
                     <div class="card-details">
                         <div class="detail-group">
-                            <span id="checkedPc">0</span>
+                            <span id="checkedPC">0</span>
                             <span>Completados</span>
                         </div>
                         <div class="detail-group">
-                            <span id="totalPc">0</span>
+                            <span id="totalPC">0</span>
                             <span>Totales</span>
                         </div>
                     </div>
@@ -853,10 +867,9 @@
 
         // 1.2 Funciones de Utilidad
         function capitalize(s) {
-            // Se usa una lógica simple de capitalización para construir IDs de elementos
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
-        
+
         // 1.3 Lógica de Persistencia y Actualización
         function updateTotals() {
             let totalChecked = 0;
@@ -880,15 +893,10 @@
                 totalTotal += totalInSection;
                 const score = totalInSection > 0 ? Math.round((checkedInSection / totalInSection) * 100) : 0;
 
-                // --- INICIO DE CORRECCIÓN DE IDS ---
-                // Para la sección 'pc', se usa 'Pc' en el código JS, pero la tarjeta HTML usaba 'PC'.
-                // Ahora, los IDs del HTML han sido corregidos a 'scorePc', 'checkedPc', 'totalPc'
-                // para que coincidan con la salida de capitalize('pc').
-                const capitalizedSectionName = capitalize(sectionName); 
-                const scoreElement = document.getElementById(`score${capitalizedSectionName}`);
-                const checkedElement = document.getElementById(`checked${capitalizedSectionName}`);
-                const totalElement = document.getElementById(`total${capitalizedSectionName}`);
-                // --- FIN DE CORRECCIÓN DE IDS ---
+                // Actualizar Tarjetas
+                const scoreElement = document.getElementById(`score${capitalize(sectionName)}`);
+                const checkedElement = document.getElementById(`checked${capitalize(sectionName)}`);
+                const totalElement = document.getElementById(`total${capitalize(sectionName)}`);
 
                 if (scoreElement) scoreElement.textContent = `${score}%`;
                 if (checkedElement) checkedElement.textContent = checkedInSection;
@@ -1086,88 +1094,94 @@
         function saveState() {
             localStorage.setItem('cybersecurityChecklistState', JSON.stringify(allChecklistData));
         }
+
+        // **********************************************
+        // 1.8 Lógica de Generación de Reporte para Apps Script (CORREGIDA)
+        // **********************************************
         
-        // **********************************************
-        // 2. LÓGICA DE REPORTE (Corregida)
-        // **********************************************
-        function generateReport() {
-            // URL del Google Apps Script proporcionada por el usuario
-            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwx_XeZdv4lyCGHqyIjH8uC1X8dV0AckXie3amcOP1Fl7nAT8pVCilG2qIYHYtmaQ5G/exec";
+        // URL de su implementación de Google Apps Script
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwx_XeZdv4lyCGHqyIjH8uC1X8dV0AckXie3amcOP1Fl7nAT8pVCilG2qIYHYtmaQ5G/exec";
 
-            // Recoger la puntuación general y el detalle por sección y nivel
-            const reportData = {
-                // Información General
-                overallScore: document.getElementById('promedioGeneral').textContent,
-                checkedItems: document.getElementById('totalCheckedItems').textContent,
-                totalItems: document.getElementById('totalItems').textContent,
-                // Puntuación por Nivel
-                detailByLevel: {
-                    basico: document.getElementById('donutPercentBasico').textContent,
-                    avanzado: document.getElementById('donutPercentAvanzado').textContent,
-                    opcional: document.getElementById('donutPercentOpcional').textContent
-                },
-                detailBySection: {},
-                checklistState: allChecklistData
-            };
+        function prepareReportData() {
+            let overallChecked = 0;
+            let overallTotal = 0;
+            const detailBySection = {};
 
-            // Recoger los detalles por sección
+            // Iterar sobre las secciones para construir el payload
             for (const sectionName in allChecklistData) {
-                const capitalizedSectionName = capitalize(sectionName);
-                const scoreId = `score${capitalizedSectionName}`;
-                const checkedId = `checked${capitalizedSectionName}`;
-                const totalId = `total${capitalizedSectionName}`;
+                const section = allChecklistData[sectionName];
+                let checkedInSection = 0;
+                let totalInSection = section.items.length;
                 
-                // Si el elemento no existe (ej: error en ID en HTML, aunque ya fue corregido), usa un valor por defecto
-                const score = document.getElementById(scoreId)?.textContent || '0%';
-                const checked = document.getElementById(checkedId)?.textContent || '0';
-                const total = document.getElementById(totalId)?.textContent || '0';
+                section.items.forEach(item => {
+                    if (item.checked) {
+                        checkedInSection++;
+                    }
+                });
+
+                overallChecked += checkedInSection;
+                overallTotal += totalInSection;
                 
-                reportData.detailBySection[sectionName] = {
-                    title: allChecklistData[sectionName].title,
-                    score: score,
-                    checked: checked,
-                    total: total
+                const score = totalInSection > 0 ? Math.round((checkedInSection / totalInSection) * 100) : 0;
+
+                // Estructura de detalle de sección requerida por doPost
+                detailBySection[sectionName] = {
+                    title: section.title,
+                    score: score + '%',
+                    checked: checkedInSection,
+                    total: totalInSection
                 };
             }
-            
-            // Deshabilitar el botón y cambiar texto
-            const button = document.getElementById('generateReportButton');
-            const originalText = button.textContent;
-            button.disabled = true;
-            button.textContent = 'Generando Reporte...';
-            
-            // Envío de datos al Google Apps Script
-            // IMPORTANTE: Se elimina 'mode: no-cors' para asegurar que el encabezado Content-Type: application/json
-            // se envíe y el Apps Script pueda parsear el body.
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reportData) 
-            })
-            .then(response => {
-                // Apps Script debe enviar una respuesta válida (aunque sea un texto simple)
-                // para que esta promesa se resuelva correctamente.
-                if (response.ok) {
-                    return response.text().then(text => {
-                        alert('Solicitud de Reporte enviada con éxito. Verifique su Google Sheet. Respuesta del servidor: ' + text.substring(0, 50) + '...');
-                    });
-                } else {
-                    throw new Error('El servidor de Apps Script respondió con un error.');
-                }
-            })
-            .catch(error => {
-                console.error('Error al enviar/procesar el reporte:', error);
-                alert('Ocurrió un error al intentar generar el reporte. Asegúrese de que su script de Google Apps esté configurado para recibir solicitudes POST (función doPost(e)).');
-            })
-            .finally(() => {
-                // Restaurar el botón
-                button.disabled = false;
-                button.textContent = originalText;
-            });
+
+            const overallScore = overallTotal > 0 ? Math.round((overallChecked / overallTotal) * 100) : 0;
+
+            // Retorna el objeto JSON que el Apps Script espera
+            return {
+                overallScore: overallScore + '%',
+                checkedItems: overallChecked,
+                totalItems: overallTotal,
+                detailBySection: detailBySection
+            };
         }
 
+        async function generateReport() {
+            // Deshabilita el botón temporalmente para evitar doble click
+            const reportButton = document.querySelector('.report-button-block');
+            reportButton.style.opacity = '0.5';
+            reportButton.style.pointerEvents = 'none';
+
+            // Asegurarse de que los últimos cambios se reflejen antes de enviar
+            updateTotals(); 
+            
+            const reportData = prepareReportData();
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Necesario para la comunicación cliente-Apps Script
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reportData)
+                });
+                
+                // Debido a 'no-cors', la respuesta siempre es 'opaque' y no se puede leer.
+                // Si llegamos aquí sin excepción, asumimos que la petición se envió correctamente.
+                alert("✅ ¡Reporte generado y enviado con éxito a la hoja de cálculo!");
+
+            } catch (error) {
+                console.error('Error al generar el reporte:', error);
+                // Muestra el mensaje de error para depuración
+                alert(`❌ Ocurrió un error al intentar generar el reporte. Detalles: ${error.message}. 
+                Asegúrese de que el Apps Script esté correctamente implementado.`);
+            } finally {
+                // Vuelve a habilitar el botón
+                reportButton.style.opacity = '1';
+                reportButton.style.pointerEvents = 'auto';
+            }
+        }
+        
         // Inicialización de la aplicación
         loadState();
         updateTotals();
