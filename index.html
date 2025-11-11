@@ -688,14 +688,14 @@
         // **********************************************
         
         // ** CAMBIA ESTA URL por la que obtengas al desplegar el Apps Script **
-        const GAS_WEB_APP_URL = 'YOUR_APPS_SCRIPT_DEPLOYED_URL_HERE'; 
+        const GAS_WEB_APP_URL = 'https://script.google.com/a/macros/energiasolarsa.com/s/AKfycbwu0pSdKjWs1oMwuD0c8x_JQNTcHUg1uPXF4_qCw8ex2yYmVPa1KlLu9tL-iNTx49wm/exec'; 
 
         /**
          * @function sendToGoogleSheet
          * Envía los datos de cumplimiento a la hoja de Google Sheets a través del Apps Script.
          */
         function sendToGoogleSheet(userName, dateString, scoresData) {
-            if (GAS_WEB_APP_URL === 'YOUR_APPS_SCRIPT_DEPLOYED_URL_HERE' || !GAS_WEB_APP_URL || GAS_WEB_APP_URL.length < 50) {
+            if (GAS_WEB_APP_URL === 'https://script.google.com/a/macros/energiasolarsa.com/s/AKfycbwu0pSdKjWs1oMwuD0c8x_JQNTcHUg1uPXF4_qCw8ex2yYmVPa1KlLu9tL-iNTx49wm/exec' || !GAS_WEB_APP_URL || GAS_WEB_APP_URL.length < 50) {
                 console.warn("ADVERTENCIA: La URL de Apps Script no ha sido configurada o es incorrecta. Los datos NO se guardarán. Por favor, sigue las instrucciones de configuración.");
                 alert("Advertencia: No se guardaron los datos. Debes configurar la URL de Google Apps Script.");
                 return;
