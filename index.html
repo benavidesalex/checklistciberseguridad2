@@ -526,14 +526,14 @@
             <div class="category-card" onclick="openModal('pc')">
                 <div class="card-header"><span class="icon">💻</span> PC y Escritorio</div>
                 <div class="card-body">
-                    <div class="card-score" id="scorePC">0%</div>
+                    <div class="card-score" id="scorePc">0%</div>
                     <div class="card-details">
                         <div class="detail-group">
-                            <span id="checkedPC">0</span>
+                            <span id="checkedPc">0</span>
                             <span>Completados</span>
                         </div>
                         <div class="detail-group">
-                            <span id="totalPC">0</span>
+                            <span id="totalPc">0</span>
                             <span>Totales</span>
                         </div>
                     </div>
@@ -853,9 +853,10 @@
 
         // 1.2 Funciones de Utilidad
         function capitalize(s) {
+            // Se usa una lógica simple de capitalización para construir IDs de elementos
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
-
+        
         // 1.3 Lógica de Persistencia y Actualización
         function updateTotals() {
             let totalChecked = 0;
@@ -879,10 +880,15 @@
                 totalTotal += totalInSection;
                 const score = totalInSection > 0 ? Math.round((checkedInSection / totalInSection) * 100) : 0;
 
-                // Actualizar Tarjetas
-                const scoreElement = document.getElementById(`score${capitalize(sectionName)}`);
-                const checkedElement = document.getElementById(`checked${capitalize(sectionName)}`);
-                const totalElement = document.getElementById(`total${capitalize(sectionName)}`);
+                // --- INICIO DE CORRECCIÓN DE IDS ---
+                // Para la sección 'pc', se usa 'Pc' en el código JS, pero la tarjeta HTML usaba 'PC'.
+                // Ahora, los IDs del HTML han sido corregidos a 'scorePc', 'checkedPc', 'totalPc'
+                // para que coincidan con la salida de capitalize('pc').
+                const capitalizedSectionName = capitalize(sectionName); 
+                const scoreElement = document.getElementById(`score${capitalizedSectionName}`);
+                const checkedElement = document.getElementById(`checked${capitalizedSectionName}`);
+                const totalElement = document.getElementById(`total${capitalizedSectionName}`);
+                // --- FIN DE CORRECCIÓN DE IDS ---
 
                 if (scoreElement) scoreElement.textContent = `${score}%`;
                 if (checkedElement) checkedElement.textContent = checkedInSection;
@@ -1082,7 +1088,7 @@
         }
         
         // **********************************************
-        // 2. LÓGICA DE REPORTE (Añadida)
+        // 2. LÓGICA DE REPORTE (Corregida)
         // **********************************************
         function generateReport() {
             // URL del Google Apps Script proporcionada por el usuario
@@ -1090,27 +1096,37 @@
 
             // Recoger la puntuación general y el detalle por sección y nivel
             const reportData = {
+                // Información General
                 overallScore: document.getElementById('promedioGeneral').textContent,
                 checkedItems: document.getElementById('totalCheckedItems').textContent,
                 totalItems: document.getElementById('totalItems').textContent,
-                detailBySection: {},
+                // Puntuación por Nivel
                 detailByLevel: {
                     basico: document.getElementById('donutPercentBasico').textContent,
                     avanzado: document.getElementById('donutPercentAvanzado').textContent,
                     opcional: document.getElementById('donutPercentOpcional').textContent
                 },
-                checklistState: allChecklistData // Enviar el estado completo del checklist
+                detailBySection: {},
+                checklistState: allChecklistData
             };
 
             // Recoger los detalles por sección
             for (const sectionName in allChecklistData) {
-                const checkedId = `checked${capitalize(sectionName)}`;
-                const totalId = `total${capitalize(sectionName)}`;
+                const capitalizedSectionName = capitalize(sectionName);
+                const scoreId = `score${capitalizedSectionName}`;
+                const checkedId = `checked${capitalizedSectionName}`;
+                const totalId = `total${capitalizedSectionName}`;
+                
+                // Si el elemento no existe (ej: error en ID en HTML, aunque ya fue corregido), usa un valor por defecto
+                const score = document.getElementById(scoreId)?.textContent || '0%';
+                const checked = document.getElementById(checkedId)?.textContent || '0';
+                const total = document.getElementById(totalId)?.textContent || '0';
+                
                 reportData.detailBySection[sectionName] = {
                     title: allChecklistData[sectionName].title,
-                    score: document.getElementById(`score${capitalize(sectionName)}`).textContent,
-                    checked: document.getElementById(checkedId).textContent,
-                    total: document.getElementById(totalId).textContent
+                    score: score,
+                    checked: checked,
+                    total: total
                 };
             }
             
@@ -1121,24 +1137,29 @@
             button.textContent = 'Generando Reporte...';
             
             // Envío de datos al Google Apps Script
+            // IMPORTANTE: Se elimina 'mode: no-cors' para asegurar que el encabezado Content-Type: application/json
+            // se envíe y el Apps Script pueda parsear el body.
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                // 'no-cors' es necesario para llamadas cross-origin a Apps Script
-                mode: 'no-cors',
                 headers: {
-                    // El Apps Script generalmente espera datos JSON en el cuerpo
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(reportData) 
             })
-            .then(() => {
-                // Como es 'no-cors', la promesa se resuelve incluso si falla el script, 
-                // por lo que solo podemos confirmar que la solicitud se envió.
-                alert('Solicitud de Reporte enviada. El resultado (si el script está bien configurado) se generará en el destino.');
+            .then(response => {
+                // Apps Script debe enviar una respuesta válida (aunque sea un texto simple)
+                // para que esta promesa se resuelva correctamente.
+                if (response.ok) {
+                    return response.text().then(text => {
+                        alert('Solicitud de Reporte enviada con éxito. Verifique su Google Sheet. Respuesta del servidor: ' + text.substring(0, 50) + '...');
+                    });
+                } else {
+                    throw new Error('El servidor de Apps Script respondió con un error.');
+                }
             })
             .catch(error => {
-                console.error('Error al enviar el reporte:', error);
-                alert('Ocurrió un error de red o fetch al intentar generar el reporte.');
+                console.error('Error al enviar/procesar el reporte:', error);
+                alert('Ocurrió un error al intentar generar el reporte. Asegúrese de que su script de Google Apps esté configurado para recibir solicitudes POST (función doPost(e)).');
             })
             .finally(() => {
                 // Restaurar el botón
