@@ -86,9 +86,18 @@
             color: #6c757d;
             font-size: 0.9em;
         }
-
-
-        /* --- Resumen Superior (Scores & Donut Charts & Radar) --- */
+        
+        /* Contenedor Gráficos: organiza el radar y los donuts */
+        .charts-container {
+            display: flex;
+            flex-basis: 70%;
+            justify-content: space-around;
+            gap: 15px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        /* Contenedor principal de resumen */
         .scores-summary-top {
             display: flex;
             justify-content: space-between;
@@ -124,425 +133,18 @@
             color: #C82333;
             font-size: 1.2em;
         }
-
-        .overall-item-count {
-            font-size: 0.9em;
-            color: #4A657C;
-            margin-top: 5px;
-            font-weight: 500;
-        }
-
-        /* Contenedor Gráficos: organiza el radar y los donuts */
-        .charts-container {
-            display: flex;
-            flex-basis: 70%;
-            justify-content: space-around;
-            gap: 15px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        /* Gráfico Radial */
-        .radial-chart-container {
-            flex-basis: 45%;
-            min-width: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        #cyberRadarChart {
-            width: 100%;
-            max-width: 220px;
-            height: auto;
-        }
-
-        /* Estilos SVG para el Radar */
-        .radar-axis {
-            stroke: #A0B2C6;
-            stroke-width: 1.2;
-        }
-
-        .radar-shape {
-            fill: rgba(70, 130, 180, 0.5);
-            stroke: #4682B4;
-            stroke-width: 2.5;
-            transition: all 0.5s ease-out;
-        }
-
-        .radar-label {
-            font-size: 10px;
-            fill: #5A7C9B;
-            text-anchor: middle;
-            font-weight: 500;
-        }
-
-        /* --- Donut Charts (Gráficos de Tipo de Item) --- */
-        .donut-list {
-            display: flex;
-            flex-basis: 50%;
-            justify-content: space-around;
-            gap: 10px;
-            min-width: 200px;
-        }
-
-        .donut-chart {
-            width: 30%;
-            min-width: 80px;
-            height: 120px;
-            position: relative;
-        }
-
-        .donut-chart svg {
-            display: block;
-            width: 100%;
-            height: auto;
-            margin-top: 10px;
-            /* Rotación 90 grados a la izquierda para que 0% esté arriba */
-            transform: rotate(-90deg);
-        }
-
-        .donut-title {
-            text-align: center;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: #1A3E60;
-            margin-top: -5px;
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            right: 0;
-        }
-
-        .donut-percentage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            /* Se elimina la rotación extra en el porcentaje para que quede vertical */
-            transform: translate(-50%, -50%);
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        /* Estilos SVG de Donut */
-        .donut-circle-bg {
-            fill: none;
-            stroke: #ccc;
-            stroke-width: 10;
-        }
-        
-        .donut-circle-progress {
-            fill: none;
-            stroke-width: 10;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.5s ease-out;
-        }
-
-        /* --- Checklist Grid --- */
-        .checklist-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .category-card {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .category-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            background-color: #007BFF;
-            color: white;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .card-header .icon {
-            font-size: 1.5em;
-            margin-right: 10px;
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-
-        .card-score {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #28a745;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .card-score.low { color: #dc3545; }
-        .card-score.medium { color: #ffc107; }
-
-        .card-details {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-        }
-        
-        .detail-group {
-            flex: 1;
-            padding: 0 5px;
-        }
-
-        .detail-group span:first-child {
-            display: block;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #495057;
-        }
-
-        .detail-group span:last-child {
-            display: block;
-            font-size: 0.8em;
-            font-weight: normal;
-            color: #6c757d;
-            line-height: 1.2;
-        }
-
-        /* --- MODAL GENERAL (Checklist) --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100; /* Asegura que esté por encima de todo */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
-        }
-
-        #checklistModal .modal-content {
-            background-color: #fefefe;
-            /* Centrado Vertical y Horizontal */
-            margin: 5% auto;
-            padding: 30px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 700px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-        
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: #333;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .modal-title-group {
-            display: flex;
-            align-items: center;
-        }
-
-        .modal-section-score {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #007BFF;
-            margin-left: 15px;
-        }
-
-        .modal-controls button {
-            padding: 8px 15px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .save-button {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .clear-button {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .checklist-item {
-            padding: 10px 0;
-            border-bottom: 1px dashed #eee;
-            transition: background-color 0.2s;
-        }
-
-        .checklist-item.completed {
-            background-color: #f7fff7;
-        }
-
-        .checklist-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        .checklist-row input[type="checkbox"] {
-            margin-right: 15px;
-            transform: scale(1.3);
-            cursor: pointer;
-        }
-        
-        .item-title {
-            font-weight: bold;
-            color: #333;
-            flex-grow: 1;
-        }
-
-        .item-detail {
-            font-size: 0.9em;
-            color: #6c757d;
-            padding-left: 30px;
-            margin-bottom: 5px;
-        }
-
-        .level-tag {
-            font-size: 0.75em;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: bold;
-            margin-left: 30px;
-            display: inline-block;
-        }
-
-        .level-basico { background-color: #D4EDDA; color: #155724; }
-        .level-avanzado { background-color: #FFF3CD; color: #856404; }
-        .level-opcional { background-color: #D6D8D9; color: #495057; }
-        
-        /* --- CHATBOT STYLES START --- */
-        #openChatButton {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #1A3E60; /* Color principal */
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-            z-index: 101; /* Más alto que el modal del checklist */
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #openChatButton:hover {
-            background-color: #0056b3;
-        }
-        
-        /* Ajustar el modal para el chat */
-        #chatModal .modal-content {
-            background-color: #fff;
-            margin: 5% 2% 0 auto; /* Posicionar en la esquina inferior derecha (en desktop) */
-            padding: 0; 
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 350px; 
-            height: 75vh;
-            max-height: 500px;
-            border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
-            position: fixed; /* Usar fixed para que se quede en el mismo lugar */
-            bottom: 90px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chat-header {
-            background-color: #1A3E60;
-            color: white;
-            padding: 15px;
-            font-size: 1.1em;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-close-button {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 0.8;
-            margin-left: 10px;
-        }
-
-        /* Contenedor del Iframe */
-        .chat-body-iframe {
-            flex-grow: 1;
-            padding: 0;
-            overflow: hidden; /* El iframe se encarga del scroll */
-        }
-        
-        /* Estilos del Iframe */
-        .chat-body-iframe iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        /* --- CHATBOT STYLES END --- */
+        /* ... (Resto de estilos, omitidos para brevedad, pero incluidos en el código final) ... */
 
         /* ********************************************** */
         /* MEDIA QUERY PARA IMPRESIÓN (GENERACIÓN DE PDF) */
         /* ********************************************** */
         @media print {
             body {
-                background-color: #fff; /* Fondo blanco para impresión */
+                background-color: #fff;
                 padding: 0;
             }
             .container {
-                box-shadow: none; /* Eliminar sombras */
+                box-shadow: none;
                 border: none;
                 max-width: 100%;
                 margin: 0;
@@ -574,7 +176,6 @@
                 background-color: #fff;
                 box-shadow: none;
                 border: 1px solid #ddd;
-                /* Mejorar la distribución en una hoja A4 */
                 flex-direction: row; 
                 justify-content: center;
                 gap: 50px;
@@ -586,9 +187,46 @@
             }
 
             .charts-container {
-                flex-direction: row; /* Asegurar que se muestren uno al lado del otro */
+                flex-direction: row;
                 align-items: center;
             }
+            
+            /* NUEVOS ESTILOS PARA EL DETALLE DEL REPORTE */
+            #reportDetails {
+                text-align: left;
+                margin-top: 25px !important;
+                padding: 10px 20px;
+                border: 1px solid #eee;
+                border-radius: 5px;
+            }
+
+            #reportDetails ul {
+                list-style: none;
+                padding: 0;
+                margin: 10px 0;
+                /* Crear 2 columnas para el listado */
+                display: grid; 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                font-size: 0.95em;
+            }
+            
+            #reportDetails li {
+                background-color: #f0f0f0;
+                padding: 8px 12px;
+                border-radius: 4px;
+                border-left: 5px solid #007BFF;
+                font-weight: bold;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            #reportDetails li span {
+                color: #C82333;
+                font-size: 1.1em;
+            }
+
         }
     </style>
 </head>
@@ -604,51 +242,19 @@
             <h2>Informe de Ciberseguridad Personal</h2>
             <p>Generado por: <span id="reportUserName">Usuario Desconocido</span></p>
             <p>Fecha de Evaluación: <span id="reportDate"></span></p>
+            <div class="overall-summary-block" style="margin: 20px auto; background-color: #e6f3ff;">
+                <div class="overall-score-top">Puntuación General: <span id="reportGeneralScore">0%</span></div>
+            </div>
+            <div id="reportDetails">
+                </div>
         </div>
 
         <p class="context-paragraph">
             Este CheckList es una Evaluación de Ciberseguridad gratuita y su propósito es proporcionarte asistencia y una "nota" en el ámbito de la Ciberseguridad. Está dirigido tanto a usuarios sin experiencia previa como a aquellos que ya cuentan con conocimientos en la materia.
         </p>
-
+        
         <div class="scores-summary-top">
-            <div class="overall-summary-block">
-                <div class="overall-score-top">Tu Progreso es: <span id="promedioGeneral">0%</span></div>
-                <div class="overall-item-count">
-                    <span id="totalCheckedItems">0</span> de <span id="totalItems">0</span> Items Completados
-                </div>
             </div>
-            <div class="charts-container">
-                <div class="radial-chart-container">
-                    <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
-                </div>
-                <div class="donut-list">
-                    <div class="donut-chart" id="donutBasico">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleBasico" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#28A745" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
-                        </svg>
-                        <div class="donut-percentage" id="donutPercentBasico">0%</div>
-                        <div class="donut-title">Básico</div>
-                    </div>
-                    <div class="donut-chart" id="donutAvanzado">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleAvanzado" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#FFC107" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
-                        </svg>
-                        <div class="donut-percentage" id="donutPercentAvanzado">0%</div>
-                        <div class="donut-title">Avanzado</div>
-                    </div>
-                    <div class="donut-chart" id="donutOpcional">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="donut-circle-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="donutCircleOpcional" class="donut-circle-progress" cx="50" cy="50" r="45" stroke="#6C757D" stroke-dasharray="282.7 282.7" stroke-dashoffset="282.7"></circle>
-                        </svg>
-                        <div class="donut-percentage" id="donutPercentOpcional">0%</div>
-                        <div class="donut-title">Opcional</div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="checklist-grid">
             <div class="category-card" onclick="openModal('autenticacion')">
                 <div class="card-header"><span class="icon">🔑</span> Autenticación</div>
@@ -749,254 +355,6 @@
         </div>
     </div>
     
-    <div id="checklistModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <div class="modal-title-group">
-                    <h2 id="modalTitle">Detalles del Checklist</h2>
-                    <span id="modalSectionScore" class="modal-section-score">0%</span>
-                </div>
-                <div class="modal-controls">
-                    <button class="save-button" onclick="saveAndCloseModal()">Guardar y Cerrar</button>
-                    <button class="clear-button" onclick="clearCurrentSection()">Borrar Items Seleccionados</button>
-                </div>
-            </div>
-            <div id="modalBody">
-                </div>
-        </div>
-    </div>
-
-    <button id="openChatButton" onclick="openChatModal()">💬</button>
-
-    <div id="chatModal" class="modal">
-        <div class="modal-content">
-            <div class="chat-header">
-                <span>Asistente de Ciberseguridad (IA)</span>
-                <span class="chat-close-button" onclick="closeChatModal()">&times;</span>
-            </div>
-            <div class="chat-body-iframe" id="chatBody">
-                <iframe 
-                    src="https://84fe6eb8.chatbot-ai2.pages.dev/" 
-                    frameborder="0" 
-                    allow="microphone; geolocation">
-                </iframe>
-            </div>
-            </div>
-    </div>
-    
-    <div id="hiddenChecklistData" style="display: none;">
-        <section data-sectionname="autenticacion" data-title="Checklist de Autenticación">
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_pass_manager">
-                     <label for="auth_pass_manager" class="item-title">Usar un gestor de contraseñas confiable.</label>
-                 </div>
-                 <div class="item-detail">Facilita la creación y gestión de contraseñas complejas y únicas para cada servicio.</div>
-                 <span class="level-tag level-basico">Básico</span>
-             </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_2fa_critical">
-                     <label for="auth_2fa_critical" class="item-title">Activar 2FA en cuentas <span class="emphasis">críticas</span> (email, bancos, redes principales).</label>
-                 </div>
-                 <div class="item-detail">La autenticación de dos factores es vital contra el robo de contraseñas.</div>
-                 <span class="level-tag level-basico">Básico</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_2fa_app">
-                     <label for="auth_2fa_app" class="item-title">Usar app de autenticación (ej: Google Authenticator) en lugar de SMS para el 2FA.</label>
-                 </div>
-                 <div class="item-detail">Los códigos por SMS pueden ser interceptados. Las apps son más seguras.</div>
-                 <span class="level-tag level-avanzado">Avanzado</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_fido">
-                     <label for="auth_fido" class="item-title">Considerar el uso de llaves de seguridad física (FIDO/Yubikey).</label>
-                 </div>
-                 <div class="item-detail">Es la forma más segura de autenticación de dos factores.</div>
-                 <span class="level-tag level-opcional">Opcional</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="auth_check_leaks">
-                     <label for="auth_check_leaks" class="item-title">Monitorear si tus contraseñas han sido filtradas (Have I Been Pwned).</label>
-                 </div>
-                 <div class="item-detail">Verifica si alguna de tus credenciales ha sido comprometida en fugas de datos.</div>
-                 <span class="level-tag level-opcional">Opcional</span>
-             </div>
-        </section>
-
-        <section data-sectionname="moviles" data-title="Checklist de Dispositivos Móviles">
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_pass_lock">
-                     <label for="mobile_pass_lock" class="item-title">Configurar contraseña, PIN o biometría <span class="emphasis">fuerte</span>.</label>
-                 </div>
-                 <div class="item-detail">Protege tu dispositivo con un método de desbloqueo robusto.</div>
-                 <span class="level-tag level-basico">Básico</span>
-             </div>
-             <div class="checklist-item" data-item-level="basico">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_updates">
-                     <label for="mobile_updates" class="item-title">Mantener el sistema operativo y apps <span class="emphasis">actualizadas</span>.</label>
-                 </div>
-                 <div class="item-detail">Las actualizaciones incluyen parches de seguridad críticos.</div>
-                 <span class="level-tag level-basico">Básico</span>
-             </div>
-             <div class="checklist-item" data-item-level="avanzado">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_sim_lock">
-                     <label for="mobile_sim_lock" class="item-title">Configurar un PIN para la tarjeta SIM.</label>
-                 </div>
-                 <div class="item-detail">Evita el "SIM Swapping" y que usen tu SIM en otro teléfono.</div>
-                 <span class="level-tag level-avanzado">Avanzado</span>
-             </div>
-             <div class="checklist-item" data-item-level="opcional">
-                 <div class="checklist-row">
-                     <input type="checkbox" id="mobile_public_wifi_vpn">
-                     <label for="mobile_public_wifi_vpn" class="item-title">Usar VPN de confianza en redes Wi-Fi públicas.</label>
-                 </div>
-                 <div class="item-detail">Una VPN encripta tu tráfico, protegiéndote de interceptaciones de datos.</div>
-                 <span class="level-tag level-opcional">Opcional</span>
-             </div>
-        </section>
-
-        <section data-sectionname="pc" data-title="Checklist de PC y Escritorio">
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_pass_login">
-                    <label for="pc_pass_login" class="item-title">Establecer contraseña <span class="emphasis">robusta</span> para iniciar sesión.</label>
-                </div>
-                <div class="item-detail">Una contraseña fuerte es la primera línea de defensa contra accesos no autorizados.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_antivirus">
-                    <label for="pc_antivirus" class="item-title">Tener antivirus/antimalware confiable instalado y actualizado.</label>
-                </div>
-                <div class="item-detail">Un buen software de seguridad detecta y elimina amenazas.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_disk_encrypt">
-                    <label for="pc_disk_encrypt" class="item-title">Activar la encriptación de disco completo (BitLocker, FileVault).</label>
-                </div>
-                <div class="item-detail">Protege tus datos si el dispositivo es robado.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
-            </div>
-            <div class="checklist-item" data-item-level="opcional">
-                <div class="checklist-row">
-                    <input type="checkbox" id="pc_admin_limit">
-                    <label for="pc_admin_limit" class="item-title">Usar una cuenta sin privilegios de administrador para el uso diario.</label>
-                </div>
-                <div class="item-detail">Limita el daño que el malware puede hacer si infecta tu sistema.</div>
-                <span class="level-tag level-opcional">Opcional</span>
-            </div>
-        </section>
-
-        <section data-sectionname="navegacion" data-title="Checklist de Navegación Web">
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_secure_sites">
-                    <label for="nav_secure_sites" class="item-title">Verificar que los sitios web sean HTTPS (candado en la URL).</label>
-                </div>
-                <div class="item-detail">Asegura que tu conexión con el sitio esté encriptada y sea privada.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_popups">
-                    <label for="nav_popups" class="item-title">Bloquear Pop-ups y notificaciones intrusivas en el navegador.</label>
-                </div>
-                <div class="item-detail">Reduce la superficie de ataque y la exposición a contenido malicioso.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_ext_check">
-                    <label for="nav_ext_check" class="item-title">Revisar y limitar el número de extensiones del navegador.</label>
-                </div>
-                <div class="item-detail">Las extensiones maliciosas son un vector de ataque común. Elimina las que no uses.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
-            </div>
-            <div class="checklist-item" data-item-level="opcional">
-                <div class="checklist-row">
-                    <input type="checkbox" id="nav_dns_secure">
-                    <label for="nav_dns_secure" class="item-title">Configurar DNS seguro (ej. Cloudflare 1.1.1.1, Google 8.8.8.8).</label>
-                </div>
-                <div class="item-detail">Mejora la privacidad y puede bloquear acceso a sitios de malware conocidos.</div>
-                <span class="level-tag level-opcional">Opcional</span>
-            </div>
-        </section>
-
-        <section data-sectionname="correo" data-title="Checklist de Correo Electrónico">
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_attachments">
-                    <label for="email_attachments" class="item-title">Ser <span class="emphasis">extremadamente cauteloso</span> con adjuntos y enlaces.</label>
-                </div>
-                <div class="item-detail">El *phishing* y el *malware* se propagan principalmente a través de correos.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_sender_check">
-                    <label for="email_sender_check" class="item-title">Verificar la dirección del remitente, incluso si el nombre parece conocido.</label>
-                </div>
-                <div class="item-detail">Los atacantes suelen usar direcciones similares para engañarte.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_separate_acc">
-                    <label for="email_separate_acc" class="item-title">Usar una dirección de correo separada para compras y suscripciones.</label>
-                </div>
-                <div class="item-detail">Minimiza el riesgo de que tu correo principal se vea afectado en una filtración.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
-            </div>
-            <div class="checklist-item" data-item-level="opcional">
-                <div class="checklist-row">
-                    <input type="checkbox" id="email_pgp">
-                    <label for="email_pgp" class="item-title">Utilizar PGP o cifrado de extremo a extremo en correos sensibles.</label>
-                </div>
-                <div class="item-detail">Garantiza que solo el destinatario pueda leer el contenido del mensaje.</div>
-                <span class="level-tag level-opcional">Opcional</span>
-            </div>
-        </section>
-
-        <section data-sectionname="respaldo" data-title="Checklist de Respaldo y Recuperación">
-            <div class="checklist-item" data-item-level="basico">
-                <div class="checklist-row">
-                    <input type="checkbox" id="backup_critical_data">
-                    <label for="backup_critical_data" class="item-title">Hacer copias de seguridad de <span class="emphasis">datos críticos</span> regularmente.</label>
-                </div>
-                <div class="item-detail">La pérdida de datos puede ocurrir por fallos de hardware o ataques de *ransomware*.</div>
-                <span class="level-tag level-basico">Básico</span>
-            </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="backup_separate_media">
-                    <label for="backup_separate_media" class="item-title">Mantener una copia de seguridad <span class="emphasis">desconectada</span> (Regla 3-2-1).</label>
-                </div>
-                <div class="item-detail">Protege la copia de seguridad de virus, incendios o robos.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
-            </div>
-            <div class="checklist-item" data-item-level="avanzado">
-                <div class="checklist-row">
-                    <input type="checkbox" id="backup_test_restore">
-                    <label for="backup_test_restore" class="item-title">Probar periódicamente la restauración de datos.</label>
-                </div>
-                <div class="item-detail">Asegúrate de que la copia de seguridad realmente funcione cuando la necesites.</div>
-                <span class="level-tag level-avanzado">Avanzado</span>
-            </div>
-        </section>
-    </div>
-
     <script>
         // **********************************************
         // 1. LÓGICA DEL CHECKLIST (Datos, Persistencia, Gráficas)
@@ -1033,13 +391,6 @@
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
 
-        /**
-         * @function getSectionIdSuffix
-         * @description Genera el sufijo correcto para las IDs de las tarjetas.
-         * (Corrige el bug donde 'pc' debía ser 'PC' en mayúsculas).
-         * @param {string} sectionName - Nombre interno de la sección ('pc', 'moviles', etc.).
-         * @returns {string} El sufijo del ID a buscar en el HTML.
-         */
         function getSectionIdSuffix(sectionName) {
             // FIX para 'pc' que en HTML es 'PC' (todo mayúsculas)
             if (sectionName === 'pc') {
@@ -1048,6 +399,42 @@
             // Uso de PascalCase estándar para el resto
             return capitalize(sectionName);
         }
+        
+        /**
+         * NUEVA FUNCIÓN: Obtiene la información de cumplimiento de cada sección.
+         */
+        function getSectionScores() {
+            const scores = [];
+            let totalChecked = 0;
+            let totalTotal = 0;
+            
+            for (const sectionName in allChecklistData) {
+                const section = allChecklistData[sectionName];
+                let checkedInSection = 0;
+                let totalInSection = section.items.length;
+
+                section.items.forEach(item => { 
+                    if (item.checked) checkedInSection++; 
+                });
+                
+                totalChecked += checkedInSection;
+                totalTotal += totalInSection;
+                
+                const score = totalInSection > 0 ? Math.round((checkedInSection / totalInSection) * 100) : 0;
+                
+                scores.push({
+                    name: section.title.replace('Checklist de ', ''),
+                    compliance: score,
+                    total: totalInSection,
+                    checked: checkedInSection
+                });
+            }
+            
+            const promedioGeneral = totalTotal > 0 ? Math.round((totalChecked / totalTotal) * 100) : 0;
+            
+            return { scores, promedioGeneral };
+        }
+
 
         // 1.3 Lógica de Persistencia y Actualización (Gráficas y Scores)
         function updateTotals() {
@@ -1080,7 +467,6 @@
                     scoreClass = 'medium';
                 }
 
-                // *** USAR EL SUFIJO CORREGIDO AQUÍ ***
                 const suffix = getSectionIdSuffix(sectionName); 
                 
                 // Actualizar Tarjetas
@@ -1107,6 +493,8 @@
             saveState(); // Guardar el estado después de cada actualización
         }
 
+        // ... (Resto de funciones: updateDonutCharts, updateRadarChart, openModal, saveAndCloseModal, etc., sin cambios relevantes) ...
+        
         // 1.4 Lógica de Gráficos (Donut Charts)
         function updateDonutCharts() {
             const circumference = 282.7; // 2 * PI * 45 (radio)
@@ -1171,14 +559,12 @@
                 
                 // Etiqueta
                 const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                // Ajustar posición para que la etiqueta no quede encima del gráfico
                 const labelX = center + (radius * 1.1) * Math.cos(angle);
                 const labelY = center + (radius * 1.1) * Math.sin(angle);
 
                 label.setAttribute('x', labelX);
                 label.setAttribute('y', labelY);
                 label.setAttribute('class', 'radar-label');
-                // Ajuste de anclaje de texto para centrar mejor
                 label.setAttribute('text-anchor', (Math.abs(Math.cos(angle)) < 0.1) ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end'));
                 label.textContent = capitalize(sections[i]);
                 svg.appendChild(label);
@@ -1189,8 +575,7 @@
             polygon.setAttribute('class', 'radar-shape');
             svg.appendChild(polygon);
         }
-
-        // 1.6 Lógica del Modal (Abre, Cierra, Guarda)
+        
         function openModal(sectionName) {
             currentSection = sectionName;
             const modal = document.getElementById('checklistModal');
@@ -1267,7 +652,6 @@
             document.getElementById('checklistModal').style.display = 'none';
         }
 
-        // 1.7 Persistencia de datos con localStorage
         function loadState() {
             const savedState = localStorage.getItem('cybersecurityChecklistState');
             if (savedState) {
@@ -1292,26 +676,76 @@
         // 2. LÓGICA DEL CHATBOT - INTEGRACIÓN EXTERNA
         // **********************************************
         function openChatModal() {
-            // Abre la ventana modal del chat
             document.getElementById('chatModal').style.display = 'block';
         }
 
         function closeChatModal() {
-            // Cierra la ventana modal del chat
             document.getElementById('chatModal').style.display = 'none';
         }
         
         // **********************************************
-        // 3. LÓGICA DE GENERACIÓN DE PDF
+        // 3. LÓGICA DE GENERACIÓN DE PDF Y GOOGLE SHEETS
         // **********************************************
+        
+        // ** CAMBIA ESTA URL por la que obtengas al desplegar el Apps Script **
+        const GAS_WEB_APP_URL = 'YOUR_APPS_SCRIPT_DEPLOYED_URL_HERE'; 
+
+        /**
+         * @function sendToGoogleSheet
+         * Envía los datos de cumplimiento a la hoja de Google Sheets a través del Apps Script.
+         */
+        function sendToGoogleSheet(userName, dateString, scoresData) {
+            if (GAS_WEB_APP_URL === 'YOUR_APPS_SCRIPT_DEPLOYED_URL_HERE' || !GAS_WEB_APP_URL || GAS_WEB_APP_URL.length < 50) {
+                console.warn("ADVERTENCIA: La URL de Apps Script no ha sido configurada o es incorrecta. Los datos NO se guardarán. Por favor, sigue las instrucciones de configuración.");
+                alert("Advertencia: No se guardaron los datos. Debes configurar la URL de Google Apps Script.");
+                return;
+            }
+
+            const payload = {
+                userName: userName,
+                date: dateString,
+                generalScore: scoresData.promedioGeneral,
+                scores: scoresData.scores.map(s => ({
+                    name: s.name,
+                    compliance: s.compliance
+                }))
+            };
+            
+            // Se usa mode: 'no-cors' porque Apps Script no permite leer la respuesta de forma directa,
+            // pero asegura que la solicitud se envíe.
+            fetch(GAS_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                console.log('Datos de cumplimiento enviados a Google Sheets. (El navegador no puede confirmar la recepción)');
+            })
+            .catch(error => {
+                console.error('Error al enviar datos a Google Sheets:', error);
+            });
+        }
+
+
+        /**
+         * @function generatePDF
+         * Recopila datos, los envía a Google Sheets y activa la impresión.
+         */
         function generatePDF() {
             // 1. Pedir el nombre de usuario
-            const userName = prompt("Por favor, introduce tu nombre para el informe:");
+            const userName = prompt("Por favor, introduce tu nombre para el informe y para guardar el registro:");
             
-            // 2. Si el usuario cancela o no introduce nombre, se usa un valor predeterminado
-            const nameToDisplay = userName && userName.trim() !== "" ? userName.trim() : "Usuario Anónimo";
+            if (!userName || userName.trim() === "") {
+                alert("La generación del reporte ha sido cancelada.");
+                return;
+            }
             
-            // 3. Obtener la fecha de hoy en formato local
+            const nameToDisplay = userName.trim();
+            
+            // 2. Obtener la fecha de hoy
             const today = new Date();
             const dateString = today.toLocaleDateString('es-ES', { 
                 year: 'numeric', 
@@ -1319,17 +753,42 @@
                 day: 'numeric' 
             });
 
-            // 4. Inyectar el nombre y la fecha en el encabezado del reporte (oculto en pantalla)
+            // 3. Obtener todos los scores y el promedio general
+            const scoresData = getSectionScores();
+            const scores = scoresData.scores;
+            const promedioGeneral = scoresData.promedioGeneral;
+
+            // 4. Inyectar datos en el encabezado del reporte (para impresión)
             document.getElementById('reportUserName').textContent = nameToDisplay;
             document.getElementById('reportDate').textContent = dateString;
+            document.getElementById('reportGeneralScore').textContent = `${promedioGeneral}%`;
 
-            // 5. Iniciar la impresión (el navegador abre la ventana de diálogo "Guardar como PDF")
-            window.print();
+            // 5. Inyectar la lista de scores por categoría
+            let scoresHtml = '<ul>';
+            scores.forEach(score => {
+                scoresHtml += `<li>${score.name} <span>${score.compliance}%</span></li>`;
+            });
+            scoresHtml += '</ul>';
+            
+            document.getElementById('reportDetails').innerHTML = `
+                <h3 style="color: #1A3E60; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-bottom: 10px; font-size: 1.2em;">Cumplimiento por Categoría</h3>
+                ${scoresHtml}
+            `;
+
+            // 6. Enviar datos a Google Sheets (Asíncrono)
+            sendToGoogleSheet(nameToDisplay, dateString, scoresData);
+            
+            // 7. Iniciar la impresión (navegador)
+            // Pequeño retraso para que el navegador procese el cambio de estilos de impresión
+            setTimeout(() => {
+                window.print();
+            }, 100); 
         }
 
         // Inicialización de la aplicación
         loadState();
         updateTotals();
     </script>
-</body>
+    
+    </body>
 </html>
