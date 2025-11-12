@@ -648,6 +648,133 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="overall-summary-block" style="flex-basis: 35%; min-width: 250px; display: block; padding: 10px 15px;">
+        <h3 style="margin-top: 0; margin-bottom: 5px; font-size: 1.1em; color: #1A5276;">Datos del Evaluado</h3>
+        <input type="text" id="userName" placeholder="Nombre Completo" required 
+               style="width: 100%; padding: 5px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        <input type="text" id="userId" placeholder="Cédula o ID Driver License" required
+               style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
+    ```
+
+### Paso 3.2: Actualizar la Lógica de Envío (JavaScript)
+
+Busca la etiqueta `<script>` y **reemplaza** la definición de `SCRIPT_URL` y las funciones `calculateLevelScores()`, `prepareReportData()`, y `generateReport()` con este código:
+
+**¡IMPORTANTE!** **Pega la URL de tu Worker** obtenida en el Paso 2.3 en la variable `WORKER_API_URL`.
+
+```javascript
+        // ... (el resto del código JS anterior)
+
+        // **********************************************
+        // 1.8 Lógica de Generación de Reporte para Cloudflare D1
+        // **********************************************
+        
+        // ¡PEGA AQUÍ LA URL COMPLETA DE TU WORKER!
+        const WORKER_API_URL = "https://checklist-api.<tu-dominio>.workers.dev"; 
+
+        function calculateLevelScores() {
+            const scores = {};
+            allLevels.forEach(level => {
+                const total = totalItemsInLevel[level] || 1;
+                const checked = checkedItemsInLevel[level] || 0;
+                scores[level] = Math.round((checked / total) * 100) || 0;
+            });
+            return scores;
+        }
+
+        function prepareReportData() {
+            const userName = document.getElementById('userName').value;
+            const userId = document.getElementById('userId').value;
+
+            if (!userName || !userId) {
+                alert("Por favor, ingrese su Nombre Completo y su Cédula/ID antes de generar el reporte.");
+                return null;
+            }
+
+            let overallChecked = 0;
+            let overallTotal = 0;
+            const detailBySection = {};
+            const levelScores = calculateLevelScores();
+
+            for (const sectionName in allChecklistData) {
+                const section = allChecklistData[sectionName];
+                let checkedInSection = 0;
+                section.items.forEach(item => {
+                    if (item.checked) checkedInSection++;
+                });
+
+                overallChecked += checkedInSection;
+                overallTotal += section.items.length;
+                
+                const score = section.items.length > 0 ? Math.round((checkedInSection / section.items.length) * 100) : 0;
+
+                detailBySection[sectionName] = {
+                    title: section.title,
+                    score: score + '%',
+                    checked: checkedInSection,
+                    total: section.items.length
+                };
+            }
+
+            const overallScore = overallTotal > 0 ? Math.round((overallChecked / overallTotal) * 100) : 0;
+
+            return {
+                userName: userName,
+                userId: userId,
+                overallScore: overallScore + '%',
+                checkedItems: overallChecked,
+                totalItems: overallTotal,
+                levelScores: levelScores, // Scores por nivel
+                detailBySection: detailBySection
+            };
+        }
+
+        async function generateReport() {
+            updateTotals(); 
+            const reportData = prepareReportData();
+
+            if (!reportData) return;
+
+            const reportButton = document.querySelector('.report-button-block');
+            reportButton.style.opacity = '0.5';
+            reportButton.style.pointerEvents = 'none';
+
+            try {
+                const response = await fetch(WORKER_API_URL, {
+                    method: 'POST',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reportData)
+                });
+                
+                const result = await response.json();
+
+                if (response.ok && result.result === 'Success') {
+                    alert(`✅ ¡Reporte guardado con éxito! ID de Progreso: ${result.progress_id}`);
+                } else {
+                    throw new Error(result.message || 'Error desconocido al guardar en D1.');
+                }
+
+            } catch (error) {
+                console.error('Error al generar el reporte:', error);
+                alert(`❌ Ocurrió un error al intentar generar el reporte. Detalles: ${error.message}.`);
+            } finally {
+                reportButton.style.opacity = '1';
+                reportButton.style.pointerEvents = 'auto';
+            }
+        }
+        
+        // Inicialización de la aplicación
+        loadState();
+        updateTotals();
+    
         </div>
         <div class="checklist-grid">
             <div class="category-card" onclick="openModal('autenticacion')">
