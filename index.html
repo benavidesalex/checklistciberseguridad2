@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist de Ciberseguridad Personal</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
     <style>
         /* Estilos Base y Tipografía */
         body {
@@ -48,6 +45,49 @@
             box-shadow: 0 4px 10px rgba(0, 123, 255, 0.15);
         }
 
+        /* --- Estilos del Botón PDF --- */
+        .pdf-button-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        #generatePdfButton {
+            padding: 10px 20px;
+            background-color: #C82333; /* Color rojo o de reporte */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #generatePdfButton:hover {
+            background-color: #A01C2A;
+        }
+        
+        /* --- Report Header (Solo para PDF) --- */
+        #reportHeader {
+            display: none; /* Oculto por defecto */
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        #reportHeader h2 {
+            margin: 0 0 5px 0;
+            color: #1A3E60;
+            font-size: 1.8em;
+        }
+        #reportHeader p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+
         /* --- Resumen Superior (Scores & Donut Charts & Radar) --- */
         .scores-summary-top {
             display: flex;
@@ -61,17 +101,9 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             gap: 15px;
         }
-        
-        .summary-block-group {
-            display: flex;
-            flex-grow: 1;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
 
         .overall-summary-block {
-            flex-basis: 30%;
+            flex-basis: 25%;
             min-width: 150px;
             display: flex;
             flex-direction: column;
@@ -79,39 +111,6 @@
             padding: 10px 15px;
             background-color: #C0DFF0;
             border-radius: 5px;
-        }
-        
-        /* Estilos para el nuevo botón de reporte */
-        .report-button-block {
-            flex-basis: 30%;
-            min-width: 150px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 15px;
-            background-color: #D4EDDA;
-            border-radius: 5px;
-            transition: background-color 0.2s;
-        }
-
-        .report-button-block:hover {
-            background-color: #c3e6cb;
-        }
-
-        .report-button-text-large {
-            font-size: 1.6em;
-            font-weight: bold;
-            color: #155724;
-            text-align: center;
-        }
-        
-        .report-button-text-small {
-             font-size: 0.9em;
-            color: #155724;
-            margin-top: 5px;
-            font-weight: 500;
         }
 
         .overall-score-top {
@@ -136,12 +135,11 @@
         /* Contenedor Gráficos: organiza el radar y los donuts */
         .charts-container {
             display: flex;
-            flex-basis: 100%;
+            flex-basis: 70%;
             justify-content: space-around;
             gap: 15px;
             align-items: flex-start;
             flex-wrap: wrap;
-            margin-top: 15px;
         }
 
         /* Gráfico Radial */
@@ -165,7 +163,6 @@
         .radar-axis {
             stroke: #A0B2C6;
             stroke-width: 1.2;
-            fill: none;
         }
 
         .radar-shape {
@@ -203,6 +200,7 @@
             width: 100%;
             height: auto;
             margin-top: 10px;
+            /* Rotación 90 grados a la izquierda para que 0% esté arriba */
             transform: rotate(-90deg);
         }
 
@@ -222,6 +220,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
+            /* Se elimina la rotación extra en el porcentaje para que quede vertical */
             transform: translate(-50%, -50%);
             font-size: 1.1em;
             font-weight: bold;
@@ -330,17 +329,18 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 100; 
+            z-index: 100; /* Asegura que esté por encima de todo */
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6); 
+            background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
         }
 
         #checklistModal .modal-content {
             background-color: #fefefe;
+            /* Centrado Vertical y Horizontal */
             margin: 5% auto;
             padding: 30px;
             border: 1px solid #888;
@@ -351,21 +351,6 @@
             position: relative;
         }
         
-        /* Modal para la captura de datos antes del reporte */
-        #dataModal .modal-content {
-            margin: 15% auto;
-            max-width: 400px;
-            text-align: center;
-        }
-        
-        #dataModal input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
         .close-button {
             color: #aaa;
             float: right;
@@ -409,16 +394,6 @@
             cursor: pointer;
             font-weight: bold;
         }
-        
-        #submitReportButton {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
 
         .save-button {
             background-color: #28a745;
@@ -435,12 +410,9 @@
             border-bottom: 1px dashed #eee;
             transition: background-color 0.2s;
         }
-        
-        /* Retroalimentación inmediata en el modal */
+
         .checklist-item.completed {
             background-color: #f7fff7;
-            border-left: 5px solid #28a745;
-            padding-left: 5px;
         }
 
         .checklist-row {
@@ -481,132 +453,170 @@
         .level-avanzado { background-color: #FFF3CD; color: #856404; }
         .level-opcional { background-color: #D6D8D9; color: #495057; }
         
-        /* --- CHATBOT STYLES (Estructura Limpia) --- */
-        #chatbot-icon {
+        /* --- CHATBOT STYLES START --- */
+        #openChatButton {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 60px;
-            font-size: 28px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 10;
-        }
-        
-        #chatbot-popup {
-            display: none;
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 9;
-            flex-direction: column;
-        }
-        
-        #chatbot-header {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            font-weight: bold;
-            cursor: move; /* Permite arrastrar */
-        }
-        
-        #chatbot-body {
-            flex-grow: 1;
-            padding: 10px;
-            overflow-y: auto;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .chat-message {
-            max-width: 80%;
-            padding: 8px 12px;
-            border-radius: 15px;
-            word-wrap: break-word;
-        }
-        
-        .user-message {
-            align-self: flex-end;
-            background-color: #e6e6e6;
-            color: #333;
-        }
-        
-        .bot-message {
-            align-self: flex-start;
-            background-color: #007BFF;
-            color: white;
-        }
-        
-        #chatbot-input-area {
-            padding: 10px;
-            display: flex;
-        }
-        
-        #chatbot-input {
-            flex-grow: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        #chatbot-send {
-            margin-left: 5px;
-            background-color: #007BFF;
+            background-color: #1A3E60; /* Color principal */
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+            z-index: 101; /* Más alto que el modal del checklist */
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #openChatButton:hover {
+            background-color: #0056b3;
         }
         
+        /* Ajustar el modal para el chat */
+        #chatModal .modal-content {
+            background-color: #fff;
+            margin: 5% 2% 0 auto; /* Posicionar en la esquina inferior derecha (en desktop) */
+            padding: 0; 
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 350px; 
+            height: 75vh;
+            max-height: 500px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+            position: fixed; /* Usar fixed para que se quede en el mismo lugar */
+            bottom: 90px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #1A3E60;
+            color: white;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-close-button {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 0.8;
+            margin-left: 10px;
+        }
+
+        /* Contenedor del Iframe */
+        .chat-body-iframe {
+            flex-grow: 1;
+            padding: 0;
+            overflow: hidden; /* El iframe se encarga del scroll */
+        }
+        
+        /* Estilos del Iframe */
+        .chat-body-iframe iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* --- CHATBOT STYLES END --- */
+
+        /* ********************************************** */
+        /* MEDIA QUERY PARA IMPRESIÓN (GENERACIÓN DE PDF) */
+        /* ********************************************** */
+        @media print {
+            body {
+                background-color: #fff; /* Fondo blanco para impresión */
+                padding: 0;
+            }
+            .container {
+                box-shadow: none; /* Eliminar sombras */
+                border: none;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            
+            /* OCULTAR ELEMENTOS INNECESARIOS */
+            .context-paragraph,
+            .checklist-grid,
+            #openChatButton,
+            #generatePdfButton,
+            .modal,
+            .modal-content,
+            .modal-header,
+            .modal-body {
+                display: none !important;
+            }
+            
+            /* MOSTRAR ENCABEZADO DE REPORTE */
+            #reportHeader {
+                display: block !important;
+                border-bottom: 3px solid #1A3E60;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            
+            /* AJUSTAR EL CONTENEDOR DE GRÁFICAS PARA IMPRESIÓN */
+            .scores-summary-top {
+                background-color: #fff;
+                box-shadow: none;
+                border: 1px solid #ddd;
+                /* Mejorar la distribución en una hoja A4 */
+                flex-direction: row; 
+                justify-content: center;
+                gap: 50px;
+            }
+            
+            .overall-summary-block {
+                background-color: #f7f7f7;
+                border: 1px solid #ccc;
+            }
+
+            .charts-container {
+                flex-direction: row; /* Asegurar que se muestren uno al lado del otro */
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container" id="reportContent">
+    <div class="container">
         <h1>🛡️ Evaluación de Ciberseguridad Personal</h1>
 
+        <div class="pdf-button-container">
+            <button id="generatePdfButton" onclick="generatePDF()">⬇️ Generar Reporte de Cumplimiento (PDF)</button>
+        </div>
+        
+        <div id="reportHeader">
+            <h2>Informe de Ciberseguridad Personal</h2>
+            <p>Generado por: <span id="reportUserName">Usuario Desconocido</span></p>
+            <p>Fecha de Evaluación: <span id="reportDate"></span></p>
+        </div>
+
         <p class="context-paragraph">
-            Este CheckList es una Evaluación de Ciberseguridad gratuita y su propósito es proporcionarte asistencia y una "nota" en el ámbito de la Ciberseguridad.
+            Este CheckList es una Evaluación de Ciberseguridad gratuita y su propósito es proporcionarte asistencia y una "nota" en el ámbito de la Ciberseguridad. Está dirigido tanto a usuarios sin experiencia previa como a aquellos que ya cuentan con conocimientos en la materia.
         </p>
 
         <div class="scores-summary-top">
-            <div class="summary-block-group">
-                <div class="overall-summary-block">
-                    <div class="overall-score-top">Tu Progreso es: <span id="promedioGeneral">0%</span></div>
-                    <div class="overall-item-count">
-                        <span id="totalCheckedItems">0</span> de <span id="totalItems">0</span> Items Completados
-                    </div>
-                </div>
-                
-                <div class="report-button-block" onclick="promptUserDataAndGenerateReport()">
-                    <div class="report-button-text-large">
-                        GENERAR
-                    </div>
-                    <div class="report-button-text-large">
-                        REPORTE
-                    </div>
-                    <div class="report-button-text-small">
-                        Descargar PDF y Guardar en D1
-                    </div>
+            <div class="overall-summary-block">
+                <div class="overall-score-top">Tu Progreso es: <span id="promedioGeneral">0%</span></div>
+                <div class="overall-item-count">
+                    <span id="totalCheckedItems">0</span> de <span id="totalItems">0</span> Items Completados
                 </div>
             </div>
-
             <div class="charts-container">
                 <div class="radial-chart-container">
                     <svg id="cyberRadarChart" viewBox="0 0 200 200"></svg>
@@ -639,7 +649,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="checklist-grid">
             <div class="category-card" onclick="openModal('autenticacion')">
                 <div class="card-header"><span class="icon">🔑</span> Autenticación</div>
@@ -676,14 +685,14 @@
             <div class="category-card" onclick="openModal('pc')">
                 <div class="card-header"><span class="icon">💻</span> PC y Escritorio</div>
                 <div class="card-body">
-                    <div class="card-score" id="scorePc">0%</div> 
+                    <div class="card-score" id="scorePC">0%</div>
                     <div class="card-details">
                         <div class="detail-group">
-                            <span id="checkedPc">0</span> 
+                            <span id="checkedPC">0</span>
                             <span>Completados</span>
                         </div>
                         <div class="detail-group">
-                            <span id="totalPc">0</span> 
+                            <span id="totalPC">0</span>
                             <span>Totales</span>
                         </div>
                     </div>
@@ -742,7 +751,7 @@
     
     <div id="checklistModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" onclick="closeModal('checklistModal')">&times;</span>
+            <span class="close-button" onclick="closeModal()">&times;</span>
             <div class="modal-header">
                 <div class="modal-title-group">
                     <h2 id="modalTitle">Detalles del Checklist</h2>
@@ -758,30 +767,24 @@
         </div>
     </div>
 
-    <div id="dataModal" class="modal">
+    <button id="openChatButton" onclick="openChatModal()">💬</button>
+
+    <div id="chatModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" onclick="closeModal('dataModal')">&times;</span>
-            <h2>Datos para el Reporte y Registro</h2>
-            <p>Por favor, ingrese sus datos para finalizar el reporte.</p>
-            <input type="text" id="modalUserName" placeholder="Nombre Completo" required>
-            <input type="text" id="modalUserId" placeholder="Cédula o ID Driver License" required>
-            <button id="submitReportButton" onclick="submitDataAndProcessReport()">Generar PDF y Guardar</button>
-        </div>
+            <div class="chat-header">
+                <span>Asistente de Ciberseguridad (IA)</span>
+                <span class="chat-close-button" onclick="closeChatModal()">&times;</span>
+            </div>
+            <div class="chat-body-iframe" id="chatBody">
+                <iframe 
+                    src="https://84fe6eb8.chatbot-ai2.pages.dev/" 
+                    frameborder="0" 
+                    allow="microphone; geolocation">
+                </iframe>
+            </div>
+            </div>
     </div>
     
-    <div id="chatbot-icon" onclick="toggleChatbot()">💬</div>
-    <div id="chatbot-popup">
-        <div id="chatbot-header" onmousedown="dragElement(document.getElementById('chatbot-popup'))">Chat de Ciberseguridad</div>
-        <div id="chatbot-body">
-            <div class="chat-message bot-message">Hola, soy tu asistente de ciberseguridad. Pregúntame sobre cualquier ítem.</div>
-        </div>
-        <div id="chatbot-input-area">
-            <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta..." onkeypress="handleChatInput(event)">
-            <button id="chatbot-send" onclick="sendChatQuery()">Enviar</button>
-        </div>
-    </div>
-
-
     <div id="hiddenChecklistData" style="display: none;">
         <section data-sectionname="autenticacion" data-title="Checklist de Autenticación">
              <div class="checklist-item" data-item-level="basico">
@@ -996,21 +999,14 @@
 
     <script>
         // **********************************************
-        // 0. CONFIGURACIÓN DE WORKERS
-        // **********************************************
-        const D1_WORKER_URL = "https://checklist-api.<tu-dominio>.workers.dev"; // Reemplazar con URL de tu Worker D1
-        const CHATBOT_WORKER_URL = "https://chatbot-api-worker.tecnoesw3.workers.dev";
-        const allLevels = ['basico', 'avanzado', 'opcional'];
-
-        // **********************************************
-        // 1. LÓGICA DEL CHECKLIST Y ESTADO
+        // 1. LÓGICA DEL CHECKLIST (Datos, Persistencia, Gráficas)
         // **********************************************
 
         const allChecklistData = {};
+        const allLevels = ['basico', 'avanzado', 'opcional'];
         const totalItemsInLevel = {};
         const checkedItemsInLevel = {};
         let currentSection = ''; 
-        let isChatbotOpen = false;
 
         // 1.1 Cargar datos del HTML a la estructura JS
         document.querySelectorAll('#hiddenChecklistData section').forEach(section => {
@@ -1018,14 +1014,13 @@
             const title = section.dataset.title;
             const items = [];
             section.querySelectorAll('.checklist-item').forEach(item => {
-                const checkbox = item.querySelector('input[type="checkbox"]');
                 const level = item.dataset.itemLevel;
                 items.push({
-                    id: checkbox.id,
+                    id: item.querySelector('input[type="checkbox"]').id,
                     title: item.querySelector('.item-title').textContent,
                     detail: item.querySelector('.item-detail').textContent,
                     level: level,
-                    checked: false // Estado inicial
+                    checked: false
                 });
 
                 totalItemsInLevel[level] = (totalItemsInLevel[level] || 0) + 1;
@@ -1037,57 +1032,24 @@
         function capitalize(s) {
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
-        
-        // Función para cambiar la clase del ítem en vivo dentro del modal (UX Mejorada)
-        function toggleCompletedClass(checkbox) {
-            const itemDiv = checkbox.closest('.checklist-item');
-            if (checkbox.checked) {
-                itemDiv.classList.add('completed');
-            } else {
-                itemDiv.classList.remove('completed');
-            }
-            updateModalScore(currentSection);
-        }
 
-        // 1.3 Lógica de Persistencia y Actualización
-
-        /** * NOTA IMPORTANTE DE PERSISTENCIA: 
-         * Para migrar a Cloudflare KV (Recomendado):
-         * 1. Reemplace esta función para hacer un fetch('GET /state/:userId') a su Worker KV.
-         * 2. Obtenga el estado del servidor.
-         * 3. Aplique el estado (usando el mapeo por ID)
+        /**
+         * @function getSectionIdSuffix
+         * @description Genera el sufijo correcto para las IDs de las tarjetas.
+         * (Corrige el bug donde 'pc' debía ser 'PC' en mayúsculas).
+         * @param {string} sectionName - Nombre interno de la sección ('pc', 'moviles', etc.).
+         * @returns {string} El sufijo del ID a buscar en el HTML.
          */
-        function loadState() {
-            const savedState = localStorage.getItem('cybersecurityChecklistState');
-            if (savedState) {
-                const loadedData = JSON.parse(savedState);
-                for (const sectionName in loadedData) {
-                    if (allChecklistData[sectionName]) {
-                        
-                        // ** CORRECCIÓN CLAVE: Mapear por ID para evitar corrupción de datos **
-                        const loadedItemsMap = new Map(loadedData[sectionName].items.map(item => [item.id, item]));
-
-                        allChecklistData[sectionName].items.forEach(item => {
-                            const loadedItem = loadedItemsMap.get(item.id);
-                            if (loadedItem) {
-                                item.checked = loadedItem.checked;
-                            }
-                        });
-                    }
-                }
+        function getSectionIdSuffix(sectionName) {
+            // FIX para 'pc' que en HTML es 'PC' (todo mayúsculas)
+            if (sectionName === 'pc') {
+                return 'PC';
             }
+            // Uso de PascalCase estándar para el resto
+            return capitalize(sectionName);
         }
 
-        /** * NOTA IMPORTANTE DE PERSISTENCIA: 
-         * Para migrar a Cloudflare KV (Recomendado):
-         * 1. Reemplace esta función para hacer un fetch('POST /state/:userId', ...) a su Worker KV.
-         * 2. El cuerpo del POST debe ser JSON.stringify(allChecklistData).
-         */
-        function saveState() {
-            localStorage.setItem('cybersecurityChecklistState', JSON.stringify(allChecklistData));
-        }
-
-
+        // 1.3 Lógica de Persistencia y Actualización (Gráficas y Scores)
         function updateTotals() {
             let totalChecked = 0;
             let totalTotal = 0;
@@ -1109,16 +1071,27 @@
 
                 totalTotal += totalInSection;
                 const score = totalInSection > 0 ? Math.round((checkedInSection / totalInSection) * 100) : 0;
+                
+                // Determinar la clase de color/gravedad
+                let scoreClass = 'high';
+                if (score <= 30) {
+                    scoreClass = 'low';
+                } else if (score < 70) {
+                    scoreClass = 'medium';
+                }
 
-                let elementIdName = capitalize(sectionName);
-                if (sectionName === 'pc') elementIdName = 'Pc'; 
-
+                // *** USAR EL SUFIJO CORREGIDO AQUÍ ***
+                const suffix = getSectionIdSuffix(sectionName); 
+                
                 // Actualizar Tarjetas
-                const scoreElement = document.getElementById(`score${elementIdName}`);
-                const checkedElement = document.getElementById(`checked${elementIdName}`);
-                const totalElement = document.getElementById(`total${elementIdName}`);
+                const scoreElement = document.getElementById(`score${suffix}`);
+                const checkedElement = document.getElementById(`checked${suffix}`);
+                const totalElement = document.getElementById(`total${suffix}`);
 
-                if (scoreElement) scoreElement.textContent = `${score}%`;
+                if (scoreElement) {
+                    scoreElement.textContent = `${score}%`;
+                    scoreElement.className = `card-score ${scoreClass}`;
+                }
                 if (checkedElement) checkedElement.textContent = checkedInSection;
                 if (totalElement) totalElement.textContent = totalInSection;
             }
@@ -1131,7 +1104,7 @@
             
             updateDonutCharts();
             updateRadarChart();
-            saveState(); 
+            saveState(); // Guardar el estado después de cada actualización
         }
 
         // 1.4 Lógica de Gráficos (Donut Charts)
@@ -1157,8 +1130,9 @@
             for (const sectionName in allChecklistData) {
                 const section = allChecklistData[sectionName];
                 let checkedInSection = 0;
+                let totalInSection = section.items.length;
                 section.items.forEach(item => { if (item.checked) checkedInSection++; });
-                data[sectionName] = section.items.length > 0 ? (checkedInSection / section.items.length) : 0;
+                data[sectionName] = totalInSection > 0 ? (checkedInSection / totalInSection) : 0;
             }
 
             const sections = Object.keys(data);
@@ -1169,25 +1143,11 @@
             const center = 100;
             const angleStep = (2 * Math.PI) / numSections;
 
-            svg.innerHTML = ''; 
-            
-            // ** MEJORA DE UX: DIBUJAR CÍRCULOS CONCÉNTRICOS (CUADRÍCULA RADIAL) **
-            const levels = [0.25, 0.5, 0.75, 1.0];
-            levels.forEach(level => {
-                const r = radius * level;
-                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                circle.setAttribute('cx', center);
-                circle.setAttribute('cy', center);
-                circle.setAttribute('r', r);
-                circle.setAttribute('class', 'radar-axis'); 
-                circle.style.strokeDasharray = '2, 2'; // Punteado para la cuadrícula
-                svg.appendChild(circle);
-            });
-            // ----------------------------------------------------------------------
-
+            svg.innerHTML = ''; // Limpiar el SVG
 
             let points = "";
 
+            // Dibujar la figura del radar (la puntuación)
             for (let i = 0; i < numSections; i++) {
                 const angle = i * angleStep - Math.PI / 2;
                 const score = data[sections[i]] || 0;
@@ -1196,10 +1156,11 @@
                 const y = center + r * Math.sin(angle);
                 points += `${x},${y} `;
                 
+                // Dibujar líneas de eje y etiquetas
                 const endX = center + radius * Math.cos(angle);
                 const endY = center + radius * Math.sin(angle);
                 
-                // Líneas de Eje
+                // Línea de Eje
                 const axisLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
                 axisLine.setAttribute('x1', center);
                 axisLine.setAttribute('y1', center);
@@ -1208,27 +1169,28 @@
                 axisLine.setAttribute('class', 'radar-axis');
                 svg.appendChild(axisLine);
                 
-                // Etiquetas
+                // Etiqueta
                 const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                // Ajustar posición para que la etiqueta no quede encima del gráfico
                 const labelX = center + (radius * 1.1) * Math.cos(angle);
                 const labelY = center + (radius * 1.1) * Math.sin(angle);
 
                 label.setAttribute('x', labelX);
                 label.setAttribute('y', labelY);
                 label.setAttribute('class', 'radar-label');
+                // Ajuste de anclaje de texto para centrar mejor
                 label.setAttribute('text-anchor', (Math.abs(Math.cos(angle)) < 0.1) ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end'));
                 label.textContent = capitalize(sections[i]);
                 svg.appendChild(label);
             }
 
-            // Polígono de datos
             const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
             polygon.setAttribute('points', points);
             polygon.setAttribute('class', 'radar-shape');
             svg.appendChild(polygon);
         }
 
-        // 1.6 Lógica del Modal (Checklist)
+        // 1.6 Lógica del Modal (Abre, Cierra, Guarda)
         function openModal(sectionName) {
             currentSection = sectionName;
             const modal = document.getElementById('checklistModal');
@@ -1245,11 +1207,10 @@
                 const isChecked = item.checked;
                 if (isChecked) checkedCount++;
                 
-                // ** IMPORTANTE: Se añade onchange="toggleCompletedClass(this)" **
                 htmlContent += `
                     <div class="checklist-item ${isChecked ? 'completed' : ''}" data-item-id="${item.id}">
                         <div class="checklist-row">
-                            <input type="checkbox" id="modal_${item.id}" ${isChecked ? 'checked' : ''} onchange="toggleCompletedClass(this)">
+                            <input type="checkbox" id="modal_${item.id}" ${isChecked ? 'checked' : ''} onchange="updateModalScore('${sectionName}')">
                             <label for="modal_${item.id}" class="item-title">${item.title}</label>
                             <span class="level-tag level-${item.level}">${capitalize(item.level)}</span>
                         </div>
@@ -1270,6 +1231,7 @@
             const modalBody = document.getElementById('modalBody');
             
             if (initialCheckedCount === undefined) {
+                // Si no se pasa el conteo inicial, lo calculamos en vivo desde los checkboxes del modal
                 modalBody.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                     if (checkbox.checked) checkedCount++;
                 });
@@ -1285,304 +1247,84 @@
 
             section.items.forEach(item => {
                 const checkbox = modalBody.querySelector(`#modal_${item.id}`);
-                // Actualiza el estado del dato principal basado en el checkbox del modal
-                if(checkbox) {
-                    item.checked = checkbox.checked;
-                }
+                // Actualizar el estado del objeto en JS
+                item.checked = checkbox.checked;
             });
 
             updateTotals();
-            closeModal('checklistModal');
+            closeModal();
         }
         
         function clearCurrentSection() {
              const modalBody = document.getElementById('modalBody');
              modalBody.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                  checkbox.checked = false;
-                 toggleCompletedClass(checkbox); // Limpia la clase de inmediato
              });
              updateModalScore(currentSection, 0); 
         }
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+        function closeModal() {
+            document.getElementById('checklistModal').style.display = 'none';
         }
 
-        // **********************************************
-        // 2. Lógica de Reporte: PDF, D1 y Modal de Datos
-        // **********************************************
-        
-        function calculateLevelScores() {
-            const scores = {};
-            allLevels.forEach(level => {
-                const total = totalItemsInLevel[level] || 1;
-                const checked = checkedItemsInLevel[level] || 0;
-                scores[level] = Math.round((checked / total) * 100) || 0;
-            });
-            return scores;
-        }
-
-        function prepareReportData(userName, userId) {
-            let overallChecked = 0;
-            let overallTotal = 0;
-            const detailBySection = {};
-            const levelScores = calculateLevelScores();
-
-            for (const sectionName in allChecklistData) {
-                const section = allChecklistData[sectionName];
-                let checkedInSection = 0;
-                section.items.forEach(item => {
-                    if (item.checked) checkedInSection++;
-                });
-
-                overallChecked += checkedInSection;
-                overallTotal += section.items.length;
-                
-                const score = section.items.length > 0 ? Math.round((checkedInSection / section.items.length) * 100) : 0;
-
-                detailBySection[sectionName] = {
-                    title: section.title,
-                    score: score + '%',
-                    checked: checkedInSection,
-                    total: section.items.length
-                };
-            }
-
-            const overallScore = overallTotal > 0 ? Math.round((overallChecked / overallTotal) * 100) : 0;
-
-            return {
-                userName: userName, 
-                userId: userId,     
-                overallScore: overallScore + '%',
-                checkedItems: overallChecked,
-                totalItems: overallTotal,
-                levelScores: levelScores,
-                detailBySection: detailBySection
-            };
-        }
-
-        function promptUserDataAndGenerateReport() {
-            updateTotals(); 
-            document.getElementById('dataModal').style.display = 'block';
-            const modalContent = document.querySelector('#dataModal .modal-content');
-            modalContent.style.top = '50%';
-            modalContent.style.transform = 'translateY(-50%)';
-        }
-
-        async function submitDataAndProcessReport() {
-            const userName = document.getElementById('modalUserName').value.trim();
-            const userId = document.getElementById('modalUserId').value.trim();
-            
-            if (!userName || !userId) {
-                alert("❌ ¡Debe ingresar su Nombre y su ID para generar el reporte!");
-                return;
-            }
-            
-            closeModal('dataModal'); 
-
-            const reportButton = document.querySelector('.report-button-block');
-            reportButton.style.opacity = '0.5';
-            reportButton.style.pointerEvents = 'none';
-
-            // 1. Generar el PDF
-            await generatePDF(userName, userId); 
-
-            // 2. Enviar a D1
-            const reportData = prepareReportData(userName, userId);
-
-            try {
-                const response = await fetch(D1_WORKER_URL, {
-                    method: 'POST',
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(reportData)
-                });
-                
-                const result = await response.json();
-
-                if (response.ok && result.result === 'Success') {
-                    alert(`✅ ¡Datos guardados en D1 con éxito! ID de Progreso: ${result.progress_id}`);
-                } else {
-                    // Muestra el mensaje de error que regresa el Worker
-                    throw new Error(result.message || 'Error desconocido al guardar en D1.');
+        // 1.7 Persistencia de datos con localStorage
+        function loadState() {
+            const savedState = localStorage.getItem('cybersecurityChecklistState');
+            if (savedState) {
+                const loadedData = JSON.parse(savedState);
+                for (const sectionName in loadedData) {
+                    if (allChecklistData[sectionName]) {
+                        loadedData[sectionName].items.forEach((loadedItem, index) => {
+                            if (allChecklistData[sectionName].items[index]) {
+                                allChecklistData[sectionName].items[index].checked = loadedItem.checked;
+                            }
+                        });
+                    }
                 }
-
-            } catch (error) {
-                console.error('Error al enviar a D1:', error);
-                alert(`⚠️ Error al enviar a D1. Revise la consola. Detalles: ${error.message}.`);
-            } finally {
-                reportButton.style.opacity = '1';
-                reportButton.style.pointerEvents = 'auto';
             }
         }
-        
-        async function generatePDF(userName, userId) {
-            const { jsPDF } = window.jspdf;
-            const content = document.getElementById('reportContent');
 
-            const canvas = await html2canvas(content, {
-                scale: 2, 
-                useCORS: true,
-                allowTaint: true
+        function saveState() {
+            localStorage.setItem('cybersecurityChecklistState', JSON.stringify(allChecklistData));
+        }
+        
+        // **********************************************
+        // 2. LÓGICA DEL CHATBOT - INTEGRACIÓN EXTERNA
+        // **********************************************
+        function openChatModal() {
+            // Abre la ventana modal del chat
+            document.getElementById('chatModal').style.display = 'block';
+        }
+
+        function closeChatModal() {
+            // Cierra la ventana modal del chat
+            document.getElementById('chatModal').style.display = 'none';
+        }
+        
+        // **********************************************
+        // 3. LÓGICA DE GENERACIÓN DE PDF
+        // **********************************************
+        function generatePDF() {
+            // 1. Pedir el nombre de usuario
+            const userName = prompt("Por favor, introduce tu nombre para el informe:");
+            
+            // 2. Si el usuario cancela o no introduce nombre, se usa un valor predeterminado
+            const nameToDisplay = userName && userName.trim() !== "" ? userName.trim() : "Usuario Anónimo";
+            
+            // 3. Obtener la fecha de hoy en formato local
+            const today = new Date();
+            const dateString = today.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
             });
 
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4'); 
+            // 4. Inyectar el nombre y la fecha en el encabezado del reporte (oculto en pantalla)
+            document.getElementById('reportUserName').textContent = nameToDisplay;
+            document.getElementById('reportDate').textContent = dateString;
 
-            const imgWidth = 210; 
-            const imgHeight = canvas.height * imgWidth / canvas.width;
-
-            // 1. Añadir el encabezado con Nombre y Fecha (Corregido)
-            const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-            
-            pdf.setFontSize(10);
-            pdf.text(`Evaluado: ${userName} (ID: ${userId})`, 10, 10);
-            pdf.text(`Fecha de Evaluación: ${today}`, 10, 15);
-            pdf.line(10, 17, 200, 17); // Línea divisoria
-            
-            const contentStartY = 20; // Empezar el contenido después del encabezado
-            let heightLeft = imgHeight;
-            
-            pdf.addImage(imgData, 'PNG', 0, contentStartY, imgWidth, imgHeight);
-            heightLeft -= (297 - contentStartY); 
-
-            // Lógica de páginas subsiguientes
-            while (heightLeft >= 0) {
-                pdf.addPage();
-                let position = -(imgHeight - (imgHeight - heightLeft)); 
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= 297; 
-            }
-
-            pdf.save(`Reporte_Ciberseguridad_${userName.replace(/\s/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`);
-        }
-
-        // **********************************************
-        // 3. Lógica del Chatbot (Integración con Worker de Gemini)
-        // **********************************************
-
-        function toggleChatbot() {
-            isChatbotOpen = !isChatbotOpen;
-            const popup = document.getElementById('chatbot-popup');
-            popup.style.display = isChatbotOpen ? 'flex' : 'none';
-        }
-        
-        function handleChatInput(event) {
-             if (event.key === 'Enter') {
-                sendChatQuery();
-            }
-        }
-
-        async function sendChatQuery() {
-            const inputElement = document.getElementById('chatbot-input');
-            const message = inputElement.value.trim();
-            const body = document.getElementById('chatbot-body');
-
-            if (message === '') return;
-
-            // 1. Mostrar mensaje del usuario
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-message user-message';
-            userMsg.textContent = message;
-            body.appendChild(userMsg);
-            
-            inputElement.value = '';
-            inputElement.disabled = true;
-            document.getElementById('chatbot-send').disabled = true;
-            body.scrollTop = body.scrollHeight; // Scroll al final
-
-            // 2. Mostrar "Escribiendo..."
-            const botLoading = document.createElement('div');
-            botLoading.className = 'chat-message bot-message';
-            botLoading.id = 'bot-loading';
-            botLoading.textContent = '...Escribiendo...';
-            body.appendChild(botLoading);
-            body.scrollTop = body.scrollHeight;
-
-            try {
-                // 3. Llamada al Worker de Gemini
-                const response = await fetch(CHATBOT_WORKER_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
-                });
-
-                const data = await response.json();
-                
-                // 4. Quitar "Escribiendo..." y mostrar respuesta
-                body.removeChild(document.getElementById('bot-loading'));
-
-                if (response.ok && data.response) {
-                    const botMsg = document.createElement('div');
-                    botMsg.className = 'chat-message bot-message';
-                    botMsg.textContent = data.response; // Asume que el worker devuelve { response: "texto de gemini" }
-                    body.appendChild(botMsg);
-                } else {
-                    const errorMsg = document.createElement('div');
-                    errorMsg.className = 'chat-message bot-message';
-                    errorMsg.textContent = '⚠️ Error: No pude conectar con Gemini. Revise la consola del Worker.';
-                    body.appendChild(errorMsg);
-                    console.error('Worker Response Error:', data);
-                }
-                
-            } catch (error) {
-                console.error('Fetch Error:', error);
-                const botMsg = document.createElement('div');
-                botMsg.className = 'chat-message bot-message';
-                if(document.getElementById('bot-loading')) {
-                   body.removeChild(document.getElementById('bot-loading'));
-                }
-                botMsg.textContent = '❌ Error de red: Asegúrese que la URL del Worker sea correcta y esté funcionando.';
-                body.appendChild(botMsg);
-            } finally {
-                inputElement.disabled = false;
-                document.getElementById('chatbot-send').disabled = false;
-                body.scrollTop = body.scrollHeight;
-                inputElement.focus();
-            }
-        }
-        
-        // Función para arrastrar el chatbot
-        function dragElement(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            const header = elmnt.querySelector('#chatbot-header');
-            
-            if (header) {
-                header.onmousedown = dragMouseDown;
-            } else {
-                elmnt.onmousedown = dragMouseDown;
-            }
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // obtener la posición del cursor al inicio
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // calcular la nueva posición del cursor
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                // establecer la nueva posición
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                // detener el movimiento al soltar el botón del ratón
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
+            // 5. Iniciar la impresión (el navegador abre la ventana de diálogo "Guardar como PDF")
+            window.print();
         }
 
         // Inicialización de la aplicación
