@@ -527,7 +527,8 @@
             width: 20px;
             height: 20px;
             /* Indicador visual de la zona de agarre */
-            background-color: rgba(0, 0, 0, 0.1); 
+            /* Esquina diagonal para indicar redimensión */
+            background: linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.5) 50%); 
             border-bottom-right-radius: 10px;
             cursor: nwse-resize; /* Cursor de redimensión */
             z-index: 10;
@@ -627,7 +628,7 @@
         
         <div id="reportHeader">
             <h2>Informe de Ciberseguridad Personal</h2>
-            <p>Generado por: <span id="reportUserName">Usuario Desconocido</span></p>
+            <p>Generado por: <span id="reportUserName">Usuario Desconocido</span>, de la empresa: <span id="reportCompanyName">No Especificada</span></p>
             <p>Fecha de Evaluación: <span id="reportDate"></span></p>
         </div>
 
@@ -1176,6 +1177,10 @@
         const totalItemsInLevel = {};
         const checkedItemsInLevel = {};
         let currentSection = ''; 
+        
+        // ** URL de tu Cloudflare Worker **
+        // DEBES CAMBIAR ESTA URL por la de tu Worker que maneja la inserción en D1.
+        const D1_API_ENDPOINT = 'TU_URL_DEL_WORKER/api/save_report'; 
 
         // 1.1 Cargar datos del HTML a la estructura JS
         document.querySelectorAll('#hiddenChecklistData section').forEach(section => {
@@ -1202,20 +1207,33 @@
             return s.charAt(0).toUpperCase() + s.slice(1);
         }
 
-        /**
-         * @function getSectionIdSuffix
-         * @description Genera el sufijo correcto para las IDs de las tarjetas.
-         * @param {string} sectionName - Nombre interno de la sección ('pc', 'moviles', etc.).
-         * @returns {string} El sufijo del ID a buscar en el HTML.
-         */
         function getSectionIdSuffix(sectionName) {
-            // FIX para 'pc' que en HTML es 'PC' (todo mayúsculas)
             if (sectionName === 'pc') {
                 return 'PC';
             }
-            // Uso de PascalCase estándar para el resto
             return capitalize(sectionName);
         }
+        
+        /**
+         * @function collectProgressData
+         * @description Recolecta todos los porcentajes de progreso del DOM.
+         * @returns {object} Objeto con las métricas de progreso.
+         */
+        function collectProgressData() {
+            const overallProgress = parseInt(document.getElementById('promedioGeneral').textContent.replace('%', ''));
+            const basicProgress = parseInt(document.getElementById('donutPercentBasico').textContent.replace('%', ''));
+            const advancedProgress = parseInt(document.getElementById('donutPercentAvanzado').textContent.replace('%', ''));
+            const optionalProgress = parseInt(document.getElementById('donutPercentOpcional').textContent.replace('%', ''));
+
+            return {
+                overallProgress,
+                basicProgress,
+                advancedProgress,
+                optionalProgress,
+                timestamp: new Date().toISOString()
+            };
+        }
+
 
         // 1.3 Lógica de Persistencia y Actualización (Gráficas y Scores)
         function updateTotals() {
@@ -1467,7 +1485,7 @@
             document.getElementById('chatModal').style.display = 'none';
         }
         
-        // 2.1 NUEVA: Funcionalidad de Arrastre y Redimensión para el Modal del Chatbot
+        // 2.1 Funcionalidad de Arrastre y Redimensión para el Modal del Chatbot
         function makeDraggableAndResizable(modalId, headerId, resizeHandleId) {
             const modal = document.getElementById(modalId);
             const header = document.getElementById(headerId);
@@ -1562,27 +1580,81 @@
         }
 
         // **********************************************
-        // 3. LÓGICA DE GENERACIÓN DE PDF
+        // 3. LÓGICA DE GENERACIÓN DE PDF Y GUARDADO EN D1
         // **********************************************
+        
+        /**
+         * @function saveReportToD1
+         * @description Envía los datos del reporte al Cloudflare Worker para guardarlos en D1.
+         * @param {object} data - Los datos a guardar.
+         */
+        async function saveReportToD1(data) {
+            console.log('Intentando guardar reporte en D1:', data);
+            
+            if (D1_API_ENDPOINT === 'TU_URL_DEL_WORKER/api/save_report') {
+                console.error("ERROR: No se puede guardar en D1. Por favor, actualiza la variable D1_API_ENDPOINT con la URL de tu Cloudflare Worker.");
+                alert("Advertencia: No se pudo guardar el reporte. Por favor, configura la URL de tu Cloudflare Worker en el código JavaScript.");
+                return;
+            }
+
+            try {
+                const response = await fetch(D1_API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Si tu Worker requiere autenticación (altamente recomendado), añade el token aquí.
+                        // 'Authorization': 'Bearer TU_TOKEN_DE_API' 
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    console.log('Reporte guardado exitosamente en D1.');
+                    alert('El reporte ha sido guardado con éxito en la base de datos de Cloudflare D1.');
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error al guardar reporte en D1:', errorData);
+                    alert(`Error al guardar reporte (Código ${response.status}): ${errorData.error || 'Verifica la URL del Worker y el endpoint.'}`);
+                }
+            } catch (e) {
+                console.error('Fallo de red o error de Worker:', e);
+                alert(`Fallo de conexión: No se pudo comunicar con el Cloudflare Worker. Asegúrate de que D1_API_ENDPOINT sea correcta.`);
+            }
+        }
+
         function generatePDF() {
-            // 1. Pedir el nombre de usuario
+            // 1. Pedir nombre y empresa
             const userName = prompt("Por favor, introduce tu nombre para el informe:");
+            if (!userName) return; // Si cancela, detener
+            const companyName = prompt("Introduce el nombre de tu empresa (opcional):") || "No Especificada";
             
-            // 2. Si el usuario cancela o no introduce nombre, se usa un valor predeterminado
-            const nameToDisplay = userName && userName.trim() !== "" ? userName.trim() : "Usuario Anónimo";
+            // 2. Recolectar datos de progreso
+            const progressData = collectProgressData();
             
-            // 3. Obtener la fecha de hoy en formato local
-            const today = new Date();
-            const dateString = today.toLocaleDateString('es-ES', { 
+            // 3. Inyectar datos en el encabezado (para la impresión)
+            const nameToDisplay = userName.trim() !== "" ? userName.trim() : "Usuario Anónimo";
+            const date = new Date();
+            const dateString = date.toLocaleDateString('es-ES', { 
                 year: 'numeric', 
                 month: 'long', 
-                day: 'numeric' 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
             });
 
-            // 4. Inyectar el nombre y la fecha en el encabezado del reporte (oculto en pantalla)
             document.getElementById('reportUserName').textContent = nameToDisplay;
+            document.getElementById('reportCompanyName').textContent = companyName;
             document.getElementById('reportDate').textContent = dateString;
-
+            
+            // 4. Guardar datos en Cloudflare D1
+            const dataToSave = {
+                userName: nameToDisplay,
+                companyName: companyName,
+                ...progressData // Incluye overallProgress, basicProgress, advancedProgress, optionalProgress, timestamp
+            };
+            saveReportToD1(dataToSave);
+            
             // 5. Iniciar la impresión (el navegador abre la ventana de diálogo "Guardar como PDF")
             window.print();
         }
