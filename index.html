@@ -481,25 +481,32 @@
         /* Ajustar el modal para el chat - TAMAÑO MODIFICADO PARA SER MÁS GRANDE */
         #chatModal .modal-content {
             background-color: #fff;
-            margin: 5% 2% 0 auto; /* Posicionar en la esquina inferior derecha (en desktop) */
+            margin: 0; 
             padding: 0; 
             border: 1px solid #888;
-            width: 90%;
-            /* TAMAÑO MODIFICADO: DOBLE (MÁS GRANDE) */
-            max-width: 700px; /* Duplicado de 350px a 700px */
-            height: 90vh; /* Aumentado de 75vh a 90vh */
-            max-height: 800px; /* Aumentado de 500px a 800px */
-            /* FIN TAMAÑO MODIFICADO */
+            /* TAMAÑO Y POSICIÓN INICIAL PARA DRAGGABLE/RESIZABLE */
+            max-width: 700px;
+            max-height: 800px;
+            width: 600px; /* Ancho inicial fijo */
+            height: 550px; /* Alto inicial fijo */
+            min-width: 300px; /* Tamaño mínimo */
+            min-height: 250px;
             border-radius: 10px;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
-            position: fixed; /* Usar fixed para que se quede en el mismo lugar */
-            bottom: 90px;
-            right: 20px;
+            position: fixed; /* Necesario para drag */
+            /* Posición inicial en la esquina inferior derecha, ajustada con top/left */
+            top: 50px; 
+            left: calc(100% - 620px); /* 600px width + 20px margin */
+            /* Propiedades para el manejo de drag/resize */
+            transform: translate3d(0, 0, 0); 
+            transition: none; /* Deshabilitar transiciones CSS para drag */
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            z-index: 102; /* Para que quede encima de todo */
         }
-
+        
+        /* ESTILOS PARA LA FUNCIONALIDAD DRAGGABLE */
         .chat-header {
             background-color: #1A3E60;
             color: white;
@@ -509,7 +516,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: grab; /* Indica que es arrastrable */
         }
+        
+        /* ESTILOS PARA LA FUNCIONALIDAD RESIZABLE */
+        .resize-handle-br {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            /* Indicador visual de la zona de agarre */
+            background-color: rgba(0, 0, 0, 0.1); 
+            border-bottom-right-radius: 10px;
+            cursor: nwse-resize; /* Cursor de redimensión */
+            z-index: 10;
+        }
+
 
         .chat-close-button {
             color: white;
@@ -772,8 +795,8 @@
     <button id="openChatButton" onclick="openChatModal()">💬</button>
 
     <div id="chatModal" class="modal">
-        <div class="modal-content">
-            <div class="chat-header">
+        <div class="modal-content" id="chatModalContent">
+            <div class="chat-header" id="chatModalHeader">
                 <span>Asistente de Ciberseguridad (IA)</span>
                 <span class="chat-close-button" onclick="closeChatModal()">&times;</span>
             </div>
@@ -784,7 +807,7 @@
                     allow="microphone; geolocation">
                 </iframe>
             </div>
-            </div>
+            <div class="resize-handle-br" id="chatResizeHandle"></div> </div>
     </div>
     
     <div id="hiddenChecklistData" style="display: none;">
@@ -1182,7 +1205,6 @@
         /**
          * @function getSectionIdSuffix
          * @description Genera el sufijo correcto para las IDs de las tarjetas.
-         * (Corrige el bug donde 'pc' debía ser 'PC' en mayúsculas).
          * @param {string} sectionName - Nombre interno de la sección ('pc', 'moviles', etc.).
          * @returns {string} El sufijo del ID a buscar en el HTML.
          */
@@ -1435,18 +1457,110 @@
         }
         
         // **********************************************
-        // 2. LÓGICA DEL CHATBOT - INTEGRACIÓN EXTERNA
+        // 2. LÓGICA DEL CHATBOT - INTEGRACIÓN EXTERNA (DRAG & RESIZE)
         // **********************************************
         function openChatModal() {
-            // Abre la ventana modal del chat
             document.getElementById('chatModal').style.display = 'block';
         }
 
         function closeChatModal() {
-            // Cierra la ventana modal del chat
             document.getElementById('chatModal').style.display = 'none';
         }
         
+        // 2.1 NUEVA: Funcionalidad de Arrastre y Redimensión para el Modal del Chatbot
+        function makeDraggableAndResizable(modalId, headerId, resizeHandleId) {
+            const modal = document.getElementById(modalId);
+            const header = document.getElementById(headerId);
+            const resizeHandle = document.getElementById(resizeHandleId);
+
+            let isDragging = false;
+            let isResizing = false;
+            let initialX, initialY;
+            let initialWidth, initialHeight;
+            let xOffset = 0;
+            let yOffset = 0;
+            
+            // --- DRAGGING LOGIC ---
+            header.addEventListener("mousedown", dragStart);
+
+            function dragStart(e) {
+                // Prevenir arrastre si se hace clic en el botón de cerrar
+                if (e.target.className.includes('chat-close-button')) return; 
+                
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+
+                isDragging = true;
+                document.addEventListener("mousemove", drag);
+                document.addEventListener("mouseup", dragEnd);
+                header.style.cursor = 'grabbing';
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                let currentX = e.clientX - initialX;
+                let currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, modal);
+            }
+
+            function dragEnd() {
+                isDragging = false;
+                document.removeEventListener("mousemove", drag);
+                document.removeEventListener("mouseup", dragEnd);
+                header.style.cursor = 'grab';
+            }
+            
+            // --- RESIZING LOGIC (Bottom-Right Corner) ---
+            resizeHandle.addEventListener('mousedown', resizeStart);
+
+            function resizeStart(e) {
+                e.preventDefault();
+                isResizing = true;
+                initialX = e.clientX;
+                initialY = e.clientY;
+                // Obtener el tamaño actual sin contar transform
+                initialWidth = modal.offsetWidth;
+                initialHeight = modal.offsetHeight;
+                
+                document.addEventListener('mousemove', resize);
+                document.addEventListener('mouseup', resizeEnd);
+            }
+
+            function resize(e) {
+                if (!isResizing) return;
+                
+                // Obtener min width/height de CSS
+                const minWidth = 300; 
+                const minHeight = 250; 
+
+                // Calcular nuevo tamaño sumando el desplazamiento del ratón al tamaño inicial
+                const newWidth = initialWidth + (e.clientX - initialX);
+                const newHeight = initialHeight + (e.clientY - initialY);
+                
+                // Aplicar el nuevo tamaño, respetando el mínimo
+                modal.style.width = Math.max(minWidth, newWidth) + 'px';
+                modal.style.height = Math.max(minHeight, newHeight) + 'px';
+            }
+
+            function resizeEnd() {
+                isResizing = false;
+                document.removeEventListener('mousemove', resize);
+                document.removeEventListener('mouseup', resizeEnd);
+            }
+
+            // --- Helper Function ---
+            function setTranslate(xPos, yPos, el) {
+                // Usar transform para un mejor rendimiento de arrastre
+                el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+            }
+        }
+
         // **********************************************
         // 3. LÓGICA DE GENERACIÓN DE PDF
         // **********************************************
@@ -1474,8 +1588,12 @@
         }
 
         // Inicialización de la aplicación
-        loadState();
-        updateTotals();
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            updateTotals();
+            // Inicia la funcionalidad de arrastre y redimensión del chatbot
+            makeDraggableAndResizable('chatModalContent', 'chatModalHeader', 'chatResizeHandle');
+        });
     </script>
 </body>
 </html>
