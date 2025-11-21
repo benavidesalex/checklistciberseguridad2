@@ -485,9 +485,9 @@
             padding: 0; 
             border: 1px solid #888;
             width: 90%;
-            /* TAMAÑO MODIFICADO: DOBLE */
+            /* TAMAÑO MODIFICADO: DOBLE (MÁS GRANDE) */
             max-width: 700px; /* Duplicado de 350px a 700px */
-            height: 90vh; /* Aumentado a 90vh para ser más grande */
+            height: 90vh; /* Aumentado de 75vh a 90vh */
             max-height: 800px; /* Aumentado de 500px a 800px */
             /* FIN TAMAÑO MODIFICADO */
             border-radius: 10px;
@@ -813,6 +813,22 @@
                  <div class="item-detail">Los códigos por SMS pueden ser interceptados. Las apps son más seguras.</div>
                  <span class="level-tag level-avanzado">Avanzado</span>
              </div>
+             <div class="checklist-item" data-item-level="avanzado">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_pass_length">
+                     <label for="auth_pass_length" class="item-title">Usar contraseñas de más de <span class="emphasis">12 caracteres</span>, preferiblemente frases de contraseña.</label>
+                 </div>
+                 <div class="item-detail">Aumenta significativamente la complejidad y resistencia a ataques de fuerza bruta.</div>
+                 <span class="level-tag level-avanzado">Avanzado</span>
+             </div>
+             <div class="checklist-item" data-item-level="opcional">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="auth_wifi_change">
+                     <label for="auth_wifi_change" class="item-title">Cambiar la contraseña de la red Wi-Fi cada 3-6 meses.</label>
+                 </div>
+                 <div class="item-detail">Previene el acceso continuado de dispositivos o personas no autorizadas.</div>
+                 <span class="level-tag level-opcional">Opcional</span>
+             </div>
              <div class="checklist-item" data-item-level="opcional">
                  <div class="checklist-row">
                      <input type="checkbox" id="auth_fido">
@@ -856,6 +872,30 @@
                  <div class="item-detail">Evita el "SIM Swapping" y que usen tu SIM en otro teléfono.</div>
                  <span class="level-tag level-avanzado">Avanzado</span>
              </div>
+             <div class="checklist-item" data-item-level="basico">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_permissions_review">
+                     <label for="mobile_permissions_review" class="item-title">Revisar y revocar permisos de apps no utilizadas o sospechosas.</label>
+                 </div>
+                 <div class="item-detail">Limita el acceso de terceros a datos sensibles como contactos y ubicación.</div>
+                 <span class="level-tag level-basico">Básico</span>
+             </div>
+             <div class="checklist-item" data-item-level="avanzado">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_auto_download">
+                     <label for="mobile_auto_download" class="item-title">Desactivar la descarga automática de archivos en apps de mensajería.</label>
+                 </div>
+                 <div class="item-detail">Evita que archivos maliciosos se guarden sin tu consentimiento.</div>
+                 <span class="level-tag level-avanzado">Avanzado</span>
+             </div>
+             <div class="checklist-item" data-item-level="opcional">
+                 <div class="checklist-row">
+                     <input type="checkbox" id="mobile_profiles">
+                     <label for="mobile_profiles" class="item-title">Usar perfiles de usuario separados (si están disponibles) para trabajo/personal.</label>
+                 </div>
+                 <div class="item-detail">Aísla el riesgo de seguridad entre diferentes usos del dispositivo.</div>
+                 <span class="level-tag level-opcional">Opcional</span>
+             </div>
              <div class="checklist-item" data-item-level="opcional">
                  <div class="checklist-row">
                      <input type="checkbox" id="mobile_public_wifi_vpn">
@@ -890,6 +930,30 @@
                 </div>
                 <div class="item-detail">Protege tus datos si el dispositivo es robado.</div>
                 <span class="level-tag level-avanzado">Avanzado</span>
+            </div>
+            <div class="checklist-item" data-item-level="basico">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_firewall">
+                    <label for="pc_firewall" class="item-title">Activar y configurar el Firewall del sistema operativo.</label>
+                </div>
+                <div class="item-detail">Controla el tráfico de red entrante y saliente, bloqueando conexiones no seguras.</div>
+                <span class="level-tag level-basico">Básico</span>
+            </div>
+            <div class="checklist-item" data-item-level="avanzado">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_file_passwords">
+                    <label for="pc_file_passwords" class="item-title">Crear y usar contraseñas para archivos sensibles (documentos, hojas de cálculo).</label>
+                </div>
+                <div class="item-detail">Añade una capa de protección si los archivos se filtran o se pierden.</div>
+                <span class="level-tag level-avanzado">Avanzado</span>
+            </div>
+            <div class="checklist-item" data-item-level="opcional">
+                <div class="checklist-row">
+                    <input type="checkbox" id="pc_autorun_disable">
+                    <label for="pc_autorun_disable" class="item-title">Deshabilitar la ejecución automática de medios extraíbles (USB).</label>
+                </div>
+                <div class="item-detail">Previene la infección por malware que se propaga a través de unidades externas.</div>
+                <span class="level-tag level-opcional">Opcional</span>
             </div>
             <div class="checklist-item" data-item-level="opcional">
                 <div class="checklist-row">
@@ -926,6 +990,30 @@
                 <div class="item-detail">Las extensiones maliciosas son un vector de ataque común. Elimina las que no uses.</div>
                 <span class="level-tag level-avanzado">Avanzado</span>
             </div>
+            <div class="checklist-item" data-item-level="basico">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_adblock">
+                    <label for="nav_adblock" class="item-title">Usar un bloqueador de anuncios (AdBlock) confiable.</label>
+                </div>
+                <div class="item-detail">Previene el *malvertising*, donde los anuncios contienen código malicioso.</div>
+                <span class="level-tag level-basico">Básico</span>
+            </div>
+            <div class="checklist-item" data-item-level="avanzado">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_cookies_clean">
+                    <label for="nav_cookies_clean" class="item-title">Limpiar cookies y caché regularmente o configurar la eliminación automática.</label>
+                </div>
+                <div class="item-detail">Limita el rastreo y la recopilación de datos de navegación.</div>
+                <span class="level-tag level-avanzado">Avanzado</span>
+            </div>
+            <div class="checklist-item" data-item-level="opcional">
+                <div class="checklist-row">
+                    <input type="checkbox" id="nav_url_preview">
+                    <label for="nav_url_preview" class="item-title">Evitar los acortadores de URL sospechosos (usar previsualizadores).</label>
+                </div>
+                <div class="item-detail">Permite ver el destino real de un enlace antes de hacer clic en él.</div>
+                <span class="level-tag level-opcional">Opcional</span>
+            </div>
             <div class="checklist-item" data-item-level="opcional">
                 <div class="checklist-row">
                     <input type="checkbox" id="nav_dns_secure">
@@ -961,6 +1049,30 @@
                 <div class="item-detail">Minimiza el riesgo de que tu correo principal se vea afectado en una filtración.</div>
                 <span class="level-tag level-avanzado">Avanzado</span>
             </div>
+            <div class="checklist-item" data-item-level="basico">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_no_sensitive_reply">
+                    <label for="email_no_sensitive_reply" class="item-title">Nunca responder a correos que soliciten datos sensibles (ej. contraseñas).</label>
+                </div>
+                <div class="item-detail">Los servicios legítimos nunca solicitan credenciales por correo electrónico.</div>
+                <span class="level-tag level-basico">Básico</span>
+            </div>
+            <div class="checklist-item" data-item-level="avanzado">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_headers_review">
+                    <label for="email_headers_review" class="item-title">Revisar los encabezados de correo para detectar direcciones IP o dominios extraños.</label>
+                </div>
+                <div class="item-detail">Técnica avanzada para identificar la suplantación de identidad (*spoofing*).</div>
+                <span class="level-tag level-avanzado">Avanzado</span>
+            </div>
+            <div class="checklist-item" data-item-level="opcional">
+                <div class="checklist-row">
+                    <input type="checkbox" id="email_alias">
+                    <label for="email_alias" class="item-title">Usar alias de correo electrónico (o servicios desechables) para registros no críticos.</label>
+                </div>
+                <div class="item-detail">Mantiene tu dirección principal oculta de listas de spam o filtraciones.</div>
+                <span class="level-tag level-opcional">Opcional</span>
+            </div>
             <div class="checklist-item" data-item-level="opcional">
                 <div class="checklist-row">
                     <input type="checkbox" id="email_pgp">
@@ -979,6 +1091,38 @@
                 </div>
                 <div class="item-detail">La pérdida de datos puede ocurrir por fallos de hardware o ataques de *ransomware*.</div>
                 <span class="level-tag level-basico">Básico</span>
+            </div>
+            <div class="checklist-item" data-item-level="basico">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_automated">
+                    <label for="backup_automated" class="item-title">Verificar que la copia de seguridad se ejecute de forma <span class="emphasis">automatizada</span>.</label>
+                </div>
+                <div class="item-detail">Asegura que los datos nuevos sean respaldados sin intervención manual.</div>
+                <span class="level-tag level-basico">Básico</span>
+            </div>
+            <div class="checklist-item" data-item-level="avanzado">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_encrypted">
+                    <label for="backup_encrypted" class="item-title">Encriptar la copia de seguridad antes de subirla a la nube o al disco externo.</label>
+                </div>
+                <div class="item-detail">Protege la confidencialidad de los datos incluso si el medio de respaldo es robado.</div>
+                <span class="level-tag level-avanzado">Avanzado</span>
+            </div>
+            <div class="checklist-item" data-item-level="avanzado">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_rescue_disk">
+                    <label for="backup_rescue_disk" class="item-title">Crear un disco de rescate (Recovery Disk) del sistema operativo.</label>
+                </div>
+                <div class="item-detail">Permite recuperar el sistema si falla el disco principal.</div>
+                <span class="level-tag level-avanzado">Avanzado</span>
+            </div>
+            <div class="checklist-item" data-item-level="opcional">
+                <div class="checklist-row">
+                    <input type="checkbox" id="backup_offsite_cloud">
+                    <label for="backup_offsite_cloud" class="item-title">Incluir una copia de seguridad fuera del sitio geográfico (ej. en la nube).</label>
+                </div>
+                <div class="item-detail">Satisface la parte de "ubicación fuera del sitio" de la Regla 3-2-1.</div>
+                <span class="level-tag level-opcional">Opcional</span>
             </div>
             <div class="checklist-item" data-item-level="avanzado">
                 <div class="checklist-row">
